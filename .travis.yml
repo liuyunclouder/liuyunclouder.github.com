@@ -19,4 +19,4 @@ after_success:
 - hexo deploy
 env:
   global:
-    secure: Eb9TAi96XgYQiJLTFlMRTfg561cxos9Dv2pU328gsMmBFlPSTQNwEI1d8DwMR+7WFvP2628Vt2A1i3/LER8xQilXOq3ueDBEDkSVvODnDmDHx2D3qmVo+SZWZCrPXlxNMeZtq1PqKNUHWkNiW7LsRB8uUHHEZHRSQ2skqlcmJm8=
+  - secure: Wd5KSFLM0TSW1oyN2xG2jsOqEtuGjmNpTnnoZvPwdzxc4Y8zJiOtIf4fjU8qyCDnfxBi2k601+bcVlTuFsykvQDhaZ6te4Mkhdp5yDV7jv7nAjoHeNmz+Ldv3F66q2Zb0lBXXF5O2SchLKA7l1hP7tGdXEJP+MuY3aiCDApUMuk=
