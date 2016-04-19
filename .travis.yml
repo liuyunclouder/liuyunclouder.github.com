@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- '0.12'
+branches:
+  only:
+  - source
+before_install:
+- npm install -g hexo-cli
+install:
+- npm install
+script:
+- git submodule init
+- git submodule update
+- hexo generate
+after_success:
+- git config --global user.name "liuyunclouder"
+- git config --global user.email "liuyunclouder@gmail.com"
+- sed -i'' "/^ *repository/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
+- hexo deploy
+env:
+  global:
+    secure: Eb9TAi96XgYQiJLTFlMRTfg561cxos9Dv2pU328gsMmBFlPSTQNwEI1d8DwMR+7WFvP2628Vt2A1i3/LER8xQilXOq3ueDBEDkSVvODnDmDHx2D3qmVo+SZWZCrPXlxNMeZtq1PqKNUHWkNiW7LsRB8uUHHEZHRSQ2skqlcmJm8=
