@@ -96,7 +96,9 @@ logger.error('consumer timeout')
 if not self.stopThread:
 self.fetchMsg()
 else:
-self.consumer.close()
+self.consumer.close()  
+  
+
 \`\`\`
 
 
