@@ -6,14 +6,14 @@ title: 排查实时tail功能cpu占用过高问题
 “你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛
 “不会吧”，我心想：我这是好的啊
 
-> 没接触过kafka的同学可以先了解下：([http://www.jasongj.com/2015/03/10/KafkaColumn1/][1])
+> 没接触过kafka的同学可以先了解下：([http://www.jasongj.com/2015/03/10/KafkaColumn1/]())
 
 ### 疑云重重
 SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
 
 这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。
 
-![][2](http://pan.baidu.com/s/1boZkQNP)
+ ![]()(http://thumbnail0.baidupcs.com/thumbnail/41068cd358a4c1e54fccccc0c8a21f7a?fid=2131476654-250528-859482810738643&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-w6bIrlSrrhUo91Kz%2FTJ9PCJOZow%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2778970785619369205&dp-callid=0&size=c710_u400&quality=100)
 
 那就直接看代码吧。
 
@@ -42,10 +42,10 @@ client端与server端的websocket会在用户刷新页面或者关闭页面时�
 验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！
 
 
- ![title]()(http://pan.baidu.com/s/1dEQZqTz)
+ ![]()(http://thumbnail0.baidupcs.com/thumbnail/5b6e68007fd95f5665165cc17c376994?fid=2131476654-250528-451475596297432&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-2ZhV9Lc80SiGzN8rCoiRw9%2Fb93k%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2778988517329714021&dp-callid=0&size=c710_u400&quality=100)
 
 
- ![title]()(http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&fm=21&gp=0.jpg)
+ ![]()(http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&fm=21&gp=0.jpg)
 
 
 
@@ -54,9 +54,10 @@ client端与server端的websocket会在用户刷新页面或者关闭页面时�
 那来看看kafka消费者线程在干什么。
 
 kafka消费者线程负责：
-1.连接kafka
-2.获取消息
-3.向websocket连接写入消息
+
+连接kafka
+获取消息
+向websocket连接写入消息
 
 祭出debug神器：**断点**
 
@@ -70,12 +71,11 @@ kafka消费者线程负责：
 
 首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现
 
- ![title]()(http://pan.baidu.com/s/1eRCeiP0)
+  ![]()(http://thumbnail0.baidupcs.com/thumbnail/f5b97157ebc4afe2558679b624053633?fid=2131476654-250528-1095680773004622&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-EK6Wms6ddskmVZifO0UJSHTA2%2BA%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2779005777808797132&dp-callid=0&size=c710_u400&quality=100)
 
 ，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：
 
 class ConsumerThread(Threading.thread):
-...
 
 def fetchMsg(self):
 for message in self.consumer:
@@ -101,6 +101,3 @@ self.consumer.close()
 
 
 
-
-[1]:	http://www.jasongj.com/2015/03/10/KafkaColumn1/
-[2]:	http://pan.baidu.com/s/1boZkQNP
