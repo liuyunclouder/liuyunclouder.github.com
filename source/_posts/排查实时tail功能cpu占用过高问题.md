@@ -13,7 +13,7 @@ SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占
 
 这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。
 
- ![]()(http://thumbnail0.baidupcs.com/thumbnail/41068cd358a4c1e54fccccc0c8a21f7a?fid=2131476654-250528-859482810738643&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-w6bIrlSrrhUo91Kz%2FTJ9PCJOZow%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2778970785619369205&dp-callid=0&size=c710_u400&quality=100)
+ ![][image-1]
 
 那就直接看代码吧。
 
@@ -42,10 +42,10 @@ client端与server端的websocket会在用户刷新页面或者关闭页面时�
 验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！
 
 
- ![]()(http://thumbnail0.baidupcs.com/thumbnail/5b6e68007fd95f5665165cc17c376994?fid=2131476654-250528-451475596297432&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-2ZhV9Lc80SiGzN8rCoiRw9%2Fb93k%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2778988517329714021&dp-callid=0&size=c710_u400&quality=100)
+ ![][image-2]
 
 
- ![]()(http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&fm=21&gp=0.jpg)
+ ![][image-3]
 
 
 
@@ -71,7 +71,7 @@ kafka消费者线程负责：
 
 首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现
 
-  ![]()(http://thumbnail0.baidupcs.com/thumbnail/f5b97157ebc4afe2558679b624053633?fid=2131476654-250528-1095680773004622&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-EK6Wms6ddskmVZifO0UJSHTA2%2BA%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2779005777808797132&dp-callid=0&size=c710_u400&quality=100)
+  ![][image-4]
 
 ，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：
 
@@ -83,9 +83,9 @@ for message in self.consumer:
 if self.stopThread:
 break
 
-message_value = message.value
+message\_value = message.value
 
-socket.pubsub(message_value)
+socket.pubsub(message\_value)
 
 else:
 
@@ -101,3 +101,9 @@ self.consumer.close()
 
 
 
+
+
+[image-1]:	http://thumbnail0.baidupcs.com/thumbnail/41068cd358a4c1e54fccccc0c8a21f7a?fid=2131476654-250528-859482810738643&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-w6bIrlSrrhUo91Kz/TJ9PCJOZow=&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2778970785619369205&dp-callid=0&size=c710_u400&quality=100
+[image-2]:	http://thumbnail0.baidupcs.com/thumbnail/5b6e68007fd95f5665165cc17c376994?fid=2131476654-250528-451475596297432&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-2ZhV9Lc80SiGzN8rCoiRw9/b93k=&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2778988517329714021&dp-callid=0&size=c710_u400&quality=100
+[image-3]:	http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&fm=21&gp=0.jpg
+[image-4]:	http://thumbnail0.baidupcs.com/thumbnail/f5b97157ebc4afe2558679b624053633?fid=2131476654-250528-1095680773004622&time=1461927600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-EK6Wms6ddskmVZifO0UJSHTA2+A=&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=2779005777808797132&dp-callid=0&size=c710_u400&quality=100
