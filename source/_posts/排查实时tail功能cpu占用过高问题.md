@@ -75,7 +75,7 @@ kafka消费者线程负责：
 
 ，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：
 
-\`\`\` bash
+``` bash
 class ConsumerThread(Threading.thread):
 ...
 
@@ -99,7 +99,7 @@ else:
 self.consumer.close()  
   
 
-\`\`\`
+```
 
 
 ### 一些感想
