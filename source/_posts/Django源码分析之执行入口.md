@@ -107,15 +107,14 @@ title: Django源码分析之执行入口
 
 其中
 	parser = CommandParser(None, usage="%(prog)s subcommand [options] [args]", add_help=False)
-	''         parser.add_argument('--settings')
-	''         parser.add_argument('--pythonpath')
-	''         parser.add_argument('args', nargs='*')  # catch-all
-	''         try:
-	''             options, args = parser.parse_known_args(self.argv[2:])
-	''             handle_default_options(options)
-	''         except CommandError:
-	''             pass  # Ignore any option errors at this point.
-	
+	        parser.add_argument('--settings')
+	        parser.add_argument('--pythonpath')
+	        parser.add_argument('args', nargs='*')  # catch-all
+	        try:
+	            options, args = parser.parse_known_args(self.argv[2:])
+	            handle_default_options(options)
+	        except CommandError:
+	            pass  # Ignore any option errors at this point.
 CommandParser其实类似于Argparse的一个解析命令行参数的类，从代码里可以看出我们可以直接在命令行指定settings文件和pythonpath。
 
 	no_settings_commands = [

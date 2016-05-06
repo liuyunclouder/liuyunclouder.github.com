@@ -16,8 +16,10 @@ base.py中只定义了一个BaseHandler类，它复杂一些基础的功能，�
 wsgi.py才是主角，其中最重要的就是WSGIHandler类，它继承了base.py中的BaseHandler，只添加了一个\_\_call\_\_方法，那为什么添加这个方法呢？
 
 django.core.wsgi
+
 	import django
 	from django.core.handlers.wsgi import WSGIHandler
+	
 	
 	def get_wsgi_application():
 	    """
@@ -33,6 +35,7 @@ django.core.wsgi
 可见我们启动server时传入的application其实是WSGIHandler的一个实例，而根据WSGI规范，这个application必须要是callable，python中的callable包括函数、方法以及任何定义了\_\_call\_\_方法的对象
 
 回到handlers.wsgi
+
 	class WSGIHandler(base.BaseHandler):
 	    initLock = Lock()
 	    request_class = WSGIRequest
