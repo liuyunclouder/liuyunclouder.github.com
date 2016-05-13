@@ -26,6 +26,16 @@
 					<integer>3</integer>
 				</dict>
 			</dict>
+			<key>Django源码分析之权限系统_ 擒贼先擒王.md</key>
+			<dict>
+				<key>lastModification</key>
+				<real>484832478.14758003</real>
+				<key>version</key>
+				<dict>
+					<key>0ebe519bf767846fbfdabbd10f5ea933d66d14ae2aaf5d0298fc192d2846035f</key>
+					<integer>19</integer>
+				</dict>
+			</dict>
 			<key>定时爬虫抓当日免费应用.md</key>
 			<dict>
 				<key>lastModification</key>
@@ -51,6 +61,9 @@
 	<key>sheetClusters</key>
 	<array>
 		<array>
+			<string>Django源码分析之权限系统_ 擒贼先擒王.md</string>
+		</array>
+		<array>
 			<string>Django源码分析之执行入口.md</string>
 		</array>
 		<array>
@@ -70,7 +83,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>0ebe519bf767846fbfdabbd10f5ea933d66d14ae2aaf5d0298fc192d2846035f</key>
-			<integer>10</integer>
+			<integer>20</integer>
 		</dict>
 	</dict>
 </dict>
