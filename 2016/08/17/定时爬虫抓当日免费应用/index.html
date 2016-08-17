@@ -1,0 +1,628 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
+Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
+CodingScrapy ＋ Tkinter1234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
+<meta property="og:url" content="http://yoursite.com/2016/08/17/定时爬虫抓当日免费应用/index.html">
+<meta property="og:site_name" content="Ezio's Blog">
+<meta property="og:description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
+Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
+CodingScrapy ＋ Tkinter1234">
+<meta property="og:image" content="http://yoursite.com/images/launchcontrol_shot.png">
+<meta property="og:updated_time" content="2016-08-17T09:18:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
+<meta name="twitter:description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
+Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
+CodingScrapy ＋ Tkinter1234">
+<meta name="twitter:image" content="http://yoursite.com/images/launchcontrol_shot.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl | Ezio's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?a63d6742fa06ccda252c7c1bdc9649d9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ezio's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">record</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T17:18:29+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/定时爬虫抓当日免费应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/定时爬虫抓当日免费应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>花了个周末学了下Scrapy，正好一直想买<a href="https://mindnode.com/" target="_blank" rel="external">mindnode</a>，于是顺手做了个爬虫，抓取<a href="http://www.ifanr.com/app" target="_blank" rel="external">爱范儿</a>每天的限免应用信息。</p>
+<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。</p>
+<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><h3 id="Scrapy-＋-Tkinter"><a href="#Scrapy-＋-Tkinter" class="headerlink" title="Scrapy ＋ Tkinter"></a>Scrapy ＋ Tkinter</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line">import scrapy</span><br><span class="line">import Tkinter</span><br><span class="line">from scrapy.shell import inspect_response</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置感兴趣的app名称</span></span><br><span class="line">I_want_apps = <span class="built_in">set</span>([<span class="string">'mindnode pro'</span>, <span class="string">'u.memory'</span>])</span><br><span class="line"></span><br><span class="line">class XianmianSpider(scrapy.Spider):</span><br><span class="line">    user_agent = <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36'</span></span><br><span class="line">    name = <span class="string">"xianmian"</span></span><br><span class="line">    allowed_domains = [<span class="string">"app.so"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line"></span><br><span class="line">        jsonresponse = json.loads(response.body_as_unicode())</span><br><span class="line"></span><br><span class="line">        apps = jsonresponse[<span class="string">'objects'</span>]</span><br><span class="line"></span><br><span class="line">        appTitles = &#123;item[<span class="string">'display_name'</span>].lower() <span class="keyword">for</span> item <span class="keyword">in</span> apps&#125;</span><br><span class="line"></span><br><span class="line">        self.logger.info(<span class="string">'today\'</span> apps are: <span class="string">' + str(appTitles))</span><br><span class="line"></span><br><span class="line">        the_apps = appTitles &amp; I_want_apps</span><br><span class="line">        if the_apps:</span><br><span class="line">        	self.showMsg('</span>found the apps: &#123;&#125;<span class="string">'.format(list(the_apps)))</span><br><span class="line"></span><br><span class="line">    def showMsg(self, msg):</span><br><span class="line">    	import Tkinter</span><br><span class="line">    	root = Tkinter.Tk()</span><br><span class="line">    	root.title('</span>福利到！<span class="string">')</span><br><span class="line">    	label = Tkinter.Label(root, text=msg)</span><br><span class="line">    	label.pack()</span><br><span class="line">    	center_window(root, 300, 240)</span><br><span class="line">    	root.maxsize(600, 400)</span><br><span class="line">    	root.minsize(300, 240)</span><br><span class="line">    	Tkinter.mainloop()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_screen_size(window):  </span><br><span class="line">    return window.winfo_screenwidth(),window.winfo_screenheight()  </span><br><span class="line">  </span><br><span class="line">def get_window_size(window):  </span><br><span class="line">    return window.winfo_reqwidth(),window.winfo_reqheight()  </span><br><span class="line">  </span><br><span class="line">def center_window(root, width, height):  </span><br><span class="line">    screenwidth = root.winfo_screenwidth()  </span><br><span class="line">    screenheight = root.winfo_screenheight()  </span><br><span class="line">    size = '</span>%dx%d+%d+%d<span class="string">' % (width, height, (screenwidth - width)/2, (screenheight - height)/2)  </span><br><span class="line">    print(size)  </span><br><span class="line">    root.geometry(size)</span></span><br></pre></td></tr></table></figure>
+<h3 id="LaunchControl"><a href="#LaunchControl" class="headerlink" title="LaunchControl"></a>LaunchControl</h3><p> <img src="/images/launchcontrol_shot.png" alt="title"></p>
+<p> LaunchControl用起来比较直观，当然，也可以直接用mac自带的launchctl，具体可参考<a href="http://ylq365.iteye.com/blog/1878917" target="_blank" rel="external">launchctl使用说明</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/17/排查实时tail功能cpu占用过高问题/" rel="next" title="排查实时tail功能cpu占用过高问题">
+                <i class="fa fa-chevron-left"></i> 排查实时tail功能cpu占用过高问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/17/关于跨域的一些事/" rel="prev" title="关于跨域的一些事">
+                关于跨域的一些事 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/17/定时爬虫抓当日免费应用/"
+           data-title="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl" data-url="http://yoursite.com/2016/08/17/定时爬虫抓当日免费应用/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpeg"
+               alt="Ezio" />
+          <p class="site-author-name" itemprop="name">Ezio</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thinking"><span class="nav-number">1.</span> <span class="nav-text">Thinking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding"><span class="nav-number">2.</span> <span class="nav-text">Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-＋-Tkinter"><span class="nav-number">2.1.</span> <span class="nav-text">Scrapy ＋ Tkinter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LaunchControl"><span class="nav-number">2.2.</span> <span class="nav-text">LaunchControl</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezio</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"githubliuyunclouder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
