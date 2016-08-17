@@ -80,16 +80,16 @@
 
 
 
-<meta name="description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
+<meta name="description" content="web前端开发时，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于跨域的一些事">
 <meta property="og:url" content="http://yoursite.com/2016/08/17/关于跨域的一些事/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
-<meta property="og:updated_time" content="2016-08-17T09:18:29.000Z">
+<meta property="og:description" content="web前端开发时，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
+<meta property="og:updated_time" content="2016-08-17T09:40:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于跨域的一些事">
-<meta name="twitter:description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
+<meta name="twitter:description" content="web前端开发时，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 
 
 
@@ -303,7 +303,7 @@
       
 
       
-        <p>web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略<a href="https://en.wikipedia.org/wiki/Same-origin_policy" target="_blank" rel="external">https://en.wikipedia.org/wiki/Same-origin_policy</a>的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。</p>
+        <p>web前端开发时，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略<a href="https://en.wikipedia.org/wiki/Same-origin_policy" target="_blank" rel="external">https://en.wikipedia.org/wiki/Same-origin_policy</a>的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。</p>
 <p>跨域分两种：跨子域和跨全域。从easydb.dtstack.com发送HTTPRequest到www.dtstack.com，这样的叫跨子域；从www.baidu.com发送HTTPRequest到www.dtstack.com，这样的叫跨全域。</p>
 <p>关于跨域通信，目前已经有了很多方法，最常见的就是JSONP，但JSONP和<br>Ajax并不相同。Ajax<a href="https://zh.wikipedia.org/zh/AJAX" target="_blank" rel="external">https://zh.wikipedia.org/zh/AJAX</a>通常都是通过新建XMLHTTPRequest（IE下还有类似XMLDomainRequest）来创建请求，而JSONP的本质其实是利用向DOM中插入script标签来“触发”请求，因此JSONP不会受到浏览器同源策略的影响。因此，许多web service都是通过JSONP实现。但JSONP任何人都能调用，无形中放大了服务器的潜在bug危害，因此我们还会时不时地用到Ajax。接下来我们就来聊聊Django中常见的Ajax跨域解决方案。</p>
 <h2 id="跨子域"><a href="#跨子域" class="headerlink" title="跨子域"></a>跨子域</h2><p>解决跨子域有纯前端的方案，比如从easydb.dtstack.com跨子域访问www.dtstack.com，只需要在JS中设置<br><code>document.domain = &#39;dtstack.com&#39;</code><br>然后正常发送请求就行了。</p>
