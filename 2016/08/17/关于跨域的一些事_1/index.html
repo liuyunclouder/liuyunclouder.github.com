@@ -80,36 +80,16 @@
 
 
 
-<meta name="description" content="白日惊雷“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛“不会吧”，我心想：我这是好的啊
-
-没接触过kafka的同学可以先了解下：(http://www.jasongj.com/2015/03/10/KafkaColumn1/)
-
-疑云重重SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
-这是一个简单的应用：serve">
+<meta name="description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排查实时tail功能cpu占用过高问题">
-<meta property="og:url" content="http://yoursite.com/2016/08/17/排查实时tail功能cpu占用过高问题/index.html">
+<meta property="og:title" content="关于跨域的一些事">
+<meta property="og:url" content="http://yoursite.com/2016/08/17/关于跨域的一些事_1/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="白日惊雷“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛“不会吧”，我心想：我这是好的啊
-
-没接触过kafka的同学可以先了解下：(http://www.jasongj.com/2015/03/10/KafkaColumn1/)
-
-疑云重重SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
-这是一个简单的应用：serve">
-<meta property="og:image" content="http://yoursite.com/images/livetail_architecture.png">
-<meta property="og:image" content="http://yoursite.com/images/concurrent_thread.png">
-<meta property="og:image" content="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&fm=21&gp=0.jpg">
-<meta property="og:image" content="http://yoursite.com/images/kafka_python_config.png">
+<meta property="og:description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 <meta property="og:updated_time" content="2016-08-17T10:01:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排查实时tail功能cpu占用过高问题">
-<meta name="twitter:description" content="白日惊雷“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛“不会吧”，我心想：我这是好的啊
-
-没接触过kafka的同学可以先了解下：(http://www.jasongj.com/2015/03/10/KafkaColumn1/)
-
-疑云重重SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
-这是一个简单的应用：serve">
-<meta name="twitter:image" content="http://yoursite.com/images/livetail_architecture.png">
+<meta name="twitter:title" content="关于跨域的一些事">
+<meta name="twitter:description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 
 
 
@@ -127,7 +107,7 @@
   };
 </script>
 
-  <title> 排查实时tail功能cpu占用过高问题 | Ezio's Blog </title>
+  <title> 关于跨域的一些事 | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -277,7 +257,7 @@
             
             
               
-                排查实时tail功能cpu占用过高问题
+                关于跨域的一些事
               
             
           </h1>
@@ -300,8 +280,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/17/排查实时tail功能cpu占用过高问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/排查实时tail功能cpu占用过高问题/" itemprop="commentsCount"></span>
+                <a href="/2016/08/17/关于跨域的一些事_1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/关于跨域的一些事_1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -323,58 +303,55 @@
       
 
       
-        <h3 id="白日惊雷"><a href="#白日惊雷" class="headerlink" title="白日惊雷"></a>白日惊雷</h3><p>“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛<br>“不会吧”，我心想：我这是好的啊</p>
-<blockquote>
-<p>没接触过kafka的同学可以先了解下：(<a href="">http://www.jasongj.com/2015/03/10/KafkaColumn1/</a>)</p>
-</blockquote>
-<h3 id="疑云重重"><a href="#疑云重重" class="headerlink" title="疑云重重"></a>疑云重重</h3><p>SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。</p>
-<p>这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。</p>
-<p> <img src="/images/livetail_architecture.png" alt=""></p>
-<p>那就直接看代码吧。</p>
-<p>由于线上环境的kafka没有开放端口，我是在本地搭的kafka环境，所以为了快速开发，就在server端直接写了一个kafka生产者，向kafka提交消息。因此，</p>
-<p>猜想1: 难道是不小心把kafka生产者的代码也提交上去了？<br>check最新代码，生产者的代码明显被注释掉了，并没生效。</p>
-<p>猜想2:websocket与server端链接太多了？<br>不可能，这个功能目前还没开始公测，而且只有这一个server cpu占比过高。</p>
-<p>那还是server和kafka之间出现了问题。</p>
-<h3 id="初现端倪"><a href="#初现端倪" class="headerlink" title="初现端倪"></a>初现端倪</h3><p>server端会在每个请求到来时创建一个websocket连接，同时创建一个kafka消费者线程，用来监听特定topic的消息。</p>
-<p>client端与server端的websocket会在用户刷新页面或者关闭页面时断开连接，这个不会有问题。那问题有可能出在：创建的kafka消费者线程没有正确地退出。</p>
-<p>每个python线程会有一个daemon属性，默认为False。python主线程会在所有daemon为False的线程退出后才终止，而daemon为True的线程（也就是后台线程）会在主线程退出时一起退出。</p>
-<p>所以无论如何，每次发布时都是重启整个进程，不会有资源回收失败的问题。</p>
-<p>那就是在server运行时创建了过多的kafka消费者线程。</p>
-<p>验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！</p>
-<p> <img src="/images/concurrent_thread.png" alt=""></p>
-<p> <img src="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&amp;fm=21&amp;gp=0.jpg" alt=""></p>
-<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>那来看看kafka消费者线程在干什么。</p>
-<p>kafka消费者线程负责：</p>
-<p>连接kafka<br>获取消息<br>向websocket连接写入消息</p>
-<p>祭出debug神器：<strong>断点</strong></p>
-<p>根据多年打断点的经验，果断滴选择了“获取消息”。</p>
-<p>经过一段时间的调试，原来是kafka-python从kafka获取消息时会进入无限while循环，从而阻塞线程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然弄明白了问题的来龙去脉，解决起来就容易了。</p>
-<p>首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现</p>
-<p>  <img src="/images/kafka_python_config.png" alt=""></p>
-<p>，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：</p>
-<pre><code>class ConsumerThread(Threading.thread):
-    ...
+        <p>web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略<a href="https://en.wikipedia.org/wiki/Same-origin_policy" target="_blank" rel="external">https://en.wikipedia.org/wiki/Same-origin_policy</a>的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。</p>
+<p>跨域分两种：跨子域和跨全域。从easydb.dtstack.com发送HTTPRequest到www.dtstack.com，这样的叫跨子域；从www.baidu.com发送HTTPRequest到www.dtstack.com，这样的叫跨全域。</p>
+<p>关于跨域通信，目前已经有了很多方法，最常见的就是JSONP，但JSONP和<br>Ajax并不相同。Ajax<a href="https://zh.wikipedia.org/zh/AJAX" target="_blank" rel="external">https://zh.wikipedia.org/zh/AJAX</a>通常都是通过新建XMLHTTPRequest（IE下还有类似XMLDomainRequest）来创建请求，而JSONP的本质其实是利用向DOM中插入script标签来“触发”请求，因此JSONP不会受到浏览器同源策略的影响。因此，许多web service都是通过JSONP实现。但JSONP任何人都能调用，无形中放大了服务器的潜在bug危害，因此我们还会时不时地用到Ajax。接下来我们就来聊聊Django中常见的Ajax跨域解决方案。</p>
+<h2 id="跨子域"><a href="#跨子域" class="headerlink" title="跨子域"></a>跨子域</h2><p>解决跨子域有纯前端的方案，比如从easydb.dtstack.com跨子域访问www.dtstack.com，只需要在JS中设置<br><code>document.domain = &#39;dtstack.com&#39;</code><br>然后正常发送请求就行了。</p>
+<p>也有前后端配合的方案，可以参考跨全域的方案。</p>
+<h2 id="跨全域"><a href="#跨全域" class="headerlink" title="跨全域"></a>跨全域</h2><p>跨全域通信的关键在于被访问的服务器允许访问方进行访问。</p>
+<p>因此，一般发送跨域请求时，浏览器会“询问”服务器是否允许当前请求进行访问，“询问”的方式是通过发送一个OPTIONS请求，这时被访问服务器需要返回一些信息表示是否允许，这些信息一般放在HTTP header中。这样，如果被访问服务器返回表示允许访问的HTTP header，那么浏览器就会发送用户创建的跨域请求，这样就完成了跨域通信了。</p>
+<p>基本原理弄清楚了，接下来就是实现细节了。</p>
+<p>Django中，我们可以添加一个中间件来为跨域请求设置恰当的HTTP header。首先创建一个cross_domain_middleware.py文件</p>
+<pre><code>from dtuic.settings import ALLOWED_HOSTS_FOR_MIDDLEWARE
 
-    def fetchMsg(self):
-        for message in self.consumer:
+class CrossDomainMiddleware(object):
 
-            if self.stopThread:
-                break
+    def process_response(self, request, response):
 
-                message_value = message.value
+        origin = request.META.get(&apos;HTTP_ORIGIN&apos;)
+        allowed_hosts = self.get_allowed_hosts(request)
 
-                socket.pubsub(message_value)
+        if origin in allowed_hosts or &apos;*&apos; in allowed_hosts:
+            response[&quot;Access-Control-Allow-Headers&quot;] = &quot;Origin, X-Requested-With, Content-Type, Accept, Key, source&quot;
+            response[&quot;Access-Control-Allow-Methods&quot;] = &quot;POST, GET, OPTIONS, DELETE, PUT&quot;
+            response[&quot;Access-Control-Allow-Origin&quot;] = origin
+            response[&quot;Access-Control-Max-Age&quot;] = &quot;1000&quot;
+            response[&apos;Access-Control-Allow-Credentials&apos;] = &quot;true&quot;
 
-            else:
+        return response
 
-                logger.error(&apos;consumer timeout&apos;)
+    def get_allowed_hosts(self, request):
+        hosts = []
+        for host in ALLOWED_HOSTS_FOR_MIDDLEWARE.split(&apos;,&apos;):
+            host = host.strip()
+            if host != &apos;*&apos;:
+                host = &quot;{}://{}&quot;.format(request.scheme, host)
 
-                if not self.stopThread:
-                    self.fetchMsg()
-                else:
-                    self.consumer.close()
-</code></pre><h3 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h3><p>连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？</p>
+            hosts.append(host)
+
+        return hosts
+</code></pre><p>，同时在settings文件中添加</p>
+<pre><code>ALLOWED\_HOSTS\_FOR\_MIDDLEWARE = &quot;www.baidu.com, www.whatever.com&quot;
+</code></pre><p>，最后在Django的middleware配置中添加我们新建的cross_domain_middleware</p>
+<pre><code>MIDDLEWARECLASSES = (
+&apos;dtuic.middleware.crossdomainmiddleware.CrossDomainMiddleware&apos;,
+&apos;django.contrib.sessions.middleware.SessionMiddleware&apos;,
+...
+)
+</code></pre><p>放在最前面，见<a href="">https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts</a></p>
+<p>目前ALLOWED_HOSTS_FOR_MIDDLEWARE 只支持多个域名显示配置，也可以使用正则动态匹配。</p>
+<p>注意Django中的ALLOWED_HOSTS并不是为了跨域的配置，而是针对全局请求访问的一个配置，如果直接覆盖，可能会导致全站400，本地开发时由于Django的调适标识Debug都为True，Django这时是默认允许所有请求访问的，所以即使覆盖了ALLOWED_HOSTS也不会有问题，而到了线上，Debug切换到False，就会有“惊喜”了。</p>
+<p>参考：<br><a href="">http://www.html5rocks.com/en/tutorials/cors/</a></p>
 
       
     </div>
@@ -398,16 +375,12 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/17/关于跨域的一些事/" rel="next" title="关于跨域的一些事">
-                <i class="fa fa-chevron-left"></i> 关于跨域的一些事
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/17/Django源码分析之权限系统_ 擒贼先擒王/" rel="prev" title="Django源码分析之权限系统\_ 擒贼先擒王">
-                Django源码分析之权限系统\_ 擒贼先擒王 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/08/17/定时爬虫抓当日免费应用/" rel="prev" title="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
+                定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -457,8 +430,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/17/排查实时tail功能cpu占用过高问题/"
-           data-title="排查实时tail功能cpu占用过高问题" data-url="http://yoursite.com/2016/08/17/排查实时tail功能cpu占用过高问题/">
+      <div class="ds-thread" data-thread-key="2016/08/17/关于跨域的一些事_1/"
+           data-title="关于跨域的一些事" data-url="http://yoursite.com/2016/08/17/关于跨域的一些事_1/">
       </div>
     
   </div>
@@ -537,7 +510,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#白日惊雷"><span class="nav-number">1.</span> <span class="nav-text">白日惊雷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑云重重"><span class="nav-number">2.</span> <span class="nav-text">疑云重重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初现端倪"><span class="nav-number">3.</span> <span class="nav-text">初现端倪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#水落石出"><span class="nav-number">4.</span> <span class="nav-text">水落石出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">5.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些感想"><span class="nav-number">6.</span> <span class="nav-text">一些感想</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#跨子域"><span class="nav-number">1.</span> <span class="nav-text">跨子域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨全域"><span class="nav-number">2.</span> <span class="nav-text">跨全域</span></a></li></ol></div>
             
           </div>
         </section>
