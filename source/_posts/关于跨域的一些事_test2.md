@@ -3,7 +3,7 @@
 title: 关于跨域的一些事\_test2
 ---
 
-web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略[https://en.wikipedia.org/wiki/Same-origin\_policy][1]的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。
+web前端开发，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略[https://en.wikipedia.org/wiki/Same-origin\_policy][1]的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。
 
 跨域分两种：跨子域和跨全域。从easydb.dtstack.com发送HTTPRequest到www.dtstack.com，这样的叫跨子域；从www.baidu.com发送HTTPRequest到www.dtstack.com，这样的叫跨全域。
 
