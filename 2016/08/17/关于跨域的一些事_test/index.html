@@ -80,24 +80,16 @@
 
 
 
-<meta name="description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
-Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
-CodingScrapy ＋ Tkinter1234">
+<meta name="description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 <meta property="og:type" content="article">
-<meta property="og:title" content="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
-<meta property="og:url" content="http://yoursite.com/2016/08/17/定时爬虫抓当日免费应用/index.html">
+<meta property="og:title" content="关于跨域的一些事\_test">
+<meta property="og:url" content="http://yoursite.com/2016/08/17/关于跨域的一些事_test/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
-Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
-CodingScrapy ＋ Tkinter1234">
-<meta property="og:image" content="http://yoursite.com/images/launchcontrol_shot.png">
-<meta property="og:updated_time" content="2016-08-17T10:01:34.000Z">
+<meta property="og:description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
+<meta property="og:updated_time" content="2016-08-21T15:52:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
-<meta name="twitter:description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
-Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
-CodingScrapy ＋ Tkinter1234">
-<meta name="twitter:image" content="http://yoursite.com/images/launchcontrol_shot.png">
+<meta name="twitter:title" content="关于跨域的一些事\_test">
+<meta name="twitter:description" content="web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略https://en.wikipedia.org/wiki/Same-origin_policy的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层">
 
 
 
@@ -115,7 +107,7 @@ CodingScrapy ＋ Tkinter1234">
   };
 </script>
 
-  <title> 定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl | Ezio's Blog </title>
+  <title> 关于跨域的一些事\_test | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -265,7 +257,7 @@ CodingScrapy ＋ Tkinter1234">
             
             
               
-                定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
+                关于跨域的一些事\_test
               
             
           </h1>
@@ -288,8 +280,8 @@ CodingScrapy ＋ Tkinter1234">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/17/定时爬虫抓当日免费应用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/定时爬虫抓当日免费应用/" itemprop="commentsCount"></span>
+                <a href="/2016/08/17/关于跨域的一些事_test/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/关于跨域的一些事_test/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,11 +303,55 @@ CodingScrapy ＋ Tkinter1234">
       
 
       
-        <p>花了个周末学了下Scrapy，正好一直想买<a href="https://mindnode.com/" target="_blank" rel="external">mindnode</a>，于是顺手做了个爬虫，抓取<a href="http://www.ifanr.com/app" target="_blank" rel="external">爱范儿</a>每天的限免应用信息。</p>
-<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。</p>
-<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><h3 id="Scrapy-＋-Tkinter"><a href="#Scrapy-＋-Tkinter" class="headerlink" title="Scrapy ＋ Tkinter"></a>Scrapy ＋ Tkinter</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line">import scrapy</span><br><span class="line">import Tkinter</span><br><span class="line">from scrapy.shell import inspect_response</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置感兴趣的app名称</span></span><br><span class="line">I_want_apps = <span class="built_in">set</span>([<span class="string">'mindnode pro'</span>, <span class="string">'u.memory'</span>])</span><br><span class="line"></span><br><span class="line">class XianmianSpider(scrapy.Spider):</span><br><span class="line">    user_agent = <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36'</span></span><br><span class="line">    name = <span class="string">"xianmian"</span></span><br><span class="line">    allowed_domains = [<span class="string">"app.so"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line"></span><br><span class="line">        jsonresponse = json.loads(response.body_as_unicode())</span><br><span class="line"></span><br><span class="line">        apps = jsonresponse[<span class="string">'objects'</span>]</span><br><span class="line"></span><br><span class="line">        appTitles = &#123;item[<span class="string">'display_name'</span>].lower() <span class="keyword">for</span> item <span class="keyword">in</span> apps&#125;</span><br><span class="line"></span><br><span class="line">        self.logger.info(<span class="string">'today\'</span> apps are: <span class="string">' + str(appTitles))</span><br><span class="line"></span><br><span class="line">        the_apps = appTitles &amp; I_want_apps</span><br><span class="line">        if the_apps:</span><br><span class="line">        	self.showMsg('</span>found the apps: &#123;&#125;<span class="string">'.format(list(the_apps)))</span><br><span class="line"></span><br><span class="line">    def showMsg(self, msg):</span><br><span class="line">    	import Tkinter</span><br><span class="line">    	root = Tkinter.Tk()</span><br><span class="line">    	root.title('</span>福利到！<span class="string">')</span><br><span class="line">    	label = Tkinter.Label(root, text=msg)</span><br><span class="line">    	label.pack()</span><br><span class="line">    	center_window(root, 300, 240)</span><br><span class="line">    	root.maxsize(600, 400)</span><br><span class="line">    	root.minsize(300, 240)</span><br><span class="line">    	Tkinter.mainloop()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_screen_size(window):  </span><br><span class="line">    return window.winfo_screenwidth(),window.winfo_screenheight()  </span><br><span class="line">  </span><br><span class="line">def get_window_size(window):  </span><br><span class="line">    return window.winfo_reqwidth(),window.winfo_reqheight()  </span><br><span class="line">  </span><br><span class="line">def center_window(root, width, height):  </span><br><span class="line">    screenwidth = root.winfo_screenwidth()  </span><br><span class="line">    screenheight = root.winfo_screenheight()  </span><br><span class="line">    size = '</span>%dx%d+%d+%d<span class="string">' % (width, height, (screenwidth - width)/2, (screenheight - height)/2)  </span><br><span class="line">    print(size)  </span><br><span class="line">    root.geometry(size)</span></span><br></pre></td></tr></table></figure>
-<h3 id="LaunchControl"><a href="#LaunchControl" class="headerlink" title="LaunchControl"></a>LaunchControl</h3><p> <img src="/images/launchcontrol_shot.png" alt="title"></p>
-<p> LaunchControl用起来比较直观，当然，也可以直接用mac自带的launchctl，具体可参考<a href="http://ylq365.iteye.com/blog/1878917" target="_blank" rel="external">launchctl使用说明</a></p>
+        <p>web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略<a href="https://en.wikipedia.org/wiki/Same-origin_policy" target="_blank" rel="external">https://en.wikipedia.org/wiki/Same-origin_policy</a>的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。</p>
+<p>跨域分两种：跨子域和跨全域。从easydb.dtstack.com发送HTTPRequest到www.dtstack.com，这样的叫跨子域；从www.baidu.com发送HTTPRequest到www.dtstack.com，这样的叫跨全域。</p>
+<p>关于跨域通信，目前已经有了很多方法，最常见的就是JSONP，但JSONP和<br>Ajax并不相同。Ajax<a href="https://zh.wikipedia.org/zh/AJAX" target="_blank" rel="external">https://zh.wikipedia.org/zh/AJAX</a>通常都是通过新建XMLHTTPRequest（IE下还有类似XMLDomainRequest）来创建请求，而JSONP的本质其实是利用向DOM中插入script标签来“触发”请求，因此JSONP不会受到浏览器同源策略的影响。因此，许多web service都是通过JSONP实现。但JSONP任何人都能调用，无形中放大了服务器的潜在bug危害，因此我们还会时不时地用到Ajax。接下来我们就来聊聊Django中常见的Ajax跨域解决方案。</p>
+<h2 id="跨子域"><a href="#跨子域" class="headerlink" title="跨子域"></a>跨子域</h2><p>解决跨子域有纯前端的方案，比如从easydb.dtstack.com跨子域访问www.dtstack.com，只需要在JS中设置<br><code>document.domain = &#39;dtstack.com&#39;</code><br>然后正常发送请求就行了。</p>
+<p>也有前后端配合的方案，可以参考跨全域的方案。</p>
+<h2 id="跨全域"><a href="#跨全域" class="headerlink" title="跨全域"></a>跨全域</h2><p>跨全域通信的关键在于被访问的服务器允许访问方进行访问。</p>
+<p>因此，一般发送跨域请求时，浏览器会“询问”服务器是否允许当前请求进行访问，“询问”的方式是通过发送一个OPTIONS请求，这时被访问服务器需要返回一些信息表示是否允许，这些信息一般放在HTTP header中。这样，如果被访问服务器返回表示允许访问的HTTP header，那么浏览器就会发送用户创建的跨域请求，这样就完成了跨域通信了。</p>
+<p>基本原理弄清楚了，接下来就是实现细节了。</p>
+<p>Django中，我们可以添加一个中间件来为跨域请求设置恰当的HTTP header。首先创建一个cross_domain_middleware.py文件</p>
+<pre><code>from dtuic.settings import ALLOWED_HOSTS_FOR_MIDDLEWARE
+
+class CrossDomainMiddleware(object):
+
+    def process_response(self, request, response):
+
+        origin = request.META.get(&apos;HTTP_ORIGIN&apos;)
+        allowed_hosts = self.get_allowed_hosts(request)
+
+        if origin in allowed_hosts or &apos;*&apos; in allowed_hosts:
+            response[&quot;Access-Control-Allow-Headers&quot;] = &quot;Origin, X-Requested-With, Content-Type, Accept, Key, source&quot;
+            response[&quot;Access-Control-Allow-Methods&quot;] = &quot;POST, GET, OPTIONS, DELETE, PUT&quot;
+            response[&quot;Access-Control-Allow-Origin&quot;] = origin
+            response[&quot;Access-Control-Max-Age&quot;] = &quot;1000&quot;
+            response[&apos;Access-Control-Allow-Credentials&apos;] = &quot;true&quot;
+
+        return response
+
+    def get_allowed_hosts(self, request):
+        hosts = []
+        for host in ALLOWED_HOSTS_FOR_MIDDLEWARE.split(&apos;,&apos;):
+            host = host.strip()
+            if host != &apos;*&apos;:
+                host = &quot;{}://{}&quot;.format(request.scheme, host)
+
+            hosts.append(host)
+
+        return hosts
+</code></pre><p>，同时在settings文件中添加</p>
+<pre><code>ALLOWED\_HOSTS\_FOR\_MIDDLEWARE = &quot;www.baidu.com, www.whatever.com&quot;
+</code></pre><p>，最后在Django的middleware配置中添加我们新建的cross_domain_middleware</p>
+<pre><code>MIDDLEWARECLASSES = (
+&apos;dtuic.middleware.crossdomainmiddleware.CrossDomainMiddleware&apos;,
+&apos;django.contrib.sessions.middleware.SessionMiddleware&apos;,
+...
+)
+</code></pre><p>放在最前面，见<a href="">https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts</a></p>
+<p>目前ALLOWED_HOSTS_FOR_MIDDLEWARE 只支持多个域名显示配置，也可以使用正则动态匹配。</p>
+<p>注意Django中的ALLOWED_HOSTS并不是为了跨域的配置，而是针对全局请求访问的一个配置，如果直接覆盖，可能会导致全站400，本地开发时由于Django的调适标识Debug都为True，Django这时是默认允许所有请求访问的，所以即使覆盖了ALLOWED_HOSTS也不会有问题，而到了线上，Debug切换到False，就会有“惊喜”了。</p>
+<p>参考：<br><a href="">http://www.html5rocks.com/en/tutorials/cors/</a></p>
 
       
     </div>
@@ -339,12 +375,16 @@ CodingScrapy ＋ Tkinter1234">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/08/17/Django源码分析之执行入口/" rel="next" title="Django源码分析之执行入口">
+                <i class="fa fa-chevron-left"></i> Django源码分析之执行入口
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/17/关于跨域的一些事/" rel="prev" title="关于跨域的一些事">
-                关于跨域的一些事 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/08/17/Django源码分析之server/" rel="prev" title="Django源码分析之server">
+                Django源码分析之server <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -394,8 +434,8 @@ CodingScrapy ＋ Tkinter1234">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/17/定时爬虫抓当日免费应用/"
-           data-title="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl" data-url="http://yoursite.com/2016/08/17/定时爬虫抓当日免费应用/">
+      <div class="ds-thread" data-thread-key="2016/08/17/关于跨域的一些事_test/"
+           data-title="关于跨域的一些事\_test" data-url="http://yoursite.com/2016/08/17/关于跨域的一些事_test/">
       </div>
     
   </div>
@@ -474,7 +514,7 @@ CodingScrapy ＋ Tkinter1234">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thinking"><span class="nav-number">1.</span> <span class="nav-text">Thinking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding"><span class="nav-number">2.</span> <span class="nav-text">Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-＋-Tkinter"><span class="nav-number">2.1.</span> <span class="nav-text">Scrapy ＋ Tkinter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LaunchControl"><span class="nav-number">2.2.</span> <span class="nav-text">LaunchControl</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#跨子域"><span class="nav-number">1.</span> <span class="nav-text">跨子域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨全域"><span class="nav-number">2.</span> <span class="nav-text">跨全域</span></a></li></ol></div>
             
           </div>
         </section>
