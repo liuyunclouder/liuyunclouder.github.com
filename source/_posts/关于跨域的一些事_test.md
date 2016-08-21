@@ -1,0 +1,100 @@
+
+---
+title: 关于跨域的一些事\_test
+---
+
+web前端开发中，我们经常需要访问除了源服务器（输出当前页面的服务器）外的服务，这时由于浏览器同源策略[https://en.wikipedia.org/wiki/Same-origin\_policy][1]的限制，我们需要做很多额外的修改才能达到目的。而在web后端开发中，我们可以直接从一个服务器发送请求到另一个服务器，由于不存在浏览器做中介，所以可以很方便地进行通信，诞生了各种RPC框架，这些框架的底层通信模块常见的基本都是使用socket、HTTP、PB（Protocol Buffers）等通信协议。这篇文章只说在浏览器参与的跨域中的情况。
+
+跨域分两种：跨子域和跨全域。从easydb.dtstack.com发送HTTPRequest到www.dtstack.com，这样的叫跨子域；从www.baidu.com发送HTTPRequest到www.dtstack.com，这样的叫跨全域。
+
+关于跨域通信，目前已经有了很多方法，最常见的就是JSONP，但JSONP和
+Ajax并不相同。Ajax[https://zh.wikipedia.org/zh/AJAX][2]通常都是通过新建XMLHTTPRequest（IE下还有类似XMLDomainRequest）来创建请求，而JSONP的本质其实是利用向DOM中插入script标签来“触发”请求，因此JSONP不会受到浏览器同源策略的影响。因此，许多web service都是通过JSONP实现。但JSONP任何人都能调用，无形中放大了服务器的潜在bug危害，因此我们还会时不时地用到Ajax。接下来我们就来聊聊Django中常见的Ajax跨域解决方案。
+
+
+## 跨子域
+解决跨子域有纯前端的方案，比如从easydb.dtstack.com跨子域访问www.dtstack.com，只需要在JS中设置
+`document.domain = 'dtstack.com'`
+然后正常发送请求就行了。
+
+也有前后端配合的方案，可以参考跨全域的方案。
+
+## 跨全域
+跨全域通信的关键在于被访问的服务器允许访问方进行访问。
+
+因此，一般发送跨域请求时，浏览器会“询问”服务器是否允许当前请求进行访问，“询问”的方式是通过发送一个OPTIONS请求，这时被访问服务器需要返回一些信息表示是否允许，这些信息一般放在HTTP header中。这样，如果被访问服务器返回表示允许访问的HTTP header，那么浏览器就会发送用户创建的跨域请求，这样就完成了跨域通信了。
+
+基本原理弄清楚了，接下来就是实现细节了。
+
+Django中，我们可以添加一个中间件来为跨域请求设置恰当的HTTP header。首先创建一个cross\_domain\_middleware.py文件
+
+
+	from dtuic.settings import ALLOWED_HOSTS_FOR_MIDDLEWARE
+	
+	class CrossDomainMiddleware(object):
+	
+	    def process_response(self, request, response):
+	
+	        origin = request.META.get('HTTP_ORIGIN')
+	        allowed_hosts = self.get_allowed_hosts(request)
+	
+	        if origin in allowed_hosts or '*' in allowed_hosts:
+	            response["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept, Key, source"
+	            response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, DELETE, PUT"
+	            response["Access-Control-Allow-Origin"] = origin
+	            response["Access-Control-Max-Age"] = "1000"
+	            response['Access-Control-Allow-Credentials'] = "true"
+	
+	        return response
+	
+	    def get_allowed_hosts(self, request):
+	        hosts = []
+	        for host in ALLOWED_HOSTS_FOR_MIDDLEWARE.split(','):
+	            host = host.strip()
+	            if host != '*':
+	                host = "{}://{}".format(request.scheme, host)
+	
+	            hosts.append(host)
+	
+	        return hosts
+
+，同时在settings文件中添加
+
+	ALLOWED\_HOSTS\_FOR\_MIDDLEWARE = "www.baidu.com, www.whatever.com"
+
+，最后在Django的middleware配置中添加我们新建的cross\_domain\_middleware
+
+	MIDDLEWARECLASSES = (
+	'dtuic.middleware.crossdomainmiddleware.CrossDomainMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	...
+	)
+放在最前面，见[https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts]()
+
+目前ALLOWED\_HOSTS\_FOR\_MIDDLEWARE 只支持多个域名显示配置，也可以使用正则动态匹配。
+
+注意Django中的ALLOWED\_HOSTS并不是为了跨域的配置，而是针对全局请求访问的一个配置，如果直接覆盖，可能会导致全站400，本地开发时由于Django的调适标识Debug都为True，Django这时是默认允许所有请求访问的，所以即使覆盖了ALLOWED\_HOSTS也不会有问题，而到了线上，Debug切换到False，就会有“惊喜”了。
+
+
+
+参考：
+[http://www.html5rocks.com/en/tutorials/cors/]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1]:	https://en.wikipedia.org/wiki/Same-origin_policy
+[2]:	https://zh.wikipedia.org/zh/AJAX
