@@ -93,7 +93,7 @@ Docker是什么？Docker是一个开源工具，能将一个WEB应用封装在�
 <meta property="og:image" content="http://d.pr/i/13gIp+">
 <meta property="og:image" content="http://d.pr/i/1k6a8+">
 <meta property="og:image" content="http://d.pr/i/n8i8+">
-<meta property="og:updated_time" content="2016-09-17T14:28:32.000Z">
+<meta property="og:updated_time" content="2016-09-17T14:28:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Docker创建Elasticsearch服务">
 <meta name="twitter:description" content="最近需要做的几个功能都是基于Elasticsearch，但又不想污染系统环境，所以就花了些时间研究下如何使用Docker创建Elastcisearch服务。
@@ -339,7 +339,7 @@ EXPOSE 9200
 <pre><code>docker run -d -p 9200:9200 --name=&quot;es_ezio&quot; es_ezio:2.3.5
 </code></pre><p>Elasticsearch的默认端口是9200，我们把宿主环境9200映射到Docker容器中的9200端口，这样我们就可以直接访问宿主环境的9200端口就可以访问到Docker容器中的Elasticsearch服务了，同时我们把这个容器命名为es_ezio。</p>
 <p>如果一切顺利，访问 <a href="http://127.0.0.1:9200/_plugin/head/" target="_blank" rel="external">http://127.0.0.1:9200/_plugin/head/</a><br><img src="http://d.pr/i/n8i8+" alt=""></p>
-<p>这样，我们就完成了yo</p>
+<p>这样，我们就完成了用Docker提供Elasticsearch服务，er</p>
 <h2 id="MAC-OS"><a href="#MAC-OS" class="headerlink" title="MAC OS"></a>MAC OS</h2>
       
     </div>

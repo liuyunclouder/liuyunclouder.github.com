@@ -335,7 +335,7 @@ EXPOSE 9200
 <pre><code>docker run -d -p 9200:9200 --name=&quot;es_ezio&quot; es_ezio:2.3.5
 </code></pre><p>Elasticsearch的默认端口是9200，我们把宿主环境9200映射到Docker容器中的9200端口，这样我们就可以直接访问宿主环境的9200端口就可以访问到Docker容器中的Elasticsearch服务了，同时我们把这个容器命名为es_ezio。</p>
 <p>如果一切顺利，访问 <a href="http://127.0.0.1:9200/_plugin/head/" target="_blank" rel="external">http://127.0.0.1:9200/_plugin/head/</a><br><img src="http://d.pr/i/n8i8+" alt=""></p>
-<p>这样，我们就完成了yo</p>
+<p>这样，我们就完成了用Docker提供Elasticsearch服务，er</p>
 <h2 id="MAC-OS"><a href="#MAC-OS" class="headerlink" title="MAC OS"></a>MAC OS</h2>
           
         
