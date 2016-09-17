@@ -1,5 +1,6 @@
 ---
 title: 排查实时tail功能cpu占用过高问题
+date: 2016-04-8 20:00:00
 ---
 
 ### 白日惊雷
@@ -76,30 +77,32 @@ kafka消费者线程负责：
 ，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：
 
 	class ConsumerThread(Threading.thread):
-		...
+	    ...
 	
-		def fetchMsg(self):
-			for message in self.consumer:
+	    def fetchMsg(self):
+	        for message in self.consumer:
 	
-				if self.stopThread:
-					break
+	            if self.stopThread:
+	                break
 	
-					message_value = message.value
+	                message_value = message.value
 	
-					socket.pubsub(message_value)
+	                socket.pubsub(message_value)
 	
-				else:
+	            else:
 	
-					logger.error('consumer timeout')
+	                logger.error('consumer timeout')
 	
-					if not self.stopThread:
-						self.fetchMsg()
-					else:
-						self.consumer.close()
+	                if not self.stopThread:
+	                    self.fetchMsg()
+	                else:
+	                    self.consumer.close()
 
 
 ### 一些感想
 连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？
+
+
 
 
 

@@ -1,5 +1,6 @@
 ---
 title: Django源码分析之权限系统\_ 擒贼先擒王
+date: 2016-06-10 20:00:00
 ---
 
 ### 乍见
@@ -170,6 +171,6 @@ Django不推荐直接使用User class，而是通知get\_user\_model方法获取
 
 
 
-_
+\_
 
 [image-1]:	/images/django_auth_init.png

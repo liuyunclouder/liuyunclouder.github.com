@@ -1,5 +1,6 @@
 ---
 title: Django源码分析之执行入口
+date: 2016-05-20 20:00:00
 ---
 
 ### 魔法门
@@ -169,7 +170,7 @@ autoreload.check\_errors(django.setup)()其实也是调用django.setup方法，�
 
 负责初始化日志模块以及所有应用.
 
-### 抽丝剥茧 
+### 抽丝剥茧
 
 剩下的代码最重要的就是这一句：
 
@@ -284,6 +285,6 @@ get\_handler会返回django.core.servers.basehttp中定义的一个application�
 
 
 
-_
+\_
 
 [image-1]:	/images/django_project.png
