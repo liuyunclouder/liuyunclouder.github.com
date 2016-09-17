@@ -1,10 +1,14 @@
 
 ---
-title: 关于几个初始化shell文件
-date: 2016-08-30 20:00:00
+title: 使用Docker创建Elasticsearch服务
+date: 2016-09-17 20:00:00
 ---
 
-shell在类linux系统中扮演的角色非常重要，连操作系统启动的入口一般都是shell，一般类linux系统启动时会涉及到这几个shell脚本，今天就来看看这几个脚本的作用
+最近需要做的几个功能都是基于Elasticsearch，所以就花了些时间研究下。
+
+## Elasticsearch是什么？
+
+Elasticsearch也使用Java开发并使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的RESTful API来隐藏Lucene的复杂性，从而让全文搜索变得简单。
 
 
 ## linux
