@@ -259,6 +259,105 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/17/无标题/" itemprop="url">
+                  Untitled
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-17T21:33:57+08:00" content="2016-09-17">
+              2016-09-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/17/无标题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/17/无标题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/30/关于几个初始化shell文件/" itemprop="url">
                   关于几个初始化shell文件
                 </a>
@@ -317,172 +416,6 @@
 <p>另外,/etc/profile中设定的变量(全局)的可以作用于任何用户,而~/.bashrc等中设定的变量(局部)只能继承/etc/profile中的变量,他们是”父子”关系. </p>
 <p>~/.bash_profile 是交互式、login 方式进入 bash 运行的<br>~/.bashrc 是交互式 non-login 方式进入 bash 运行的<br>通常二者设置大致相同，所以通常前者会调用后者。 </p>
 <h2 id="MAC-OS"><a href="#MAC-OS" class="headerlink" title="MAC OS"></a>MAC OS</h2><p>MAC OS上的shell执行顺序有点特殊：<br>/etc/profile ->~/.bashrc(or .zshrc) -> /etc/bashrc</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/17/Django源码分析之server/" itemprop="url">
-                  Django源码分析之server
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-08-17T18:01:34+08:00" content="2016-08-17">
-              2016-08-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/17/Django源码分析之server/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/Django源码分析之server/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="乍见"><a href="#乍见" class="headerlink" title="乍见"></a>乍见</h3><p>Django内置的server基本包括两部分：django.core.servers和django.core.handlers<br><img src="/images/django_server.png" alt=""></p>
-<h3 id="相识"><a href="#相识" class="headerlink" title="相识"></a>相识</h3><p>servers.basehttp是Django自身提供的一个用于开发测试的server模块，其中提供的WSGIServer、ServerHandler、WSGIRequestHandler其实都是属于WSGI server，django只不过是对python内置的WSGI模块simple_server做的一层包装。</p>
-<p>handlers package包括base.py和wsgi.py两个模块。<br>base.py中只定义了一个BaseHandler类，它复杂一些基础的功能，比如加载中间件，处理异常，获取响应数据等</p>
-<p>wsgi.py才是主角，其中最重要的就是WSGIHandler类，它继承了base.py中的BaseHandler，只添加了一个__call__方法，那为什么添加这个方法呢？</p>
-<p>django.core.wsgi</p>
-<pre><code>import django
-from django.core.handlers.wsgi import WSGIHandler
-
-
-def get_wsgi_application():
-    &quot;&quot;&quot;
-    The public interface to Django&apos;s WSGI support. Should return a WSGI
-    callable.
-
-    Allows us to avoid making django.core.handlers.WSGIHandler public API, in
-    case the internal WSGI implementation changes or moves in the future.
-    &quot;&quot;&quot;
-    django.setup()
-    return WSGIHandler()
-</code></pre><p>可见我们启动server时传入的application其实是WSGIHandler的一个实例，而根据WSGI规范，这个application必须要是callable，python中的callable包括函数、方法以及任何定义了__call__方法的对象</p>
-<p>回到handlers.wsgi</p>
-<pre><code>class WSGIHandler(base.BaseHandler):
-    initLock = Lock()
-    request_class = WSGIRequest
-
-    def __call__(self, environ, start_response):
-        # Set up middleware if needed. We couldn&apos;t do this earlier, because
-        # settings weren&apos;t available.
-        if self._request_middleware is None:
-            with self.initLock:
-                try:
-                    # Check that middleware is still uninitialized.
-                    if self._request_middleware is None:
-                        self.load_middleware()
-                except:
-                    # Unload whatever middleware we got
-                    self._request_middleware = None
-                    raise
-
-        set_script_prefix(get_script_name(environ))
-        signals.request_started.send(sender=self.__class__, environ=environ)
-        try:
-            request = self.request_class(environ)
-        except UnicodeDecodeError:
-            logger.warning(&apos;Bad Request (UnicodeDecodeError)&apos;,
-                exc_info=sys.exc_info(),
-                extra={
-                    &apos;status_code&apos;: 400,
-                }
-            )
-            response = http.HttpResponseBadRequest()
-        else:
-            response = self.get_response(request)
-
-        response._handler_class = self.__class__
-
-        status = &apos;%s %s&apos; % (response.status_code, response.reason_phrase)
-        response_headers = [(str(k), str(v)) for k, v in response.items()]
-        for c in response.cookies.values():
-            response_headers.append((str(&apos;Set-Cookie&apos;), str(c.output(header=&apos;&apos;))))
-        start_response(force_str(status), response_headers)
-        if getattr(response, &apos;file_to_stream&apos;, None) is not None and environ.get(&apos;wsgi.file_wrapper&apos;):
-            response = environ[&apos;wsgi.file_wrapper&apos;](response.file_to_stream)
-        return response
-</code></pre><p>由于__call__是一个请求的入口，它需要调用BaseHandler中定义的方法去执行加载中间件等一系列操作和异常处理，除此之外，WSGIHandler还会处理cookie、触发signal等。</p>
-<p>至于如何返回响应，具体可看handlers.base模块，大概就是找出请求的path，通过匹配路由，找到并执行用户定义的view方法，执行中间件处理方法，最后返回响应。当然，还有一系列的异常处理。</p>
-<h3 id="回想"><a href="#回想" class="headerlink" title="回想"></a>回想</h3><p>这部分的内容需要对WSGi协议有个大致的了解，可以参考：<a href="http://xiaorui.cc/2016/04/16/%E6%89%93%E9%80%A0mvc%E6%A1%86%E6%9E%B6%E4%B9%8Bwsgi%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0/" target="_blank" rel="external">http://xiaorui.cc/2016/04/16/%E6%89%93%E9%80%A0mvc%E6%A1%86%E6%9E%B6%E4%B9%8Bwsgi%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0/</a></p>
 
           
         
@@ -873,6 +806,172 @@ run(self.addr, int(self.port), handler,ipv6=self.use_ipv6, threading=threading)
             
               
                 
+                <a class="post-title-link" href="/2016/08/17/Django源码分析之server/" itemprop="url">
+                  Django源码分析之server
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T18:01:34+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/Django源码分析之server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/Django源码分析之server/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="乍见"><a href="#乍见" class="headerlink" title="乍见"></a>乍见</h3><p>Django内置的server基本包括两部分：django.core.servers和django.core.handlers<br><img src="/images/django_server.png" alt=""></p>
+<h3 id="相识"><a href="#相识" class="headerlink" title="相识"></a>相识</h3><p>servers.basehttp是Django自身提供的一个用于开发测试的server模块，其中提供的WSGIServer、ServerHandler、WSGIRequestHandler其实都是属于WSGI server，django只不过是对python内置的WSGI模块simple_server做的一层包装。</p>
+<p>handlers package包括base.py和wsgi.py两个模块。<br>base.py中只定义了一个BaseHandler类，它复杂一些基础的功能，比如加载中间件，处理异常，获取响应数据等</p>
+<p>wsgi.py才是主角，其中最重要的就是WSGIHandler类，它继承了base.py中的BaseHandler，只添加了一个__call__方法，那为什么添加这个方法呢？</p>
+<p>django.core.wsgi</p>
+<pre><code>import django
+from django.core.handlers.wsgi import WSGIHandler
+
+
+def get_wsgi_application():
+    &quot;&quot;&quot;
+    The public interface to Django&apos;s WSGI support. Should return a WSGI
+    callable.
+
+    Allows us to avoid making django.core.handlers.WSGIHandler public API, in
+    case the internal WSGI implementation changes or moves in the future.
+    &quot;&quot;&quot;
+    django.setup()
+    return WSGIHandler()
+</code></pre><p>可见我们启动server时传入的application其实是WSGIHandler的一个实例，而根据WSGI规范，这个application必须要是callable，python中的callable包括函数、方法以及任何定义了__call__方法的对象</p>
+<p>回到handlers.wsgi</p>
+<pre><code>class WSGIHandler(base.BaseHandler):
+    initLock = Lock()
+    request_class = WSGIRequest
+
+    def __call__(self, environ, start_response):
+        # Set up middleware if needed. We couldn&apos;t do this earlier, because
+        # settings weren&apos;t available.
+        if self._request_middleware is None:
+            with self.initLock:
+                try:
+                    # Check that middleware is still uninitialized.
+                    if self._request_middleware is None:
+                        self.load_middleware()
+                except:
+                    # Unload whatever middleware we got
+                    self._request_middleware = None
+                    raise
+
+        set_script_prefix(get_script_name(environ))
+        signals.request_started.send(sender=self.__class__, environ=environ)
+        try:
+            request = self.request_class(environ)
+        except UnicodeDecodeError:
+            logger.warning(&apos;Bad Request (UnicodeDecodeError)&apos;,
+                exc_info=sys.exc_info(),
+                extra={
+                    &apos;status_code&apos;: 400,
+                }
+            )
+            response = http.HttpResponseBadRequest()
+        else:
+            response = self.get_response(request)
+
+        response._handler_class = self.__class__
+
+        status = &apos;%s %s&apos; % (response.status_code, response.reason_phrase)
+        response_headers = [(str(k), str(v)) for k, v in response.items()]
+        for c in response.cookies.values():
+            response_headers.append((str(&apos;Set-Cookie&apos;), str(c.output(header=&apos;&apos;))))
+        start_response(force_str(status), response_headers)
+        if getattr(response, &apos;file_to_stream&apos;, None) is not None and environ.get(&apos;wsgi.file_wrapper&apos;):
+            response = environ[&apos;wsgi.file_wrapper&apos;](response.file_to_stream)
+        return response
+</code></pre><p>由于__call__是一个请求的入口，它需要调用BaseHandler中定义的方法去执行加载中间件等一系列操作和异常处理，除此之外，WSGIHandler还会处理cookie、触发signal等。</p>
+<p>至于如何返回响应，具体可看handlers.base模块，大概就是找出请求的path，通过匹配路由，找到并执行用户定义的view方法，执行中间件处理方法，最后返回响应。当然，还有一系列的异常处理。</p>
+<h3 id="回想"><a href="#回想" class="headerlink" title="回想"></a>回想</h3><p>这部分的内容需要对WSGi协议有个大致的了解，可以参考：<a href="http://xiaorui.cc/2016/04/16/%E6%89%93%E9%80%A0mvc%E6%A1%86%E6%9E%B6%E4%B9%8Bwsgi%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0/" target="_blank" rel="external">http://xiaorui.cc/2016/04/16/%E6%89%93%E9%80%A0mvc%E6%A1%86%E6%9E%B6%E4%B9%8Bwsgi%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0/</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/17/Django源码分析之权限系统_ 擒贼先擒王/" itemprop="url">
                   Django源码分析之权限系统\_ 擒贼先擒王
                 </a>
@@ -1059,157 +1158,6 @@ def get_backends():
 </code></pre><p>最后这个方法的使用场景很少。一般我们更新用户密码时，会在session中清除用户登录信息，导致用户需要重新登录。而使用update_session_auth_hash我们就可以在更新用户密码的同时更新用户的session信息，这样，用户就不需要重新登录了。</p>
 <h3 id="回想"><a href="#回想" class="headerlink" title="回想"></a>回想</h3><p>擒贼先擒王，以上都是django.contrib.auth包中的__init__.py入口文件中的内容，背后还有很多“能工巧匠”，否则怎么支撑起auth整套权限系统？后续文章会一一介绍。</p>
 <p>_</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/17/排查实时tail功能cpu占用过高问题/" itemprop="url">
-                  排查实时tail功能cpu占用过高问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-08-17T18:01:34+08:00" content="2016-08-17">
-              2016-08-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/17/排查实时tail功能cpu占用过高问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/排查实时tail功能cpu占用过高问题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="白日惊雷"><a href="#白日惊雷" class="headerlink" title="白日惊雷"></a>白日惊雷</h3><p>“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛<br>“不会吧”，我心想：我这是好的啊</p>
-<blockquote>
-<p>没接触过kafka的同学可以先了解下：(<a href="">http://www.jasongj.com/2015/03/10/KafkaColumn1/</a>)</p>
-</blockquote>
-<h3 id="疑云重重"><a href="#疑云重重" class="headerlink" title="疑云重重"></a>疑云重重</h3><p>SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。</p>
-<p>这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。</p>
-<p> <img src="/images/livetail_architecture.png" alt=""></p>
-<p>那就直接看代码吧。</p>
-<p>由于线上环境的kafka没有开放端口，我是在本地搭的kafka环境，所以为了快速开发，就在server端直接写了一个kafka生产者，向kafka提交消息。因此，</p>
-<p>猜想1: 难道是不小心把kafka生产者的代码也提交上去了？<br>check最新代码，生产者的代码明显被注释掉了，并没生效。</p>
-<p>猜想2:websocket与server端链接太多了？<br>不可能，这个功能目前还没开始公测，而且只有这一个server cpu占比过高。</p>
-<p>那还是server和kafka之间出现了问题。</p>
-<h3 id="初现端倪"><a href="#初现端倪" class="headerlink" title="初现端倪"></a>初现端倪</h3><p>server端会在每个请求到来时创建一个websocket连接，同时创建一个kafka消费者线程，用来监听特定topic的消息。</p>
-<p>client端与server端的websocket会在用户刷新页面或者关闭页面时断开连接，这个不会有问题。那问题有可能出在：创建的kafka消费者线程没有正确地退出。</p>
-<p>每个python线程会有一个daemon属性，默认为False。python主线程会在所有daemon为False的线程退出后才终止，而daemon为True的线程（也就是后台线程）会在主线程退出时一起退出。</p>
-<p>所以无论如何，每次发布时都是重启整个进程，不会有资源回收失败的问题。</p>
-<p>那就是在server运行时创建了过多的kafka消费者线程。</p>
-<p>验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！</p>
-<p> <img src="/images/concurrent_thread.png" alt=""></p>
-<p> <img src="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&amp;fm=21&amp;gp=0.jpg" alt=""></p>
-<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>那来看看kafka消费者线程在干什么。</p>
-<p>kafka消费者线程负责：</p>
-<p>连接kafka<br>获取消息<br>向websocket连接写入消息</p>
-<p>祭出debug神器：<strong>断点</strong></p>
-<p>根据多年打断点的经验，果断滴选择了“获取消息”。</p>
-<p>经过一段时间的调试，原来是kafka-python从kafka获取消息时会进入无限while循环，从而阻塞线程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然弄明白了问题的来龙去脉，解决起来就容易了。</p>
-<p>首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现</p>
-<p>  <img src="/images/kafka_python_config.png" alt=""></p>
-<p>，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：</p>
-<pre><code>class ConsumerThread(Threading.thread):
-    ...
-
-    def fetchMsg(self):
-        for message in self.consumer:
-
-            if self.stopThread:
-                break
-
-                message_value = message.value
-
-                socket.pubsub(message_value)
-
-            else:
-
-                logger.error(&apos;consumer timeout&apos;)
-
-                if not self.stopThread:
-                    self.fetchMsg()
-                else:
-                    self.consumer.close()
-</code></pre><h3 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h3><p>连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？</p>
 
           
         
@@ -1490,6 +1438,157 @@ class CrossDomainMiddleware(object):
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/17/排查实时tail功能cpu占用过高问题/" itemprop="url">
+                  排查实时tail功能cpu占用过高问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T18:01:34+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/排查实时tail功能cpu占用过高问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/排查实时tail功能cpu占用过高问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="白日惊雷"><a href="#白日惊雷" class="headerlink" title="白日惊雷"></a>白日惊雷</h3><p>“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛<br>“不会吧”，我心想：我这是好的啊</p>
+<blockquote>
+<p>没接触过kafka的同学可以先了解下：(<a href="">http://www.jasongj.com/2015/03/10/KafkaColumn1/</a>)</p>
+</blockquote>
+<h3 id="疑云重重"><a href="#疑云重重" class="headerlink" title="疑云重重"></a>疑云重重</h3><p>SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。</p>
+<p>这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。</p>
+<p> <img src="/images/livetail_architecture.png" alt=""></p>
+<p>那就直接看代码吧。</p>
+<p>由于线上环境的kafka没有开放端口，我是在本地搭的kafka环境，所以为了快速开发，就在server端直接写了一个kafka生产者，向kafka提交消息。因此，</p>
+<p>猜想1: 难道是不小心把kafka生产者的代码也提交上去了？<br>check最新代码，生产者的代码明显被注释掉了，并没生效。</p>
+<p>猜想2:websocket与server端链接太多了？<br>不可能，这个功能目前还没开始公测，而且只有这一个server cpu占比过高。</p>
+<p>那还是server和kafka之间出现了问题。</p>
+<h3 id="初现端倪"><a href="#初现端倪" class="headerlink" title="初现端倪"></a>初现端倪</h3><p>server端会在每个请求到来时创建一个websocket连接，同时创建一个kafka消费者线程，用来监听特定topic的消息。</p>
+<p>client端与server端的websocket会在用户刷新页面或者关闭页面时断开连接，这个不会有问题。那问题有可能出在：创建的kafka消费者线程没有正确地退出。</p>
+<p>每个python线程会有一个daemon属性，默认为False。python主线程会在所有daemon为False的线程退出后才终止，而daemon为True的线程（也就是后台线程）会在主线程退出时一起退出。</p>
+<p>所以无论如何，每次发布时都是重启整个进程，不会有资源回收失败的问题。</p>
+<p>那就是在server运行时创建了过多的kafka消费者线程。</p>
+<p>验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！</p>
+<p> <img src="/images/concurrent_thread.png" alt=""></p>
+<p> <img src="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&amp;fm=21&amp;gp=0.jpg" alt=""></p>
+<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>那来看看kafka消费者线程在干什么。</p>
+<p>kafka消费者线程负责：</p>
+<p>连接kafka<br>获取消息<br>向websocket连接写入消息</p>
+<p>祭出debug神器：<strong>断点</strong></p>
+<p>根据多年打断点的经验，果断滴选择了“获取消息”。</p>
+<p>经过一段时间的调试，原来是kafka-python从kafka获取消息时会进入无限while循环，从而阻塞线程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然弄明白了问题的来龙去脉，解决起来就容易了。</p>
+<p>首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现</p>
+<p>  <img src="/images/kafka_python_config.png" alt=""></p>
+<p>，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：</p>
+<pre><code>class ConsumerThread(Threading.thread):
+    ...
+
+    def fetchMsg(self):
+        for message in self.consumer:
+
+            if self.stopThread:
+                break
+
+                message_value = message.value
+
+                socket.pubsub(message_value)
+
+            else:
+
+                logger.error(&apos;consumer timeout&apos;)
+
+                if not self.stopThread:
+                    self.fetchMsg()
+                else:
+                    self.consumer.close()
+</code></pre><h3 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h3><p>连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1531,7 +1630,7 @@ class CrossDomainMiddleware(object):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
