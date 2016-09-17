@@ -76,10 +76,12 @@ Elasticsearch的默认端口是9200，我们把宿主环境9200映射到Docker�
 如果一切顺利，访问 [http://127.0.0.1:9200/\_plugin/head/][3]
 ![][image-3]
 
-这样，我们就完成了用Docker提供Elasticsearch服务，er
+这样，我们就完成了用Docker提供Elasticsearch服务，而不污染宿主机环境了，这样还有一个好处，如果想同时启动多个不同版本的Elastcsearch或者其他服务，Docker也是一个理想的解决方案。
 
-## MAC OS
+## 总结
 
+Docker主要是面向运维部署，但其实对开发人员来说也是一个不错的playground，后续我的个人服务会尽量都采用Docker的方式部署。
+Elastic search是一个功能强大的搜索存储引擎，特别是它强大的全文搜索能力，要好好研究下。
 
 
 
