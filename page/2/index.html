@@ -83,7 +83,7 @@
 <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Ezio's Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2016/05/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -106,7 +106,7 @@
   };
 </script>
 
-  <title> Archive | Ezio's Blog </title>
+  <title> Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -137,7 +137,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,103 +236,149 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+      
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  
+  
 
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      Um..! 11 posts in total. Keep on posting.
-    </span>
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
 
-      
-      
-      
-
-      
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/20/定时爬虫抓当日免费应用/" itemprop="url">
+                  定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-03-20T20:00:00+08:00" content="2016-03-20">
+              2016-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/20/定时爬虫抓当日免费应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/定时爬虫抓当日免费应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
         </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
       
 
       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
         
-            <a class="post-title-link" href="/2016/05/20/Django源码分析之执行入口/" itemprop="url">
-              
-                <span itemprop="name">Django源码分析之执行入口</span>
-              
-            </a>
+          
+            <p>花了个周末学了下Scrapy，正好一直想买<a href="https://mindnode.com/" target="_blank" rel="external">mindnode</a>，于是顺手做了个爬虫，抓取<a href="http://www.ifanr.com/app" target="_blank" rel="external">爱范儿</a>每天的限免应用信息。</p>
+<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。</p>
+<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><h3 id="Scrapy-＋-Tkinter"><a href="#Scrapy-＋-Tkinter" class="headerlink" title="Scrapy ＋ Tkinter"></a>Scrapy ＋ Tkinter</h3><p>``` bash</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>import scrapy<br>import Tkinter<br>from scrapy.shell import inspect_response<br>import json</p>
+<h1 id="设置感兴趣的app名称"><a href="#设置感兴趣的app名称" class="headerlink" title="设置感兴趣的app名称"></a>设置感兴趣的app名称</h1><p>I_want_apps = set([‘mindnode pro’, ‘u.memory’])</p>
+<p>class XianmianSpider(scrapy.Spider):<br>    user_agent = ‘Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36’<br>    name = “xianmian”<br>    allowed_domains = [“app.so”]<br>    start_urls = (<br>        ‘<a href="http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10" target="_blank" rel="external">http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10</a>‘,<br>    )</p>
+<pre><code>def parse(self, response):
+
+    jsonresponse = json.loads(response.body_as_unicode())
+
+    apps = jsonresponse[&apos;objects&apos;]
+
+    appTitles = {item[&apos;display_name&apos;].lower() for item in apps}
+
+    self.logger.info(&apos;today\&apos; apps are: &apos; + str(appTitles))
+
+    the_apps = appTitles &amp; I_want_apps
+    if the_apps:
+        self.showMsg(&apos;found the apps: {}&apos;.format(list(the_apps)))
+
+def showMsg(self, msg):
+    import Tkinter
+    root = Tkinter.Tk()
+    root.title(&apos;福利到！&apos;)
+    label = Tkinter.Label(root, text=msg)
+    label.pack()
+    center_window(root, 300, 240)
+    root.maxsize(600, 400)
+    root.minsize(300, 240)
+    Tkinter.mainloop()
+</code></pre><p>def get_screen_size(window):<br>    return window.winfo_screenwidth(),window.winfo_screenheight()  </p>
+<p>def get_window_size(window):<br>    return window.winfo_reqwidth(),window.winfo_reqheight()  </p>
+<p>def center_window(root, width, height):<br>    screenwidth = root.winfo_screenwidth()<br>    screenheight = root.winfo_screenheight()<br>    size = ‘%dx%d+%d+%d’ % (width, height, (screenwidth - width)/2, (screenheight - height)/2)<br>    print(size)<br>    root.geometry(size)  </p>
+<p>```</p>
+<h3 id="LaunchControl"><a href="#LaunchControl" class="headerlink" title="LaunchControl"></a>LaunchControl</h3><p> <img src="/images/launchcontrol_shot.png" alt="title"></p>
+<p> LaunchControl用起来比较直观，当然，也可以直接用mac自带的launchctl，具体可参考<a href="http://ylq365.iteye.com/blog/1878917" target="_blank" rel="external">launchctl使用说明</a></p>
+
+          
         
-      </h1>
+      
+    </div>
+    
+    <div>
+      
+    </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-05-20T20:00:00+08:00"
-              content="2016-05-20" >
-          05-20
-        </time>
-      </div>
+    <div>
+      
+    </div>
 
-    </header>
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </article>
 
 
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/05/10/Django源码分析之server/" itemprop="url">
-              
-                <span itemprop="name">Django源码分析之server</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-05-10T20:00:00+08:00"
-              content="2016-05-10" >
-          05-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
   </section>
 
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 
@@ -492,12 +540,6 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
-
 
   
 
