@@ -21,7 +21,7 @@ date: 2016-09-29 20:00:00
 
 用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。
 
-JSON格式化的工具
+JSON格式化的lib都已经很成熟了，正好在[jsbeautifier.org][3]
 
 
 
@@ -30,3 +30,4 @@ JSON格式化的工具
 
 [1]:	http://sspai.com/25483
 [2]:	http://jsbeautifier.org/
+[3]:	http://jsbeautifier.org/
