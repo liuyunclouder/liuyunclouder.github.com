@@ -259,6 +259,105 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/03/无标题/" itemprop="url">
+                  Untitled
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-03T11:54:35+08:00" content="2016-10-03">
+              2016-10-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/03/无标题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/03/无标题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/29/JSONizer：Popclip的JSON格式化扩展/" itemprop="url">
                   Popclip的JSON格式化扩展
                 </a>
@@ -310,13 +409,20 @@
         
           
             <p>作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。</p>
-<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。<img src="" alt=""></p>
-<p>这是我的Popclip扩展：</p>
+<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。</p>
+<p>这是我的Popclip扩展：<br><img src="http://d.pr/i/sfTc+" alt=""></p>
 <p>如果你还没装Popclip，马上停下来，去安装一个，再继续看下去；</p>
 <p>如果你不知道Popclip是什么，马上停下来，去看下这篇<a href="http://sspai.com/25483" target="_blank" rel="external">测评</a>，再继续看下去。</p>
-<h2 id="JSONizer？"><a href="#JSONizer？" class="headerlink" title="JSONizer？"></a>JSONizer？</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
-<p>用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
-<p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
+<h2 id="JSONizer的来由"><a href="#JSONizer的来由" class="headerlink" title="JSONizer的来由"></a>JSONizer的来由</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
+<p>后来改用sublime的插件CodeFormatter，也能比较方便地快速格式化，但还是有个点让我不开心：CodeFormatter要求必须先把需要格式化的内容保存在一个后缀为.json的文件中，才能识别并格式化。</p>
+<p>由于用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
+<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
+<p>Popclip的扩展没有Alfred的workflow能提供的功能多而复杂，相应地也容易上手。参照<a href="http://computers.tutsplus.com/tutorials/popclip-scripting-extensions--mac-55842" target="_blank" rel="external">TUTS</a>上的这篇教程，几分钟就搞定了大致框架。</p>
+<p>接下来就简单了，把依赖的几个lib依赖配好，基本文件布局如下：<br><img src="http://d.pr/i/V4JL+" alt=""></p>
+<p>注：editorconfig、six.py是jsbeautifier的依赖项。</p>
+<p>最后，测试效果完美：<br><img src="http://d.pr/i/hLal+" alt=""></p>
+<p><a href="https://github.com/liuyunclouder/popclip_extension" target="_blank" rel="external"> 下载入口 </a>，希望能帮到需要的朋友。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，需要先将需要格式化的内容拷贝到编辑器中，然后再选中才能格式化。其实还能改进一下，不需要拷贝，直接在内容来源上，比如浏览器中，选中需要格式化的字符并格式化，直接把格式化后的内容写入系统剪贴板。后续有时间可以研究下。</p>
 
           
         
@@ -1693,157 +1799,6 @@ def get_wsgi_application():
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/08/排查实时tail功能cpu占用过高问题/" itemprop="url">
-                  排查实时tail功能cpu占用过高问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-04-08T20:00:00+08:00" content="2016-04-08">
-              2016-04-08
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/08/排查实时tail功能cpu占用过高问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/08/排查实时tail功能cpu占用过高问题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="白日惊雷"><a href="#白日惊雷" class="headerlink" title="白日惊雷"></a>白日惊雷</h3><p>“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛<br>“不会吧”，我心想：我这是好的啊</p>
-<blockquote>
-<p>没接触过kafka的同学可以先了解下：(<a href="">http://www.jasongj.com/2015/03/10/KafkaColumn1/</a>)</p>
-</blockquote>
-<h3 id="疑云重重"><a href="#疑云重重" class="headerlink" title="疑云重重"></a>疑云重重</h3><p>SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。</p>
-<p>这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。</p>
-<p> <img src="/images/livetail_architecture.png" alt=""></p>
-<p>那就直接看代码吧。</p>
-<p>由于线上环境的kafka没有开放端口，我是在本地搭的kafka环境，所以为了快速开发，就在server端直接写了一个kafka生产者，向kafka提交消息。因此，</p>
-<p>猜想1: 难道是不小心把kafka生产者的代码也提交上去了？<br>check最新代码，生产者的代码明显被注释掉了，并没生效。</p>
-<p>猜想2:websocket与server端链接太多了？<br>不可能，这个功能目前还没开始公测，而且只有这一个server cpu占比过高。</p>
-<p>那还是server和kafka之间出现了问题。</p>
-<h3 id="初现端倪"><a href="#初现端倪" class="headerlink" title="初现端倪"></a>初现端倪</h3><p>server端会在每个请求到来时创建一个websocket连接，同时创建一个kafka消费者线程，用来监听特定topic的消息。</p>
-<p>client端与server端的websocket会在用户刷新页面或者关闭页面时断开连接，这个不会有问题。那问题有可能出在：创建的kafka消费者线程没有正确地退出。</p>
-<p>每个python线程会有一个daemon属性，默认为False。python主线程会在所有daemon为False的线程退出后才终止，而daemon为True的线程（也就是后台线程）会在主线程退出时一起退出。</p>
-<p>所以无论如何，每次发布时都是重启整个进程，不会有资源回收失败的问题。</p>
-<p>那就是在server运行时创建了过多的kafka消费者线程。</p>
-<p>验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！</p>
-<p> <img src="/images/concurrent_thread.png" alt=""></p>
-<p> <img src="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&amp;fm=21&amp;gp=0.jpg" alt=""></p>
-<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>那来看看kafka消费者线程在干什么。</p>
-<p>kafka消费者线程负责：</p>
-<p>连接kafka<br>获取消息<br>向websocket连接写入消息</p>
-<p>祭出debug神器：<strong>断点</strong></p>
-<p>根据多年打断点的经验，果断滴选择了“获取消息”。</p>
-<p>经过一段时间的调试，原来是kafka-python从kafka获取消息时会进入无限while循环，从而阻塞线程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然弄明白了问题的来龙去脉，解决起来就容易了。</p>
-<p>首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现</p>
-<p>  <img src="/images/kafka_python_config.png" alt=""></p>
-<p>，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：</p>
-<pre><code>class ConsumerThread(Threading.thread):
-    ...
-
-    def fetchMsg(self):
-        for message in self.consumer:
-
-            if self.stopThread:
-                break
-
-                message_value = message.value
-
-                socket.pubsub(message_value)
-
-            else:
-
-                logger.error(&apos;consumer timeout&apos;)
-
-                if not self.stopThread:
-                    self.fetchMsg()
-                else:
-                    self.consumer.close()
-</code></pre><h3 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h3><p>连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1889,7 +1844,7 @@ def get_wsgi_application():
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

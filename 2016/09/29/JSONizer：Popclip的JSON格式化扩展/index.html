@@ -88,11 +88,15 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
 <meta property="og:site_name" content="Ezio's Blog">
 <meta property="og:description" content="作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。
 Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展">
-<meta property="og:updated_time" content="2016-09-29T09:15:44.000Z">
+<meta property="og:image" content="http://d.pr/i/sfTc+">
+<meta property="og:image" content="http://d.pr/i/V4JL+">
+<meta property="og:image" content="http://d.pr/i/hLal+">
+<meta property="og:updated_time" content="2016-09-29T09:37:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Popclip的JSON格式化扩展">
 <meta name="twitter:description" content="作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。
 Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展">
+<meta name="twitter:image" content="http://d.pr/i/sfTc+">
 
 
 
@@ -307,13 +311,20 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
 
       
         <p>作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。</p>
-<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。<img src="" alt=""></p>
-<p>这是我的Popclip扩展：</p>
+<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。</p>
+<p>这是我的Popclip扩展：<br><img src="http://d.pr/i/sfTc+" alt=""></p>
 <p>如果你还没装Popclip，马上停下来，去安装一个，再继续看下去；</p>
 <p>如果你不知道Popclip是什么，马上停下来，去看下这篇<a href="http://sspai.com/25483" target="_blank" rel="external">测评</a>，再继续看下去。</p>
-<h2 id="JSONizer？"><a href="#JSONizer？" class="headerlink" title="JSONizer？"></a>JSONizer？</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
-<p>用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
-<p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
+<h2 id="JSONizer的来由"><a href="#JSONizer的来由" class="headerlink" title="JSONizer的来由"></a>JSONizer的来由</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
+<p>后来改用sublime的插件CodeFormatter，也能比较方便地快速格式化，但还是有个点让我不开心：CodeFormatter要求必须先把需要格式化的内容保存在一个后缀为.json的文件中，才能识别并格式化。</p>
+<p>由于用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
+<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
+<p>Popclip的扩展没有Alfred的workflow能提供的功能多而复杂，相应地也容易上手。参照<a href="http://computers.tutsplus.com/tutorials/popclip-scripting-extensions--mac-55842" target="_blank" rel="external">TUTS</a>上的这篇教程，几分钟就搞定了大致框架。</p>
+<p>接下来就简单了，把依赖的几个lib依赖配好，基本文件布局如下：<br><img src="http://d.pr/i/V4JL+" alt=""></p>
+<p>注：editorconfig、six.py是jsbeautifier的依赖项。</p>
+<p>最后，测试效果完美：<br><img src="http://d.pr/i/hLal+" alt=""></p>
+<p><a href="https://github.com/liuyunclouder/popclip_extension" target="_blank" rel="external"> 下载入口 </a>，希望能帮到需要的朋友。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，需要先将需要格式化的内容拷贝到编辑器中，然后再选中才能格式化。其实还能改进一下，不需要拷贝，直接在内容来源上，比如浏览器中，选中需要格式化的字符并格式化，直接把格式化后的内容写入系统剪贴板。后续有时间可以研究下。</p>
 
       
     </div>
@@ -344,6 +355,10 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/03/无标题/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -438,7 +453,7 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -472,7 +487,7 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Popclip？"><span class="nav-number">1.</span> <span class="nav-text">Popclip？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSONizer？"><span class="nav-number">2.</span> <span class="nav-text">JSONizer？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Popclip？"><span class="nav-number">1.</span> <span class="nav-text">Popclip？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSONizer的来由"><span class="nav-number">2.</span> <span class="nav-text">JSONizer的来由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动手"><span class="nav-number">3.</span> <span class="nav-text">动手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>
