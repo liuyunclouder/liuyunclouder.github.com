@@ -22,7 +22,7 @@ Twitter: @chander9bing
 
 
 
-[1]:	https://www.linkedin.com/profile/preview?locale=en_US&trk=prof-0-sb-preview-primary-button
+[1]:	https://cn.linkedin.com/in/clouderliuyun
 
 
 [image-1]:	http://d.pr/i/1hMtI+
