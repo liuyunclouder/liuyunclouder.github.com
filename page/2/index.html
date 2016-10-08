@@ -259,6 +259,172 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/10/Django源码分析之server/" itemprop="url">
+                  Django源码分析之server
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-05-10T20:00:00+08:00" content="2016-05-10">
+              2016-05-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/10/Django源码分析之server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/Django源码分析之server/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="乍见"><a href="#乍见" class="headerlink" title="乍见"></a>乍见</h3><p>Django内置的server基本包括两部分：django.core.servers和django.core.handlers<br><img src="/images/django_server.png" alt=""></p>
+<h3 id="相识"><a href="#相识" class="headerlink" title="相识"></a>相识</h3><p>servers.basehttp是Django自身提供的一个用于开发测试的server模块，其中提供的WSGIServer、ServerHandler、WSGIRequestHandler其实都是属于WSGI server，django只不过是对python内置的WSGI模块simple_server做的一层包装。</p>
+<p>handlers package包括base.py和wsgi.py两个模块。<br>base.py中只定义了一个BaseHandler类，它复杂一些基础的功能，比如加载中间件，处理异常，获取响应数据等</p>
+<p>wsgi.py才是主角，其中最重要的就是WSGIHandler类，它继承了base.py中的BaseHandler，只添加了一个__call__方法，那为什么添加这个方法呢？</p>
+<p>django.core.wsgi</p>
+<pre><code>import django
+from django.core.handlers.wsgi import WSGIHandler
+
+
+def get_wsgi_application():
+    &quot;&quot;&quot;
+    The public interface to Django&apos;s WSGI support. Should return a WSGI
+    callable.
+
+    Allows us to avoid making django.core.handlers.WSGIHandler public API, in
+    case the internal WSGI implementation changes or moves in the future.
+    &quot;&quot;&quot;
+    django.setup()
+    return WSGIHandler()
+</code></pre><p>可见我们启动server时传入的application其实是WSGIHandler的一个实例，而根据WSGI规范，这个application必须要是callable，python中的callable包括函数、方法以及任何定义了__call__方法的对象</p>
+<p>回到handlers.wsgi</p>
+<pre><code>class WSGIHandler(base.BaseHandler):
+    initLock = Lock()
+    request_class = WSGIRequest
+
+    def __call__(self, environ, start_response):
+        # Set up middleware if needed. We couldn&apos;t do this earlier, because
+        # settings weren&apos;t available.
+        if self._request_middleware is None:
+            with self.initLock:
+                try:
+                    # Check that middleware is still uninitialized.
+                    if self._request_middleware is None:
+                        self.load_middleware()
+                except:
+                    # Unload whatever middleware we got
+                    self._request_middleware = None
+                    raise
+
+        set_script_prefix(get_script_name(environ))
+        signals.request_started.send(sender=self.__class__, environ=environ)
+        try:
+            request = self.request_class(environ)
+        except UnicodeDecodeError:
+            logger.warning(&apos;Bad Request (UnicodeDecodeError)&apos;,
+                exc_info=sys.exc_info(),
+                extra={
+                    &apos;status_code&apos;: 400,
+                }
+            )
+            response = http.HttpResponseBadRequest()
+        else:
+            response = self.get_response(request)
+
+        response._handler_class = self.__class__
+
+        status = &apos;%s %s&apos; % (response.status_code, response.reason_phrase)
+        response_headers = [(str(k), str(v)) for k, v in response.items()]
+        for c in response.cookies.values():
+            response_headers.append((str(&apos;Set-Cookie&apos;), str(c.output(header=&apos;&apos;))))
+        start_response(force_str(status), response_headers)
+        if getattr(response, &apos;file_to_stream&apos;, None) is not None and environ.get(&apos;wsgi.file_wrapper&apos;):
+            response = environ[&apos;wsgi.file_wrapper&apos;](response.file_to_stream)
+        return response
+</code></pre><p>由于__call__是一个请求的入口，它需要调用BaseHandler中定义的方法去执行加载中间件等一系列操作和异常处理，除此之外，WSGIHandler还会处理cookie、触发signal等。</p>
+<p>至于如何返回响应，具体可看handlers.base模块，大概就是找出请求的path，通过匹配路由，找到并执行用户定义的view方法，执行中间件处理方法，最后返回响应。当然，还有一系列的异常处理。</p>
+<h3 id="回想"><a href="#回想" class="headerlink" title="回想"></a>回想</h3><p>这部分的内容需要对WSGi协议有个大致的了解，可以参考：<a href="http://xiaorui.cc/2016/04/16/%E6%89%93%E9%80%A0mvc%E6%A1%86%E6%9E%B6%E4%B9%8Bwsgi%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0/" target="_blank" rel="external">http://xiaorui.cc/2016/04/16/%E6%89%93%E9%80%A0mvc%E6%A1%86%E6%9E%B6%E4%B9%8Bwsgi%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%8F%8A%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0/</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/08/排查实时tail功能cpu占用过高问题/" itemprop="url">
                   排查实时tail功能cpu占用过高问题
                 </a>
@@ -569,7 +735,7 @@ def showMsg(self, msg):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
