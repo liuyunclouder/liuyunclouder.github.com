@@ -15,7 +15,7 @@ Arsos来源于某天看到公司的前端工程师在查找一个js库，步骤�
 作为一个熟练使用Alfred、Popclip、BTT的效率小能手（check 我自制的[ Alfred workflow][1] 、[ Popclip extension ][2]），简直不能忍，于是就萌生了自己做一个工具来简化这个流程。
 
 ### 整体架构
-![]()
+![][image-1]
 服务端由两个Server和一个Database组成（缓存没太大必要，文件存储暂时没太大需求，暂时Droplr够用）：Data Server负责收集数据并按照Service Server中定义的model的格式把数据保存到DB中，Service Server目前主要扮演API网关的角色，为Mac APP提供API接口，另外还会兼职Web Site中的展示和数据源后台管理。
 
 客户端由Mac APP和Web Site组成：Mac APP主要对外提供搜索和下载服务，Web Site对外提供产品介绍的同时对内提供数据源管理服务，方便管理员编辑数据。
@@ -65,6 +65,7 @@ Shift + 空格（自定义）
 [3]:	http://liuyunclouder.github.io/Arsos_site/
 [4]:	https://github.com/liuyunclouder/alfredworkflow
 
+[image-1]:	http://d.pr/i/1fR5e+
 [image-2]:	http://d.pr/i/UPad+
 [image-3]:	http://d.pr/i/bk1C+
 [image-4]:	http://d.pr/i/1fXDD+
