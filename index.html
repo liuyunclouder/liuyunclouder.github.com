@@ -313,7 +313,7 @@
 <p>同时，Arsos也是一个为工程师量身定做的搜索库和组件的Mac APP。</p>
 <h3 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h3><p>Arsos来源于某天看到公司的前端工程师在查找一个js库，步骤非常繁琐：先打开浏览器，输入网址，然后输入angular，得到一长串结果，然后还要根据版本号筛选，如果想要找到angular下的cookie组件，还得Command + F，接下来输入cookie …脑细胞已阵亡。</p>
 <p>作为一个熟练使用Alfred、Popclip、BTT的效率小能手（check 我自制的<a href="https://github.com/liuyunclouder/alfredworkflow" target="_blank" rel="external"> Alfred workflow</a> 、<a href="https://github.com/liuyunclouder/popclip_extension" target="_blank" rel="external"> Popclip extension </a>），简直不能忍，于是就萌生了自己做一个工具来简化这个流程。</p>
-<h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><p><img src="" alt=""><br>服务端由两个Server和一个Database组成（缓存没太大必要，文件存储暂时没太大需求，暂时Droplr够用）：Data Server负责收集数据并按照Service Server中定义的model的格式把数据保存到DB中，Service Server目前主要扮演API网关的角色，为Mac APP提供API接口，另外还会兼职Web Site中的展示和数据源后台管理。</p>
+<h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><p><img src="http://d.pr/i/1fR5e+" alt=""><br>服务端由两个Server和一个Database组成（缓存没太大必要，文件存储暂时没太大需求，暂时Droplr够用）：Data Server负责收集数据并按照Service Server中定义的model的格式把数据保存到DB中，Service Server目前主要扮演API网关的角色，为Mac APP提供API接口，另外还会兼职Web Site中的展示和数据源后台管理。</p>
 <p>客户端由Mac APP和Web Site组成：Mac APP主要对外提供搜索和下载服务，Web Site对外提供产品介绍的同时对内提供数据源管理服务，方便管理员编辑数据。</p>
 <h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>作为一个Alfred重度患者，为了向Alfred致敬（是的，这不叫抄袭），UI设计和交互方式基本都是参照它来设计的，所以对用过Alfred的朋友来说是非常友好的，如果没用过Alfred也没关系，下面简单介绍下现有的功能。</p>
 <h4 id="快速唤起"><a href="#快速唤起" class="headerlink" title="快速唤起"></a>快速唤起</h4><p>下载安装后（<a href="http://liuyunclouder.github.io/Arsos_site/" target="_blank" rel="external">下载地址</a>），运行Arsos，然后切换到其它应用，比如Atom或者sublime，按下快捷组合键：</p>
