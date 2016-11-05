@@ -68,9 +68,12 @@ Swift是第一门原生支持POP的语言，苹果的Swift标准库负责人 Dav
 
 POP弱化了静态语言的严格的类型检查，为语言增加了更大的动态性，同时也有利于降低内存消耗，对于移动开发具有一定优势，更重要的是它弱化了各个子系统的耦合，对于关注分割和交互的架构设计在解耦上有不错的效果。
 
+![][image-1]
 
 
 
 
 [1]:	https://en.wikipedia.org/wiki/Duck_typing
 [2]:	https://www.youtube.com/watch?v=g2LwFZatfTI
+
+[image-1]:	http://d.pr/i/Np9W+
