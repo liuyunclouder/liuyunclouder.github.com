@@ -80,36 +80,24 @@
 
 
 
-<meta name="description" content="白日惊雷“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛“不会吧”，我心想：我这是好的啊
-
-没接触过kafka的同学可以先了解下：(http://www.jasongj.com/2015/03/10/KafkaColumn1/)
-
-疑云重重SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
-这是一个简单的应用：serve">
+<meta name="description" content="软件架构关注对系统的分割和如何让分隔后的各部分交互，至于如何分割和如何交互，取决于对系统不同特性的关注程度的取舍。而不同的编程思想对架构的选型和建立影响很大。
+编程思想PO（Process Oriented）面向过程：对业务的顺序的抽象，更关注流程的顺序
+OO（Object Oriented）面向对象：对业务的责任的抽象，更关注各个部分所承担的责任，也就是责任的划分。而架构关注系统的分割，两者都是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排查实时tail功能cpu占用过高问题">
-<meta property="og:url" content="http://yoursite.com/2016/04/08/排查实时tail功能cpu占用过高问题/index.html">
+<meta property="og:title" content="COP VS POP">
+<meta property="og:url" content="http://yoursite.com/2016/11/05/COP VS POP/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="白日惊雷“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛“不会吧”，我心想：我这是好的啊
-
-没接触过kafka的同学可以先了解下：(http://www.jasongj.com/2015/03/10/KafkaColumn1/)
-
-疑云重重SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
-这是一个简单的应用：serve">
-<meta property="og:image" content="http://yoursite.com/images/livetail_architecture.png">
-<meta property="og:image" content="http://yoursite.com/images/concurrent_thread.png">
-<meta property="og:image" content="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&fm=21&gp=0.jpg">
-<meta property="og:image" content="http://yoursite.com/images/kafka_python_config.png">
-<meta property="og:updated_time" content="2016-11-07T08:54:21.000Z">
+<meta property="og:description" content="软件架构关注对系统的分割和如何让分隔后的各部分交互，至于如何分割和如何交互，取决于对系统不同特性的关注程度的取舍。而不同的编程思想对架构的选型和建立影响很大。
+编程思想PO（Process Oriented）面向过程：对业务的顺序的抽象，更关注流程的顺序
+OO（Object Oriented）面向对象：对业务的责任的抽象，更关注各个部分所承担的责任，也就是责任的划分。而架构关注系统的分割，两者都是">
+<meta property="og:image" content="http://d.pr/i/Np9W+">
+<meta property="og:updated_time" content="2016-11-07T08:54:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排查实时tail功能cpu占用过高问题">
-<meta name="twitter:description" content="白日惊雷“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛“不会吧”，我心想：我这是好的啊
-
-没接触过kafka的同学可以先了解下：(http://www.jasongj.com/2015/03/10/KafkaColumn1/)
-
-疑云重重SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。
-这是一个简单的应用：serve">
-<meta name="twitter:image" content="http://yoursite.com/images/livetail_architecture.png">
+<meta name="twitter:title" content="COP VS POP">
+<meta name="twitter:description" content="软件架构关注对系统的分割和如何让分隔后的各部分交互，至于如何分割和如何交互，取决于对系统不同特性的关注程度的取舍。而不同的编程思想对架构的选型和建立影响很大。
+编程思想PO（Process Oriented）面向过程：对业务的顺序的抽象，更关注流程的顺序
+OO（Object Oriented）面向对象：对业务的责任的抽象，更关注各个部分所承担的责任，也就是责任的划分。而架构关注系统的分割，两者都是">
+<meta name="twitter:image" content="http://d.pr/i/Np9W+">
 
 
 
@@ -127,7 +115,7 @@
   };
 </script>
 
-  <title> 排查实时tail功能cpu占用过高问题 | Ezio's Blog </title>
+  <title> COP VS POP | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -277,7 +265,7 @@
             
             
               
-                排查实时tail功能cpu占用过高问题
+                COP VS POP
               
             
           </h1>
@@ -289,8 +277,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-04-08T20:00:00+08:00" content="2016-04-08">
-              2016-04-08
+            <time itemprop="dateCreated" datetime="2016-11-05T20:00:00+08:00" content="2016-11-05">
+              2016-11-05
             </time>
           </span>
 
@@ -300,8 +288,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/08/排查实时tail功能cpu占用过高问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/08/排查实时tail功能cpu占用过高问题/" itemprop="commentsCount"></span>
+                <a href="/2016/11/05/COP VS POP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/05/COP VS POP/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -323,58 +311,38 @@
       
 
       
-        <h3 id="白日惊雷"><a href="#白日惊雷" class="headerlink" title="白日惊雷"></a>白日惊雷</h3><p>“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛<br>“不会吧”，我心想：我这是好的啊</p>
+        <p>软件架构关注对系统的分割和如何让分隔后的各部分交互，至于如何分割和如何交互，取决于对系统不同特性的关注程度的取舍。而不同的编程思想对架构的选型和建立影响很大。</p>
+<h3 id="编程思想"><a href="#编程思想" class="headerlink" title="编程思想"></a>编程思想</h3><p>PO（Process Oriented）<br>面向过程：对业务的顺序的抽象，更关注流程的顺序</p>
+<p>OO（Object Oriented）<br>面向对象：对业务的责任的抽象，更关注各个部分所承担的责任，也就是责任的划分。而架构关注系统的分割，两者都是关注与如何“化整为零”，所以设计架构时很容易就会采用OO的编程思想，即使语言设计之初时并没有考虑面向对象的JS也利用自己的特性实现了一种“非主流”的面向对象方式。</p>
+<p>AO（Aspect Oriented）<br>面向切面：对业务的扩展性的抽象，更关注如何扩展、替换业务属性</p>
+<p>SO （Service Oriented）<br>严格来说，SO并不属于编程思想，它针对的粒度更大，更关注业务的模块化、稳定性和部署要求</p>
+<p>编程思想影响着架构设计，同时，不同的实现有不同的侧重点和易用性，语言本身对编程思想的实现也对架构设计影响不小。</p>
+<p>下面就说说COP（Class Oriented Programming）和 POP（Protocol Oriented Programming）作为OO面向对象的两种实现，各自的优缺点。</p>
+<h3 id="COP？"><a href="#COP？" class="headerlink" title="COP？"></a>COP？</h3><p>COP（Class Oriented Programming），说白了就是以Class作为业务各个角色的模型，不同的角色拥有不同属性，体现在Class上就是不同的属性和方法。</p>
+<p>COP非常强调身份：<em>你</em>就是<em>你</em>，<em>我</em>就是<em>我</em>，<em>你</em>不是<em>我们家族</em>，具有强烈的“阶层意识”。于是在业务上，能够清晰地区分出角色的差异，也就是上面说的，专注于划分角色。</p>
+<h3 id="POP？"><a href="#POP？" class="headerlink" title="POP？"></a>POP？</h3><p> POP（Protocol Oriented Programming），说白了就是大家按照Protocol协议来做事，更强调角色的行为。</p>
+<p>一个很形象的说明就是duck typing <a href="https://en.wikipedia.org/wiki/Duck_typing" target="_blank" rel="external">https://en.wikipedia.org/wiki/Duck_typing</a>：</p>
 <blockquote>
-<p>没接触过kafka的同学可以先了解下：(<a href="">http://www.jasongj.com/2015/03/10/KafkaColumn1/</a>)</p>
+<p>When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck</p>
 </blockquote>
-<h3 id="疑云重重"><a href="#疑云重重" class="headerlink" title="疑云重重"></a>疑云重重</h3><p>SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。</p>
-<p>这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。</p>
-<p> <img src="/images/livetail_architecture.png" alt=""></p>
-<p>那就直接看代码吧。</p>
-<p>由于线上环境的kafka没有开放端口，我是在本地搭的kafka环境，所以为了快速开发，就在server端直接写了一个kafka生产者，向kafka提交消息。因此，</p>
-<p>猜想1: 难道是不小心把kafka生产者的代码也提交上去了？<br>check最新代码，生产者的代码明显被注释掉了，并没生效。</p>
-<p>猜想2:websocket与server端链接太多了？<br>不可能，这个功能目前还没开始公测，而且只有这一个server cpu占比过高。</p>
-<p>那还是server和kafka之间出现了问题。</p>
-<h3 id="初现端倪"><a href="#初现端倪" class="headerlink" title="初现端倪"></a>初现端倪</h3><p>server端会在每个请求到来时创建一个websocket连接，同时创建一个kafka消费者线程，用来监听特定topic的消息。</p>
-<p>client端与server端的websocket会在用户刷新页面或者关闭页面时断开连接，这个不会有问题。那问题有可能出在：创建的kafka消费者线程没有正确地退出。</p>
-<p>每个python线程会有一个daemon属性，默认为False。python主线程会在所有daemon为False的线程退出后才终止，而daemon为True的线程（也就是后台线程）会在主线程退出时一起退出。</p>
-<p>所以无论如何，每次发布时都是重启整个进程，不会有资源回收失败的问题。</p>
-<p>那就是在server运行时创建了过多的kafka消费者线程。</p>
-<p>验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！</p>
-<p> <img src="/images/concurrent_thread.png" alt=""></p>
-<p> <img src="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&amp;fm=21&amp;gp=0.jpg" alt=""></p>
-<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>那来看看kafka消费者线程在干什么。</p>
-<p>kafka消费者线程负责：</p>
-<p>连接kafka<br>获取消息<br>向websocket连接写入消息</p>
-<p>祭出debug神器：<strong>断点</strong></p>
-<p>根据多年打断点的经验，果断滴选择了“获取消息”。</p>
-<p>经过一段时间的调试，原来是kafka-python从kafka获取消息时会进入无限while循环，从而阻塞线程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然弄明白了问题的来龙去脉，解决起来就容易了。</p>
-<p>首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现</p>
-<p>  <img src="/images/kafka_python_config.png" alt=""></p>
-<p>，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：</p>
-<pre><code>class ConsumerThread(Threading.thread):
-    ...
-
-    def fetchMsg(self):
-        for message in self.consumer:
-
-            if self.stopThread:
-                break
-
-                message_value = message.value
-
-                socket.pubsub(message_value)
-
-            else:
-
-                logger.error(&apos;consumer timeout&apos;)
-
-                if not self.stopThread:
-                    self.fetchMsg()
-                else:
-                    self.consumer.close()
-</code></pre><h3 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h3><p>连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？</p>
+<p>相对来说，COP就是严格的typing。</p>
+<h3 id="COP-VS-POP"><a href="#COP-VS-POP" class="headerlink" title="COP VS POP"></a>COP VS POP</h3><p>面向对象有三大特性：封装、继承、多态。下面就来看看两者对这三大特性的实现情况。</p>
+<p>前面说的很大一部分都可以看做是封装上的区别：COP封装的是类型、角色，POP封装的是行为。</p>
+<p>COP中，子类拥有一切父类的属性和方法，无论子类是否需要，对编程人员来说，很容易就无意地覆盖了父类的属性和方法，苹果自身的框架可以通过文档来说明，如果是自己的或者第三方的代码，就得沿着继承链挨个找，这就带来了额外的风险和负担；另外，每个子类的实例在初始化时除了初始化自身的属性和方法，还会把继承链上所有父类的属性方法都初始化一份，即使同名属性也一样，这显然会增大无谓的内存消耗。</p>
+<p>POP中，你只需要实现所声明协议的属性和方法，不需要的付出额外的代价。</p>
+<p>两者都能符合里氏替换原则，POP能以弱耦合的方式完成，而COP就会导致强耦合。</p>
+<p>关于多态，其实，POP更倾向于使用组合代替继承，所以，尽量少用多态。</p>
+<p>关于组合和继承，其实苹果也意识到这个问题，所以为OC实现了category的特性，的确避免了一部分“类爆炸”的问题。</p>
+<p>Swift是第一门原生支持POP的语言，苹果的Swift标准库负责人 Dave Abrahams，在WWDC2015上历数了COP的几大罪状，感兴趣的可以看看：<a href="https://www.youtube.com/watch?v=g2LwFZatfTI" target="_blank" rel="external">https://www.youtube.com/watch?v=g2LwFZatfTI</a>，其中有两点我觉得有点“栽赃”的嫌疑：</p>
+<ul>
+<li>implicit sharing：共享变量</li>
+<li>lost type relations：丢失类型关联</li>
+</ul>
+<p>我并不觉得共享变量是COP独有的问题，这个和是不是COP或者POP无关，严格来说，POP中的protocol也是一种类型，只不过是一种更“弱”的Class；同样，类型关联丢失也只是语法糖的问题。</p>
+<h4 id="POP对架构的助力"><a href="#POP对架构的助力" class="headerlink" title="POP对架构的助力"></a>POP对架构的助力</h4><p>计算机发展初期，各大操作系统和硬件厂商都按照Class的方式来生产，带来了很大的市场推广阻力，因为各个系统不能互相通信。最终，通过制定操作系统和网络中的各种协议protocol，使得各种异构系统能够以弱耦合的方式相互交互和通信，这才为互联网的诞生奠定了基础。</p>
+<p>协议的最大作用就在于弱化耦合关系，更多关注行为而非类型，这样我们才能专注实现需求。</p>
+<p>POP弱化了静态语言的严格的类型检查，为语言增加了更大的动态性，同时也有利于降低内存消耗，对于移动开发具有一定优势，更重要的是它弱化了各个子系统的耦合，对于关注分割和交互的架构设计在解耦上有不错的效果。</p>
+<p><img src="http://d.pr/i/Np9W+" alt=""></p>
 
       
     </div>
@@ -419,17 +387,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/20/定时爬虫抓当日免费应用/" rel="next" title="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
-                <i class="fa fa-chevron-left"></i> 定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
+              <a href="/2016/10/29/一些看过的书/" rel="next" title="一些看过的书">
+                <i class="fa fa-chevron-left"></i> 一些看过的书
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/10/Django源码分析之server/" rel="prev" title="Django源码分析之server">
-                Django源码分析之server <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -478,8 +442,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/08/排查实时tail功能cpu占用过高问题/"
-           data-title="排查实时tail功能cpu占用过高问题" data-url="http://yoursite.com/2016/04/08/排查实时tail功能cpu占用过高问题/">
+      <div class="ds-thread" data-thread-key="2016/11/05/COP VS POP/"
+           data-title="COP VS POP" data-url="http://yoursite.com/2016/11/05/COP VS POP/">
       </div>
     
   </div>
@@ -558,7 +522,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#白日惊雷"><span class="nav-number">1.</span> <span class="nav-text">白日惊雷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑云重重"><span class="nav-number">2.</span> <span class="nav-text">疑云重重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初现端倪"><span class="nav-number">3.</span> <span class="nav-text">初现端倪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#水落石出"><span class="nav-number">4.</span> <span class="nav-text">水落石出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">5.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些感想"><span class="nav-number">6.</span> <span class="nav-text">一些感想</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#编程思想"><span class="nav-number">1.</span> <span class="nav-text">编程思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COP？"><span class="nav-number">2.</span> <span class="nav-text">COP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POP？"><span class="nav-number">3.</span> <span class="nav-text">POP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COP-VS-POP"><span class="nav-number">4.</span> <span class="nav-text">COP VS POP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#POP对架构的助力"><span class="nav-number">4.1.</span> <span class="nav-text">POP对架构的助力</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
