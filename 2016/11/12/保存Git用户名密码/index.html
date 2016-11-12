@@ -82,23 +82,23 @@
 
 <meta name="description" content="在部署服务时，一般都会有jenkins等工具来完成一键部署，但有时还是免不了需要登录远程主机手工部署，这时，如果能在远程主机上保存下Git的用户名密码，就可以提供不少工作效率。
 一般我们使用HTTPS协议来clone Git仓库，这样每次pull都需要输入用户名密码，很不方便，我们可以保存这些信息
-git config –global credential.helper store
-这样，只需要输">
+git config --global credential.helper store
+这样，只需要">
 <meta property="og:type" content="article">
 <meta property="og:title" content="保存Git用户名密码">
 <meta property="og:url" content="http://yoursite.com/2016/11/12/保存Git用户名密码/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
 <meta property="og:description" content="在部署服务时，一般都会有jenkins等工具来完成一键部署，但有时还是免不了需要登录远程主机手工部署，这时，如果能在远程主机上保存下Git的用户名密码，就可以提供不少工作效率。
 一般我们使用HTTPS协议来clone Git仓库，这样每次pull都需要输入用户名密码，很不方便，我们可以保存这些信息
-git config –global credential.helper store
-这样，只需要输">
-<meta property="og:updated_time" content="2016-11-12T03:08:31.000Z">
+git config --global credential.helper store
+这样，只需要">
+<meta property="og:updated_time" content="2016-11-12T03:12:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="保存Git用户名密码">
 <meta name="twitter:description" content="在部署服务时，一般都会有jenkins等工具来完成一键部署，但有时还是免不了需要登录远程主机手工部署，这时，如果能在远程主机上保存下Git的用户名密码，就可以提供不少工作效率。
 一般我们使用HTTPS协议来clone Git仓库，这样每次pull都需要输入用户名密码，很不方便，我们可以保存这些信息
-git config –global credential.helper store
-这样，只需要输">
+git config --global credential.helper store
+这样，只需要">
 
 
 
@@ -314,17 +314,14 @@ git config –global credential.helper store
       
         <p>在部署服务时，一般都会有jenkins等工具来完成一键部署，但有时还是免不了需要登录远程主机手工部署，这时，如果能在远程主机上保存下Git的用户名密码，就可以提供不少工作效率。</p>
 <p>一般我们使用HTTPS协议来clone Git仓库，这样每次pull都需要输入用户名密码，<br>很不方便，我们可以保存这些信息</p>
-<p>git config –global credential.helper store</p>
+<p><code>git config --global credential.helper store</code></p>
 <p>这样，只需要输入一次就行了。</p>
 <p>但以上方法会把用户名密码以明文的方式保存在.gitcredentials文件中，很不安全，使用以下命令可以把用户名信息在内存中保存3600秒，这样，即可以保证安全性，也能避免经常输用户名密码</p>
-<p>git config –global credential.helper “cache –timeout=3600”</p>
-<p>缺点就是，每过3600秒或者主机重启后都要重新输入。</p>
+<p><code>git config --global credential.helper &quot;cache --timeout=3600&quot;</code><br>缺点就是，每过3600秒或者主机重启后都要重新输入。</p>
 <p>但是，如果你的主机是MAC PRO就没这个问题了，</p>
-<p>git config –global credential.helper osxkeychain</p>
-<p>这样就把敏感信息保存在钥匙串中了。windows也有类似的工具。但是，我们常用的linux貌似没有类型的工具。</p>
+<p><code>git config --global credential.helper osxkeychain</code><br>这样就把敏感信息保存在钥匙串中了。windows也有类似的工具。但是，我们常用的linux貌似没有类型的工具。</p>
 <p>另外一种方法就是使用SSH协议，利用密钥的方式来更好的兼顾安全和效率。</p>
-<p>ssh-keygen -t rsa -C “name@dtstack.com”</p>
-<p>然后克隆仓库时需要使用SSH协议就好了。</p>
+<p><code>ssh-keygen -t rsa -C &quot;name@dtstack.com&quot;</code><br>然后克隆仓库时需要使用SSH协议就好了。</p>
 
       
     </div>
