@@ -259,6 +259,136 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/19/那些把我们坑惨了的bug/" itemprop="url">
+                  那些把我们坑惨了的bug
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-19T20:00:00+08:00" content="2016-11-19">
+              2016-11-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/19/那些把我们坑惨了的bug/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/19/那些把我们坑惨了的bug/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>说说我所碰到的几个比较折腾的bug</p>
+<h4 id="vpn-reachability"><a href="#vpn-reachability" class="headerlink" title="vpn + reachability"></a>vpn + reachability</h4><p>之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：</p>
+<p><code>reach = Reachability reachabilityWithHostname:@&quot;http://ibbpp.com/&quot;</code><br>本地测试了下，没问题，于是就放心提交了。<br>后来客户反馈说在有网状态下，图片一直没上传。</p>
+<p>首先怀疑是服务器挂了，结果发现<a href="http://ibbpp.com/" target="_blank" rel="external">http://ibbpp.com/</a>首页能正常打开。用自己的手机测试了下，也没问题。</p>
+<p>最终发现客户的截图上显示有挂VPN，于是挂上VPN测试，果然。同时，客户在国外没挂VPN也能复现这个问题。</p>
+<p>于是猜测很可能是网络本身的问题，比如DNS解析服务。最终的解决方案：</p>
+<p><code>reach = Reachability reachabilityWithHostname:@&quot;www.baidu.com&quot;</code><br>当然，当我们服务器挂了，只要阿里云OSS服务没挂，图片还是能正常上传，不会影响业务逻辑。</p>
+<p>这里有个小问题。Reachability底层使用SCNetworkReachabilityRef来监测网络状况</p>
+<pre><code>+(Reachability*)reachabilityWithHostname:(NSString*)hostname
+{
+    SCNetworkReachabilityRef ref = SCNetworkReachabilityCreateWithName(NULL, [hostname UTF8String]);
+    if (ref) 
+    {
+        id reachability = [[self alloc] initWithReachabilityRef:ref];
+
+        return reachability;
+    }
+
+    return nil;
+}
+</code></pre><p>而SCNetworkReachabilityRef本身是不准确的：</p>
+<blockquote>
+<p>The SCNetworkReachability programming interface allows an application to determine the status of a system’s current network configuration and the reachability of a target host. A remote host is considered reachable when a data packet, sent by an application into the network stack, can leave the local device. Reachability does not guarantee that the data packet will actually be received by the host</p>
+</blockquote>
+<p>在局域网没有连接互联网的情况下，比如家里 WiFi能连上但宽带欠费了，SCNetworkReachability还会显示网络可用。</p>
+<p>最好的方案还是直接调用一个自定义的服务器接口，使用短超时和特定返回来监测网络状况。或者直接Ping也行。</p>
+<h4 id="messageid"><a href="#messageid" class="headerlink" title="messageid"></a>messageid</h4><p>在IM应用中，需要记录消息的id，这个id一般位数会比较长，比如64bit。后续从数据库中取出时需要经过JSON序列化，比如</p>
+<p><code>NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:error</code><br>而苹果的NSJSONSerialization在iOS7和iOS7以下的系统上转换大数值时会使用NSDecimalNumber，在iOS8上会使用CFNumber。</p>
+<p>而苹果在设计NSDecimalNumber时，只保证53bit的精度，所以任何超过这一精度的数值在JSON序列化之后，如果直接通过unsignedLongLongValue方法来获取时都可能会出错。</p>
+<p>解决方案，先转化为字符串再转成数值：</p>
+<p><code>[[decimalNumber description] longLongValue]</code></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/12/保存Git用户名密码/" itemprop="url">
                   保存Git用户名密码
                 </a>
@@ -1448,130 +1578,6 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/25/格局/" itemprop="url">
-                  格局
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T20:00:00+08:00" content="2016-09-25">
-              2016-09-25
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/25/格局/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/格局/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近杭州房价快速攀升，同一套房子，去年还是80万，今年120万还不一定买得到。考虑到一系列因素，我也开始准备买房了。</p>
-<p><img src="http://d.pr/i/zMsG+" alt=""></p>
-<h2 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h2><p>经过几天的看房-谈价格-房东加价-同意-房东不卖了，最终房子还是买到了。</p>
-<p>虽然最终房子是买到了，价格确比去年高了几十万。忍不住想：要是去年买了就好了。</p>
-<p>去年身边朋友和我一样都没买房，所以我没意识到需要在杭州买一套？不是的，来杭州已经快5年了，这5年间家人也催过买房要抓紧，同事也建议说现在可以入手一套，但每次都想都没想就以各种理由说不想买房。直到最近看了一本书，《软技能》，才意识到房地产投资是可以极大增加自己的个人资产。然后随着杭州房价的快速攀升，也忍不住出手了。</p>
-<h2 id="格局"><a href="#格局" class="headerlink" title="格局"></a>格局</h2><p>身边的朋友去年买的房子现在已经涨了一倍了，如果我和他们同时买，现在也是身价好几百万的人了。后悔错过机遇是徒劳的，向前看才是最重要的。如果以后碰到类似的机遇，该如何才能把握住？</p>
-<p>经常听人说类似的话：一个人的格局决定了他能达到的高度。这话听起来挺虚的，但其实往往是这类抽象而模棱两可的话说出了事物的真相。什么是格局？</p>
-<p>百度百科里对格局的定义是这样的：</p>
-<blockquote>
-<p>格局，格是指以时间为格，局是指时间格子内所做事情以及事情的结果，合起来称之为格局。不同的人，在同一时间内所做的事情以及事情的结果不一样，所以说不同的人，格局不一样。<br>局势、态势的理解和把握。即一个人对事物所处的位置（时间和空间）及未来的变化的认知程度。</p>
-</blockquote>
-<p>说白了，就是要在不同的阶段做正确的事情。比如指挥战斗的将领，要运筹帷幄而决胜千里之外，比如政客，要懂得审时度势。</p>
-<p>格局对一个人的影响如此重要，怎么提高自己的格局？为什么古时那些出生名门望族的子弟的格局基本都高于汲汲营营的底层百姓（现在其实也差不多）？为什么现在我们都逃出内陆，涌向沿海，逃出中国，涌向海外？除了外面的月亮比较圆、月饼更少添加剂以外，还因为我们都知道，视野对于格局的锻炼是非常重要的。</p>
-<blockquote>
-<p>You are what you read</p>
-</blockquote>
-<p>如果别人说：我吃过的盐比你走的路还多，我总是经不住想，你口味挺重的啊。但其实阅历对人的格局影响也是非常重要的。都说：</p>
-<blockquote>
-<p>要么读书要么旅行灵魂和身体必须有一个在路上</p>
-</blockquote>
-<p>阅历的增长，其实就是一个持续的“在路上“的过程。只有经历过类似的东西，当面对貌似熟悉的事物时，我们已收集的信息才有能力支撑起足够的信心去面对它。</p>
-<h2 id="回到买房"><a href="#回到买房" class="headerlink" title="回到买房"></a>回到买房</h2><p>为什么即使在家人、同事的提醒下，我还是没动买房的心思？而同事却抓住了这个机遇？</p>
-<p>其实是我那时一门心思花在工作和能力提升上，总觉得个人能力才是“硬通货”。这想法没错，刚毕业的小年轻本来就没太多资产，当务之急还是以工作技能为重。但就像格局的定义一样，在不同的阶段应该做不同的但正确的事情。对工作5年的我来说，还有更紧迫的事情。</p>
-<p>同事从深圳过来，他经历过深圳房价腾飞的阶段，错过绝好的投资机会让他对投资理财有了更深刻的理解，而这时我们还是算计着网贷的收益要选8.1％还是9.3％的。</p>
-<p>所以，其实我们都会经历过一些同样的阶段，还是那句老话：吃一堑，长一智。</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1617,7 +1623,7 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
