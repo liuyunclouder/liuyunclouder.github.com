@@ -311,10 +311,10 @@
           
             <p>用Docker已经有段时间了，积累了一些常用命令，记录一下</p>
 <h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><pre><code>docker run -it lingwu/kafka
-</code></pre><h4 id="启动并进入容器控制台"><a href="#启动并进入容器控制台" class="headerlink" title="启动并进入容器控制台"></a>启动并进入容器控制台</h4><pre><code>docker run -it --rm -v /Users/ezio/docker_volume/webapp:/webapp -p 3000:80 webapp sh
-</code></pre><h4 id="以后台进程启动"><a href="#以后台进程启动" class="headerlink" title="以后台进程启动"></a>以后台进程启动</h4><pre><code>docker run -d -v /Users/ezio/docker_volume/webapp:/webapp -p 3000:80 webapp
+</code></pre><h3 id="启动并进入容器控制台"><a href="#启动并进入容器控制台" class="headerlink" title="启动并进入容器控制台"></a>启动并进入容器控制台</h3><pre><code>docker run -it --rm -v /Users/ezio/docker_volume/webapp:/webapp -p 3000:80 webapp sh
+</code></pre><h3 id="以后台进程启动"><a href="#以后台进程启动" class="headerlink" title="以后台进程启动"></a>以后台进程启动</h3><pre><code>docker run -d -v /Users/ezio/docker_volume/webapp:/webapp -p 3000:80 webapp
 </code></pre><h2 id="查看正在运行的容器"><a href="#查看正在运行的容器" class="headerlink" title="查看正在运行的容器"></a>查看正在运行的容器</h2><pre><code>docker ps
-</code></pre><h4 id="查看所有容器（运行中和已停止）"><a href="#查看所有容器（运行中和已停止）" class="headerlink" title="查看所有容器（运行中和已停止）"></a>查看所有容器（运行中和已停止）</h4><pre><code>docker ps -a
+</code></pre><h3 id="查看所有容器（运行中和已停止）"><a href="#查看所有容器（运行中和已停止）" class="headerlink" title="查看所有容器（运行中和已停止）"></a>查看所有容器（运行中和已停止）</h3><pre><code>docker ps -a
 </code></pre><h2 id="查看容器中的进程信息"><a href="#查看容器中的进程信息" class="headerlink" title="查看容器中的进程信息"></a>查看容器中的进程信息</h2><pre><code>docker top es
 </code></pre><h2 id="查看端口映射"><a href="#查看端口映射" class="headerlink" title="查看端口映射"></a>查看端口映射</h2><pre><code>docker port 9b7bb332ab88
 </code></pre><h2 id="查看log"><a href="#查看log" class="headerlink" title="查看log"></a>查看log</h2><pre><code>docker logs 9b7bb332ab88
@@ -322,7 +322,7 @@
 </code></pre><h2 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h2><pre><code>docker stop 9b7bb332ab88
 </code></pre><h2 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h2><pre><code>docker start 9b7bb332ab88
 </code></pre><h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><pre><code>docker rm 9b7bb332ab88
-</code></pre><h4 id="删除所有容器"><a href="#删除所有容器" class="headerlink" title="删除所有容器"></a>删除所有容器</h4><pre><code>docker rm docker ps -qa
+</code></pre><h3 id="删除所有容器"><a href="#删除所有容器" class="headerlink" title="删除所有容器"></a>删除所有容器</h3><pre><code>docker rm docker ps -qa
 </code></pre><h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><pre><code>docker rmi webapp
 </code></pre><h2 id="从容器生成镜像"><a href="#从容器生成镜像" class="headerlink" title="从容器生成镜像"></a>从容器生成镜像</h2><pre><code>docker commit -a 作者名字 -m 提交原因 容器ID 镜像名称:版本号 
 docker commit -a &quot;lingwu&quot; -m &quot;added vim&quot; 13d26d692be1 lingwu/kafka:v1 
