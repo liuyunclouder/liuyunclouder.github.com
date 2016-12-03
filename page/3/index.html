@@ -259,6 +259,157 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/08/排查实时tail功能cpu占用过高问题/" itemprop="url">
+                  排查实时tail功能cpu占用过高问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-08T20:00:00+08:00" content="2016-04-08">
+              2016-04-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/08/排查实时tail功能cpu占用过高问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/08/排查实时tail功能cpu占用过高问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="白日惊雷"><a href="#白日惊雷" class="headerlink" title="白日惊雷"></a>白日惊雷</h3><p>“你的python应用cpu占用快90%了！！！”，良哥朝我眨了眨布满血丝的眼睛<br>“不会吧”，我心想：我这是好的啊</p>
+<blockquote>
+<p>没接触过kafka的同学可以先了解下：(<a href="">http://www.jasongj.com/2015/03/10/KafkaColumn1/</a>)</p>
+</blockquote>
+<h3 id="疑云重重"><a href="#疑云重重" class="headerlink" title="疑云重重"></a>疑云重重</h3><p>SSH到远程机器上，运行top命令看一下，果然平常4%不到的cpu占用，现在飙升到90%左右了。</p>
+<p>这是一个简单的应用：server端从kafka读消息，通过websocket发送到client端，整个server端代码也就几百行。</p>
+<p> <img src="/images/livetail_architecture.png" alt=""></p>
+<p>那就直接看代码吧。</p>
+<p>由于线上环境的kafka没有开放端口，我是在本地搭的kafka环境，所以为了快速开发，就在server端直接写了一个kafka生产者，向kafka提交消息。因此，</p>
+<p>猜想1: 难道是不小心把kafka生产者的代码也提交上去了？<br>check最新代码，生产者的代码明显被注释掉了，并没生效。</p>
+<p>猜想2:websocket与server端链接太多了？<br>不可能，这个功能目前还没开始公测，而且只有这一个server cpu占比过高。</p>
+<p>那还是server和kafka之间出现了问题。</p>
+<h3 id="初现端倪"><a href="#初现端倪" class="headerlink" title="初现端倪"></a>初现端倪</h3><p>server端会在每个请求到来时创建一个websocket连接，同时创建一个kafka消费者线程，用来监听特定topic的消息。</p>
+<p>client端与server端的websocket会在用户刷新页面或者关闭页面时断开连接，这个不会有问题。那问题有可能出在：创建的kafka消费者线程没有正确地退出。</p>
+<p>每个python线程会有一个daemon属性，默认为False。python主线程会在所有daemon为False的线程退出后才终止，而daemon为True的线程（也就是后台线程）会在主线程退出时一起退出。</p>
+<p>所以无论如何，每次发布时都是重启整个进程，不会有资源回收失败的问题。</p>
+<p>那就是在server运行时创建了过多的kafka消费者线程。</p>
+<p>验证一下，打开pycharm的并发状态检测开关并启动server，新开一个页面，连续刷新几次，pycharm里就可以看到刚才创建的线程活的好好的！！！</p>
+<p> <img src="/images/concurrent_thread.png" alt=""></p>
+<p> <img src="http://img4.imgtn.bdimg.com/it/u=157241173,3207275343&amp;fm=21&amp;gp=0.jpg" alt=""></p>
+<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>那来看看kafka消费者线程在干什么。</p>
+<p>kafka消费者线程负责：</p>
+<p>连接kafka<br>获取消息<br>向websocket连接写入消息</p>
+<p>祭出debug神器：<strong>断点</strong></p>
+<p>根据多年打断点的经验，果断滴选择了“获取消息”。</p>
+<p>经过一段时间的调试，原来是kafka-python从kafka获取消息时会进入无限while循环，从而阻塞线程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然弄明白了问题的来龙去脉，解决起来就容易了。</p>
+<p>首先看kaka-python有没有异步api，在官方文档里找了一圈，并没有，最后发现</p>
+<p>  <img src="/images/kafka_python_config.png" alt=""></p>
+<p>，利用异常我们可以跳出while循环，从而有机会结束当前线程。大致代码如下：</p>
+<pre><code>class ConsumerThread(Threading.thread):
+    ...
+
+    def fetchMsg(self):
+        for message in self.consumer:
+
+            if self.stopThread:
+                break
+
+                message_value = message.value
+
+                socket.pubsub(message_value)
+
+            else:
+
+                logger.error(&apos;consumer timeout&apos;)
+
+                if not self.stopThread:
+                    self.fetchMsg()
+                else:
+                    self.consumer.close()
+</code></pre><h3 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h3><p>连接kafka的kafka-python竟然没做成事件驱动，反而是阻塞式，这不明显是挖坑让人跳么？</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/20/定时爬虫抓当日免费应用/" itemprop="url">
                   定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
                 </a>
@@ -418,7 +569,7 @@ def showMsg(self, msg):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
