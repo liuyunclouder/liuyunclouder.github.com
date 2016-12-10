@@ -344,8 +344,10 @@
 <p>我们现在的framework包含了3种架构指令，armv7、armv7s、arm64，这些都是iOS系统使用的架构，macbook等macOS系统是无法使用这个framework的，这就导致开发者目前是无法用这个framework在模拟器上调试。</p>
 <p>因此，我们需要再添加i386和x86_64这两种桌面端系统使用的架构。我们可以单独编译这两个架构，然后用lipo命令手工合成，但xcode提供了一个更好的方案。<br><img src="http://d.pr/i/1MV1+" alt=""></p>
 <p>选中刚创建的DTTrackerCombiner，在Build Phase下添加一个执行脚本：<br><img src="http://d.pr/i/mnl0+" alt=""></p>
-<p>脚本内容：<br>    set -e</p>
-<pre><code>UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
+<p>脚本内容：</p>
+<pre><code>set -e
+
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
 
 
 mkdir -p &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;

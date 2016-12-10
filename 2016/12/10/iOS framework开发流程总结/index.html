@@ -111,7 +111,7 @@ framework和.aiOS一直只对用户开放静态库，直到iOS8用户才能用�
 <meta property="og:image" content="http://d.pr/i/1lCdb+">
 <meta property="og:image" content="http://d.pr/i/tFih+">
 <meta property="og:image" content="http://d.pr/i/DL24+">
-<meta property="og:updated_time" content="2016-12-10T15:23:39.000Z">
+<meta property="og:updated_time" content="2016-12-10T15:32:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS framework开发流程总结">
 <meta name="twitter:description" content="最近在做一个iOS的统计SDK，需要从零开始做一个framework，同时为了方便开发，花了点时间折腾，于是顺便总结一下iOS framework的开发流程，不同的Xcode版本流程会有些小区别，以下使用的是7.3.1。
@@ -366,8 +366,10 @@ framework和.aiOS一直只对用户开放静态库，直到iOS8用户才能用�
 <p>我们现在的framework包含了3种架构指令，armv7、armv7s、arm64，这些都是iOS系统使用的架构，macbook等macOS系统是无法使用这个framework的，这就导致开发者目前是无法用这个framework在模拟器上调试。</p>
 <p>因此，我们需要再添加i386和x86_64这两种桌面端系统使用的架构。我们可以单独编译这两个架构，然后用lipo命令手工合成，但xcode提供了一个更好的方案。<br><img src="http://d.pr/i/1MV1+" alt=""></p>
 <p>选中刚创建的DTTrackerCombiner，在Build Phase下添加一个执行脚本：<br><img src="http://d.pr/i/mnl0+" alt=""></p>
-<p>脚本内容：<br>    set -e</p>
-<pre><code>UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
+<p>脚本内容：</p>
+<pre><code>set -e
+
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
 
 
 mkdir -p &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;
