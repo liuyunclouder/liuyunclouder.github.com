@@ -318,8 +318,8 @@
 <p>填好framework名称，确定，就生成了一个完整的framework工程：<br><img src="http://d.pr/i/G4WS+" alt=""></p>
 <p>运行一下，红色的framework就变黑，说明framework已经生成了。但这个framework并不是我们想要的<br><img src="http://d.pr/i/vbRS+" alt=""></p>
 <p>这个framework只有arm7和arm64两种架构的指令内容，如果直接发布这个framework，开发者将无法在模拟器上编译，后续我们会说到多架构指令的必要。另外，这是一个动态库，我们需要的是静态库。</p>
-<p>在Build Setting里设置以下几个参数<br><img src="http://d.pr/i/CATu+" alt=""><br><img src="http://d.pr/i/13OyS+" alt=""><br><img src="http://d.pr/i/w95z+" alt=""></p>
-<p>Architectures：包含哪些架构指令，这里我们需要添加armv7s架构<br>Build Active Architecture Only：是否只为当前架构编译<br>Dead Code Stripping：是否从framework中删除未使用的代码<br>Link With Standard Libraries：是否链接苹果标准库<br>Mach-O Type：这里有好几种类型，我们需要选中static library<br>Other Linker Flags：链接参数，如果framework中使用了category，最好加上ObjC、all_load，确保运行时系统会加载其中的category<br>Other C Flags：额外的C语言链接参数，如果需要支持bitcode，需要加上-fembed-bitcode</p>
+<p>在Build Setting里设置以下几个参数<br><img src="http://d.pr/i/CATu+" alt=""><br><img src="http://d.pr/i/13OyS+" alt=""><br><img src="http://d.pr/i/w95z+" alt=""><br><img src="http://d.pr/i/fJqs+" alt=""></p>
+<p>Architectures：包含哪些架构指令，这里我们需要添加armv7s架构<br>Build Active Architecture Only：是否只为当前架构编译<br>Dead Code Stripping：是否从framework中删除未使用的代码<br>Link With Standard Libraries：是否链接苹果标准库<br>Mach-O Type：这里有好几种类型，我们需要选中static library<br>Other Linker Flags：链接参数，如果framework中使用了category，最好加上ObjC、all_load，确保运行时系统会加载其中的category<br>Other C Flags：额外的C语言链接参数，如果需要支持bitcode，需要加上-fembed-bitcode<br>Generate Debug Symbols：生成Debug符号，设为Yes，这样作为依赖工程时断点才会生效</p>
 <p>重新编译运行：<br><img src="http://d.pr/i/xx82+" alt=""></p>
 <p>这离我们想要的framework不远了。</p>
 <p>另外，我们新建一个类，毕竟，我们要做一个统计SDK</p>
