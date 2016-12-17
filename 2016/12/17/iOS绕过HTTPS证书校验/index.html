@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://d.pr/i/eMcv+">
 <meta property="og:image" content="http://d.pr/i/AFoF+">
 <meta property="og:image" content="http://d.pr/i/Ik26+">
-<meta property="og:updated_time" content="2016-12-17T10:46:35.000Z">
+<meta property="og:updated_time" content="2016-12-17T10:54:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS绕过HTTPS证书校验">
 <meta name="twitter:description" content="iOS开发中使用的通信协议，除了聊天和物联网相关的APP可能会用到XMPP和MQTT，剩下的应用通常都只会用到HTTP和HTTPS这两种协议，而由于ATS的限制，iOS默认都是实用HTTPS，除非修改项目的info.plist：
@@ -319,9 +319,14 @@
 <li>接到证书的客户端可使用数字证书认证机构的公开密钥，对那张证书上的数字签名进行验证，一旦验证通过，客户端便可明确两件事：一，认证服务器的公开密钥的是真实有效的数字证书认证机构。二，服务器的公开密钥是值得信赖的。 </li>
 <li>此处认证机关的公开密钥必须安全地转交给客户端。使用通信方式时，如何安全转交是一件很困难的事。因此，多数浏览器开发商发布版本时，会事先在内部植入常用认证机关的公开密钥。  </li>
 </ol>
-<p>而通常在开发环境中服务端会使用自签名证书，或者即使在生产环境中可能也会使用免费的证书，这些证书的认证机构可信度通常低于那些收费的大型认证机构，这样，在步骤3的时候客户端对证书的认证可能就失败了。最近在开发公司的iOS SDK就碰到这个问题，直接调用HTTPS接口会报错：<br>    HTTP load failed (kCFStreamErrorDomainSSL, -9843)</p>
-<p>明白了原理后，解决方案就简单了，只需要客户端在校验时对使用的域名设置白名单就行了，以下是使用NSURLSession时需要在delegate上做的修改：<br>    NSURLSessionConfiguration <em>sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];<br>    NSURLSession </em>session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];</p>
-<pre><code>- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
+<p>而通常在开发环境中服务端会使用自签名证书，或者即使在生产环境中可能也会使用免费的证书，这些证书的认证机构可信度通常低于那些收费的大型认证机构，这样，在步骤3的时候客户端对证书的认证可能就失败了。最近在开发公司的iOS SDK就碰到这个问题，直接调用HTTPS接口会报错：</p>
+<pre><code>HTTP load failed (kCFStreamErrorDomainSSL, -9843)
+</code></pre><p>明白了原理后，解决方案就简单了，只需要客户端在校验时对使用的域名设置白名单就行了，以下是使用NSURLSession时需要在delegate上做的修改：</p>
+<pre><code>NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
+
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
     if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
         if([challenge.protectionSpace.host isEqualToString:@&quot;recvapi.log.dtstack.com&quot;]){
             NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
@@ -333,13 +338,18 @@
 }
 </code></pre><p>这样就可以解决开发时的证书校验失败的问题。</p>
 <p>但这只限于开发阶段，治标不治本，不能在生产环境下使用，要想治本，最好还是更换服务器证书，找个可信度高的大型认证机构重新弄份证书。</p>
-<p>服务端更换证书也简单，以Nginx为例，拿到证书后，修改Nginx的配置：<br>    server {<br>        listen 443 ssl;<br>        server_name example.com;</p>
-<pre><code>    ssl on;
+<p>服务端更换证书也简单，以Nginx为例，拿到证书后，修改Nginx的配置：</p>
+<pre><code>server { 
+    listen 443 ssl;
+    server_name example.com;
+
+    ssl on;
     ssl_certificate /etc/ssl/private/example_com.crt;
     ssl_certificate_key /etc/ssl/private/example_com.key;
 }
-</code></pre><p>然后重启服务就行了：<br>    nginx -t &amp;&amp; nginx -s reload</p>
-
+</code></pre><p>然后重启服务就行了：</p>
+<pre><code>nginx -t &amp;&amp; nginx -s reload
+</code></pre>
       
     </div>
     
