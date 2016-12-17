@@ -80,23 +80,23 @@
 
 
 
-<meta name="description" content="作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。
-Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展">
+<meta name="description" content="iOS开发中使用的通信协议，除了聊天和物联网相关的APP可能会用到XMPP和MQTT，剩下的应用通常都只会用到HTTP和HTTPS这两种协议，而由于ATS的限制，iOS默认都是实用HTTPS，除非修改项目的info.plist：
+对于HTTPS，熟悉HTTPS协议的人都知道，HTTPS基本上就是在HTTP协议的基础上加了一层SSL/TLS加密协议，这层加密协议在建立通信时除了HTTP本身的3次">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Popclip的JSON格式化扩展">
-<meta property="og:url" content="http://yoursite.com/2016/09/29/JSONizer：Popclip的JSON格式化扩展/index.html">
+<meta property="og:title" content="iOS绕过HTTPS证书校验">
+<meta property="og:url" content="http://yoursite.com/2016/12/17/iOS绕过HTTPS证书校验/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。
-Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展">
-<meta property="og:image" content="http://d.pr/i/sfTc+">
-<meta property="og:image" content="http://d.pr/i/V4JL+">
-<meta property="og:image" content="http://d.pr/i/hLal+">
-<meta property="og:updated_time" content="2016-11-07T09:12:23.000Z">
+<meta property="og:description" content="iOS开发中使用的通信协议，除了聊天和物联网相关的APP可能会用到XMPP和MQTT，剩下的应用通常都只会用到HTTP和HTTPS这两种协议，而由于ATS的限制，iOS默认都是实用HTTPS，除非修改项目的info.plist：
+对于HTTPS，熟悉HTTPS协议的人都知道，HTTPS基本上就是在HTTP协议的基础上加了一层SSL/TLS加密协议，这层加密协议在建立通信时除了HTTP本身的3次">
+<meta property="og:image" content="http://d.pr/i/eMcv+">
+<meta property="og:image" content="http://d.pr/i/AFoF+">
+<meta property="og:image" content="http://d.pr/i/Ik26+">
+<meta property="og:updated_time" content="2016-12-17T10:46:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Popclip的JSON格式化扩展">
-<meta name="twitter:description" content="作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。
-Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展">
-<meta name="twitter:image" content="http://d.pr/i/sfTc+">
+<meta name="twitter:title" content="iOS绕过HTTPS证书校验">
+<meta name="twitter:description" content="iOS开发中使用的通信协议，除了聊天和物联网相关的APP可能会用到XMPP和MQTT，剩下的应用通常都只会用到HTTP和HTTPS这两种协议，而由于ATS的限制，iOS默认都是实用HTTPS，除非修改项目的info.plist：
+对于HTTPS，熟悉HTTPS协议的人都知道，HTTPS基本上就是在HTTP协议的基础上加了一层SSL/TLS加密协议，这层加密协议在建立通信时除了HTTP本身的3次">
+<meta name="twitter:image" content="http://d.pr/i/eMcv+">
 
 
 
@@ -114,7 +114,7 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
   };
 </script>
 
-  <title> Popclip的JSON格式化扩展 | Ezio's Blog </title>
+  <title> iOS绕过HTTPS证书校验 | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -264,7 +264,7 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
             
             
               
-                Popclip的JSON格式化扩展
+                iOS绕过HTTPS证书校验
               
             
           </h1>
@@ -276,8 +276,8 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-29T20:00:00+08:00" content="2016-09-29">
-              2016-09-29
+            <time itemprop="dateCreated" datetime="2016-12-17T20:00:00+08:00" content="2016-12-17">
+              2016-12-17
             </time>
           </span>
 
@@ -287,8 +287,8 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/29/JSONizer：Popclip的JSON格式化扩展/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/29/JSONizer：Popclip的JSON格式化扩展/" itemprop="commentsCount"></span>
+                <a href="/2016/12/17/iOS绕过HTTPS证书校验/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/17/iOS绕过HTTPS证书校验/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,21 +310,35 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
       
 
       
-        <p>作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。</p>
-<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。</p>
-<p>这是我的Popclip扩展：<br><img src="http://d.pr/i/sfTc+" alt=""></p>
-<p>如果你还没装Popclip，马上停下来，去安装一个，再继续看下去；</p>
-<p>如果你不知道Popclip是什么，马上停下来，去看下这篇<a href="http://sspai.com/25483" target="_blank" rel="external">测评</a>，再继续看下去。</p>
-<h2 id="JSONizer的来由"><a href="#JSONizer的来由" class="headerlink" title="JSONizer的来由"></a>JSONizer的来由</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
-<p>后来改用sublime的插件CodeFormatter，也能比较方便地快速格式化，但还是有个点让我不开心：CodeFormatter要求必须先把需要格式化的内容保存在一个后缀为.json的文件中，才能识别并格式化。</p>
-<p>由于用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
-<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
-<p>Popclip的扩展没有Alfred的workflow能提供的功能多而复杂，相应地也容易上手。参照<a href="http://computers.tutsplus.com/tutorials/popclip-scripting-extensions--mac-55842" target="_blank" rel="external">TUTS</a>上的这篇教程，几分钟就搞定了大致框架。</p>
-<p>接下来就简单了，把依赖的几个lib依赖配好，基本文件布局如下：<br><img src="http://d.pr/i/V4JL+" alt=""></p>
-<p>注：editorconfig、six.py是jsbeautifier的依赖项。</p>
-<p>最后，测试效果完美：<br><img src="http://d.pr/i/hLal+" alt=""></p>
-<p><a href="https://github.com/liuyunclouder/popclip_extension" target="_blank" rel="external"> 下载入口 </a>，希望能帮到需要的朋友。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，需要先将需要格式化的内容拷贝到编辑器中，然后再选中才能格式化。其实还能改进一下，不需要拷贝，直接在内容来源上，比如浏览器中，选中需要格式化的字符并格式化，直接把格式化后的内容写入系统剪贴板。后续有时间可以研究下。</p>
+        <p>　　iOS开发中使用的通信协议，除了聊天和物联网相关的APP可能会用到XMPP和MQTT，剩下的应用通常都只会用到HTTP和HTTPS这两种协议，而由于ATS的限制，iOS默认都是实用HTTPS，除非修改项目的info.plist：<br><img src="http://d.pr/i/eMcv+" alt=""></p>
+<p>对于HTTPS，熟悉HTTPS协议的人都知道，HTTPS基本上就是在HTTP协议的基础上加了一层SSL/TLS加密协议，这层加密协议在建立通信时除了HTTP本身的3次握手外，还会再经历额外的身份校验、数据加解密过程：<br><img src="http://d.pr/i/AFoF+" alt=""></p>
+<p>这些过程中会混合使用非对称加密、对称加密、证书校验和数字签名等手段，其中证书校验的过程：<br><img src="http://d.pr/i/Ik26+" alt=""></p>
+<ol>
+<li>首先，服务器的运营人员向数字证书认证机构提出公开密钥的申请。数字证书认证机构在判明提出申请者的身份之后，会对已申请的公开密钥做数字签名，然后分配这个已签名的公开密钥，并将该公开密钥放入公钥证书后绑定在一起。</li>
+<li>服务器会将这份由数字证书认证机构颁发的公钥证书发送给客户端，以进行公开密钥加密方式通信。公钥证书也可叫做数字证书或直接称为证书。</li>
+<li>接到证书的客户端可使用数字证书认证机构的公开密钥，对那张证书上的数字签名进行验证，一旦验证通过，客户端便可明确两件事：一，认证服务器的公开密钥的是真实有效的数字证书认证机构。二，服务器的公开密钥是值得信赖的。 </li>
+<li>此处认证机关的公开密钥必须安全地转交给客户端。使用通信方式时，如何安全转交是一件很困难的事。因此，多数浏览器开发商发布版本时，会事先在内部植入常用认证机关的公开密钥。  </li>
+</ol>
+<p>而通常在开发环境中服务端会使用自签名证书，或者即使在生产环境中可能也会使用免费的证书，这些证书的认证机构可信度通常低于那些收费的大型认证机构，这样，在步骤3的时候客户端对证书的认证可能就失败了。最近在开发公司的iOS SDK就碰到这个问题，直接调用HTTPS接口会报错：<br>    HTTP load failed (kCFStreamErrorDomainSSL, -9843)</p>
+<p>明白了原理后，解决方案就简单了，只需要客户端在校验时对使用的域名设置白名单就行了，以下是使用NSURLSession时需要在delegate上做的修改：<br>    NSURLSessionConfiguration <em>sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];<br>    NSURLSession </em>session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];</p>
+<pre><code>- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
+    if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
+        if([challenge.protectionSpace.host isEqualToString:@&quot;recvapi.log.dtstack.com&quot;]){
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+        } else {
+            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
+        }
+    }
+}
+</code></pre><p>这样就可以解决开发时的证书校验失败的问题。</p>
+<p>但这只限于开发阶段，治标不治本，不能在生产环境下使用，要想治本，最好还是更换服务器证书，找个可信度高的大型认证机构重新弄份证书。</p>
+<p>服务端更换证书也简单，以Nginx为例，拿到证书后，修改Nginx的配置：<br>    server {<br>        listen 443 ssl;<br>        server_name example.com;</p>
+<pre><code>    ssl on;
+    ssl_certificate /etc/ssl/private/example_com.crt;
+    ssl_certificate_key /etc/ssl/private/example_com.key;
+}
+</code></pre><p>然后重启服务就行了：<br>    nginx -t &amp;&amp; nginx -s reload</p>
 
       
     </div>
@@ -369,17 +383,13 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/25/格局/" rel="next" title="格局">
-                <i class="fa fa-chevron-left"></i> 格局
+              <a href="/2016/12/10/iOS framework开发流程总结/" rel="next" title="iOS framework开发流程总结">
+                <i class="fa fa-chevron-left"></i> iOS framework开发流程总结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/03/沟通是一种重要能力/" rel="prev" title="沟通是一种重要能力">
-                沟通是一种重要能力 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -428,8 +438,8 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/29/JSONizer：Popclip的JSON格式化扩展/"
-           data-title="Popclip的JSON格式化扩展" data-url="http://yoursite.com/2016/09/29/JSONizer：Popclip的JSON格式化扩展/">
+      <div class="ds-thread" data-thread-key="2016/12/17/iOS绕过HTTPS证书校验/"
+           data-title="iOS绕过HTTPS证书校验" data-url="http://yoursite.com/2016/12/17/iOS绕过HTTPS证书校验/">
       </div>
     
   </div>
@@ -508,7 +518,7 @@ Popclip？简单来说，Popclip就是一个对选中的内容作快速处理的
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Popclip？"><span class="nav-number">1.</span> <span class="nav-text">Popclip？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSONizer的来由"><span class="nav-number">2.</span> <span class="nav-text">JSONizer的来由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动手"><span class="nav-number">3.</span> <span class="nav-text">动手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
             
           </div>
         </section>

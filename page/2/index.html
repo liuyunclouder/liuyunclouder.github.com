@@ -259,6 +259,175 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/15/回放机制/" itemprop="url">
+                  回放机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-15T20:00:00+08:00" content="2016-10-15">
+              2016-10-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/15/回放机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/15/回放机制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近把《深入理解计算机系统》又看了一遍，除了复习了下编译链接和存储系统的知识外，还注意到一个很有意思的点：一个通用的回放机制。</p>
+<h3 id="系统底层的回放机制：换页"><a href="#系统底层的回放机制：换页" class="headerlink" title="系统底层的回放机制：换页"></a>系统底层的回放机制：换页</h3><p><img src="http://d.pr/i/6hPB+" alt=""><br>计算机处于平衡读写速度和存储容量的目的，把存储划分为类似金字塔的各个层次，每一层都可以看作是对下层的缓存，这样，存储系统利用程序的时间和空间局部性，在能提供足够的容量的前提下也能保持高速的读写速度。</p>
+<p>其中，操作系统会把内存和磁盘看做一个整体：虚拟内存。用户空间下的内存读写不会直接操作物理内存，而是通过虚拟内存来管理的。虚拟内存会根据需要在物理内存和磁盘中做不同的操作。</p>
+<p>另外，出于节省物理内存以便同时运行多个任务的目的，操作系统在加载程序创建进程的时候不会把整个程序一次性都加载到物理内存中，而是只加载当前需要的一部分。于是，当需要读取的数据还没加载到物理内存中，操作系统就需要提供一套机制来尽快把需要的数据从磁盘加载到物理内存中。</p>
+<p>这套机制就叫做换页（paging），而需要读取的数据还没加载到物理内存这种情况就叫做缺页。</p>
+<p>当发生缺页时，也就是CPU发送的内存读写指令发现要读写的内存地址不在物理内存中，会出发一个异常而进入一个内核的异常处理流程：系统会把暂时不需要的物理内存中的数据存入磁盘，把目的内存地址所在的页（操作系统一般把大小为4K的内存数据划分为一页）加载进内存，同时会<em>重新执行之前CPU发送的内存读写指令</em>，这时需要的内存数据就已经在物理内存中了，同时相邻的内存数据也可以直接读取了。</p>
+<p>“重新执行执行之前CPU发送的内存读写指令”。同样，OC也有类似的回放机制。</p>
+<h3 id="OC-runtime的回放机制：消息发送"><a href="#OC-runtime的回放机制：消息发送" class="headerlink" title="OC runtime的回放机制：消息发送"></a>OC runtime的回放机制：消息发送</h3><p>OC 的runtime是这门语言的精髓，各种特性都离不开runtime。其中，runtime中的消息发送也有类似的回放机制。</p>
+<p>当执行</p>
+<pre><code>@interface EZObject : NSObject
+@end
+
+@implementation EZObject
+static void lightup_imp(id self, SEL sel) {
+    NSLog(@&quot;it&apos;s on fire!&quot;);
+}
+
++ (BOOL)resolveInstanceMethod:(SEL)sel {
+    if ([NSStringFromSelector(sel) isEqualToString:@&quot;lightup&quot;]) {
+        class_addMethod([self class], sel, (IMP)lightup_imp, &quot;v@:&quot;);
+    }
+
+    return true;
+}
+
+@end
+
+EZObject *ez_instance = [[EZObject alloc] init];
+SEL lightup_sel = NSSelectorFromString(@&quot;lightup&quot;);
+[ez_instance performSelector:lightup_sel];
+</code></pre><p>时，无论是在EZObject还是NSObject，无论是类的cache还是method_list中都找不到lightup的实现，OC会调用EZObject的resolveInstanceMethod方法，来再次确认是否可以找出该方法，于是这里也就提供了一个机会让我们可以利用runtime的class_addMethod来创建一个OC的方法，创建好之后告诉OC现在有了light方法，于是OC<em> 再次向ez_instance发送lightup消息</em>，这次就可以成功找到并调用该方法了。</p>
+<p>具体的实现由于NSObject所在的Foundation框架并没有开源，并不能确定，但参考cocoa的开源实现<a href="https://github.com/gnustep/base" target="_blank" rel="external"> GNUStep </a>，可以有一些收获。</p>
+<p>在GSFFIInvocation.m中有这么一段代码：</p>
+<pre><code>/**
+ * Runtime hook used to provide message redirections with libobjc2.
+ * If lookup fails but this function returns non-nil then the lookup
+ * will be retried with the returned value.
+ *
+ * Note: Every message sent by this function MUST be understood by the
+ * receiver.  If this is not the case then there is a potential for infinite
+ * recursion.  
+ */
+static id gs_objc_proxy_lookup(id receiver, SEL op) {
+    id cls = object_getClass(receiver);
+    BOOL resolved = NO;
+
+    /* Note that __GNU_LIBOBJC__ implements +resolveClassMethod: and
+       +resolveInstanceMethod: directly in the runtime instead.  */
+
+    /* Let the class try to add a method for this thing. */
+    if (class_isMetaClass(cls)) {
+        if (class_respondsToSelector(cls, @selector(resolveClassMethod: ))) {
+            resolved = [receiver resolveClassMethod: op];
+        }
+    } else {
+        if (class_respondsToSelector(object_getClass(cls),
+                @selector(resolveInstanceMethod: ))) {
+            resolved = [cls resolveInstanceMethod: op];
+        }
+    }
+    if (resolved) {
+        return receiver;
+    }
+    if (class_respondsToSelector(cls, @selector(forwardingTargetForSelector: ))) {
+        return [receiver forwardingTargetForSelector: op];
+    }
+    return nil;
+}
+</code></pre><p>gs_objc_proxy_lookup函数就是完成方法查询的工作。大致意思就是如果查询失败但返回的是一个非nil对象，那么就会在这个非nil对象上重试查询。这样，就完成了消息发送时的回放机制。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>应用层的很多东西都是从操作系统学习过来的，比如类似kafka和rabbitmq等消息系统，都受到了操作系统的事件通知系统的启发，比如linux的inotify，毕竟普通应用要解决的问题基本上操作系统都已经解决过了，并且经过长时间的优化改进，架构设计都已经足够成熟和优雅，因此，了解底层的操作系统对解决上层应用碰到的问题还是很有帮助的。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/08/iOS面试题/" itemprop="url">
                   iOS面试题
                 </a>
@@ -1434,347 +1603,6 @@ def get_backends():
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/20/Django源码分析之执行入口/" itemprop="url">
-                  Django源码分析之执行入口
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-05-20T20:00:00+08:00" content="2016-05-20">
-              2016-05-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/20/Django源码分析之执行入口/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/Django源码分析之执行入口/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="魔法门"><a href="#魔法门" class="headerlink" title="魔法门"></a>魔法门</h3><p>一般我们启动django，最简单的方法是进入project 目录，这时目录结构是这样的</p>
-<p><img src="/images/django_project.png" alt=""></p>
-<p>然后我们执行python manage.py runserver，程序就开始执行了。</p>
-<p>那django是如何从一个命令就启动整个server，启动的流程是如何的？</p>
-<h3 id="踏门而入"><a href="#踏门而入" class="headerlink" title="踏门而入"></a>踏门而入</h3><p>打开目录下的manage.py，内容是这样的：</p>
-<pre><code>#!/usr/bin/env python
-import os
-import sys
-
-if __name__ == &quot;__main__&quot;:
-    os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;, &quot;django_learning.settings&quot;)
-
-    from django.core.management import execute_from_command_line
-
-    execute_from_command_line(sys.argv)
-</code></pre><p>看来manage.py只是把命令行参数传给django.core.management模块中的execute_from_command_line 函数。</p>
-<p>查看execute_from_command_line函数，可以发现实际执行的是ManagementUtility类的excute方法：</p>
-<pre><code>def execute(self):
-        &quot;&quot;&quot;
-        Given the command-line arguments, this figures out which subcommand is
-        being run, creates a parser appropriate to that command, and runs it.
-        &quot;&quot;&quot;
-        try:
-            subcommand = self.argv[1]
-        except IndexError:
-            subcommand = &apos;help&apos;  # Display help if no arguments were given.
-
-        # Preprocess options to extract --settings and --pythonpath.
-        # These options could affect the commands that are available, so they
-        # must be processed early.
-        parser = CommandParser(None, usage=&quot;%(prog)s subcommand [options] [args]&quot;, add_help=False)
-        parser.add_argument(&apos;--settings&apos;)
-        parser.add_argument(&apos;--pythonpath&apos;)
-        parser.add_argument(&apos;args&apos;, nargs=&apos;*&apos;)  # catch-all
-        try:
-            options, args = parser.parse_known_args(self.argv[2:])
-            handle_default_options(options)
-        except CommandError:
-            pass  # Ignore any option errors at this point.
-
-        no_settings_commands = [
-            &apos;help&apos;, &apos;version&apos;, &apos;--help&apos;, &apos;--version&apos;, &apos;-h&apos;,
-            &apos;compilemessages&apos;, &apos;makemessages&apos;,
-            &apos;startapp&apos;, &apos;startproject&apos;,
-        ]
-
-        try:
-            settings.INSTALLED_APPS
-        except ImproperlyConfigured as exc:
-            self.settings_exception = exc
-            # A handful of built-in management commands work without settings.
-            # Load the default settings -- where INSTALLED_APPS is empty.
-            if subcommand in no_settings_commands:
-                settings.configure()
-
-        if settings.configured:
-            # Start the auto-reloading dev server even if the code is broken.
-            # The hardcoded condition is a code smell but we can&apos;t rely on a
-            # flag on the command class because we haven&apos;t located it yet.
-            if subcommand == &apos;runserver&apos; and &apos;--noreload&apos; not in self.argv:
-                try:
-                    autoreload.check_errors(django.setup)()
-                except Exception:
-                    # The exception will be raised later in the child process
-                    # started by the autoreloader. Pretend it didn&apos;t happen by
-                    # loading an empty list of applications.
-                    apps.all_models = defaultdict(OrderedDict)
-                    apps.app_configs = OrderedDict()
-                    apps.apps_ready = apps.models_ready = apps.ready = True
-
-            # In all other cases, django.setup() is required to succeed.
-            else:
-                django.setup()
-
-        self.autocomplete()
-
-        if subcommand == &apos;help&apos;:
-            if &apos;--commands&apos; in args:
-                sys.stdout.write(self.main_help_text(commands_only=True) + &apos;\n&apos;)
-            elif len(options.args) &lt; 1:
-                sys.stdout.write(self.main_help_text() + &apos;\n&apos;)
-            else:
-                self.fetch_command(options.args[0]).print_help(self.prog_name, options.args[0])
-        # Special-cases: We want &apos;django-admin --version&apos; and
-        # &apos;django-admin --help&apos; to work, for backwards compatibility.
-        elif subcommand == &apos;version&apos; or self.argv[1:] == [&apos;--version&apos;]:
-            sys.stdout.write(django.get_version() + &apos;\n&apos;)
-        elif self.argv[1:] in ([&apos;--help&apos;], [&apos;-h&apos;]):
-            sys.stdout.write(self.main_help_text() + &apos;\n&apos;)
-        else:
-            self.fetch_command(subcommand).run_from_argv(self.argv)
-</code></pre><p>其中</p>
-<pre><code>parser = CommandParser(None, usage=&quot;%(prog)s subcommand [options] [args]&quot;, add_help=False)
-        parser.add_argument(&apos;--settings&apos;)
-        parser.add_argument(&apos;--pythonpath&apos;)
-        parser.add_argument(&apos;args&apos;, nargs=&apos;*&apos;)  # catch-all
-        try:
-            options, args = parser.parse_known_args(self.argv[2:])
-            handle_default_options(options)
-        except CommandError:
-            pass  # Ignore any option errors at this point.
-</code></pre><p>CommandParser其实类似于Argparse的一个解析命令行参数的类，从代码里可以看出我们可以直接在命令行指定settings文件和pythonpath。</p>
-<pre><code>no_settings_commands = [
-            &apos;help&apos;, &apos;version&apos;, &apos;--help&apos;, &apos;--version&apos;, &apos;-h&apos;,
-            &apos;compilemessages&apos;, &apos;makemessages&apos;,
-            &apos;startapp&apos;, &apos;startproject&apos;,
-        ]
-try:
-            settings.INSTALLED_APPS
-except ImproperlyConfigured as exc:
-            self.settings_exception = exc
-            # A handful of built-in management commands work without settings.
-            # Load the default settings -- where INSTALLED_APPS is empty.
-            if subcommand in no_settings_commands:
-                settings.configure()
-</code></pre><p>这块代码就可以解释我们执行python manage.py start project 时django在背后会调用settings.configure方法，这里的settings是指django.conf.LazySettings的一个实例，configure方法其实就是使用django.conf.global_settings.py中的默认设置创建一份新的配置文件，作为我们新创建的project的settings.py</p>
-<pre><code>if settings.configured:
-            # Start the auto-reloading dev server even if the code is broken.
-            # The hardcoded condition is a code smell but we can&apos;t rely on a
-            # flag on the command class because we haven&apos;t located it yet.
-            if subcommand == &apos;runserver&apos; and &apos;--noreload&apos; not in self.argv:
-                try:
-                    autoreload.check_errors(django.setup)()
-                except Exception:
-                    # The exception will be raised later in the child process
-                    # started by the autoreloader. Pretend it didn&apos;t happen by
-                    # loading an empty list of applications.
-                    apps.all_models = defaultdict(OrderedDict)
-                    apps.app_configs = OrderedDict()
-                    apps.apps_ready = apps.models_ready = apps.ready = True
-
-            # In all other cases, django.setup() is required to succeed.
-            else:
-                django.setup()
-</code></pre><p>autoreload.check_errors(django.setup)()其实也是调用django.setup方法，而django.setup方法</p>
-<pre><code>def setup():
-    &quot;&quot;&quot;
-    Configure the settings (this happens as a side effect of accessing the
-    first setting), configure logging and populate the app registry.
-    &quot;&quot;&quot;
-    from django.apps import apps
-    from django.conf import settings
-    from django.utils.log import configure_logging
-
-    configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
-    apps.populate(settings.INSTALLED_APPS)
-</code></pre><p>负责初始化日志模块以及所有应用.</p>
-<h3 id="抽丝剥茧"><a href="#抽丝剥茧" class="headerlink" title="抽丝剥茧"></a>抽丝剥茧</h3><p>剩下的代码最重要的就是这一句：</p>
-<pre><code>self.fetch_command(subcommand).run_from_argv(self.argv)
-</code></pre><p>fetch_command会根据subcommand（这是我们执行python manage.py rumserver时传入的第二个参数：runserver），去django.core.management.commands中查找对应的command类，然后把所有命令行参数传给run_from_argv方法并执行，在runserver这个示例中，最终会调用django.utils.autoreload中的python_reloader或者jython_reloader新开一个线程：</p>
-<pre><code>def python_reloader(main_func, args, kwargs):
-    if os.environ.get(&quot;RUN_MAIN&quot;) == &quot;true&quot;:
-        thread.start_new_thread(main_func, args, kwargs)
-        try:
-            reloader_thread()
-        except KeyboardInterrupt:
-            pass
-    else:
-        try:
-            exit_code = restart_with_reloader()
-            if exit_code &lt; 0:
-                os.kill(os.getpid(), -exit_code)
-            else:
-                sys.exit(exit_code)
-        except KeyboardInterrupt:
-            pass
-</code></pre><p>这里的main_func是commands/runserver.py中的inner_run方法：</p>
-<pre><code>def inner_run(self, *args, **options):
-        # If an exception was silenced in ManagementUtility.execute in order
-        # to be raised in the child process, raise it now.
-        autoreload.raise_last_exception()
-
-        threading = options.get(&apos;use_threading&apos;)
-        shutdown_message = options.get(&apos;shutdown_message&apos;, &apos;&apos;)
-        quit_command = &apos;CTRL-BREAK&apos; if sys.platform == &apos;win32&apos; else &apos;CONTROL-C&apos;
-
-        self.stdout.write(&quot;Performing system checks...\n\n&quot;)
-        self.check(display_num_errors=True)
-        self.check_migrations()
-        now = datetime.now().strftime(&apos;%B %d, %Y - %X&apos;)
-        if six.PY2:
-            now = now.decode(get_system_encoding())
-        self.stdout.write(now)
-        self.stdout.write((
-            &quot;Django version %(version)s, using settings %(settings)r\n&quot;
-            &quot;Starting development server at http://%(addr)s:%(port)s/\n&quot;
-            &quot;Quit the server with %(quit_command)s.\n&quot;
-        ) % {
-            &quot;version&quot;: self.get_version(),
-            &quot;settings&quot;: settings.SETTINGS_MODULE,
-            &quot;addr&quot;: &apos;[%s]&apos; % self.addr if self._raw_ipv6 else self.addr,
-            &quot;port&quot;: self.port,
-            &quot;quit_command&quot;: quit_command,
-        })
-
-        try:
-            handler = self.get_handler(*args, **options)
-            run(self.addr, int(self.port), handler,
-                ipv6=self.use_ipv6, threading=threading)
-        except socket.error as e:
-            # Use helpful error messages instead of ugly tracebacks.
-            ERRORS = {
-                errno.EACCES: &quot;You don&apos;t have permission to access that port.&quot;,
-                errno.EADDRINUSE: &quot;That port is already in use.&quot;,
-                errno.EADDRNOTAVAIL: &quot;That IP address can&apos;t be assigned to.&quot;,
-            }
-            try:
-                error_text = ERRORS[e.errno]
-            except KeyError:
-                error_text = force_text(e)
-            self.stderr.write(&quot;Error: %s&quot; % error_text)
-            # Need to use an OS exit because sys.exit doesn&apos;t work in a thread
-            os._exit(1)
-        except KeyboardInterrupt:
-            if shutdown_message:
-                self.stdout.write(shutdown_message)
-            sys.exit(0)
-</code></pre><p>最关键的是这两条语句：</p>
-<pre><code>handler = self.get_handler(*args, **options)
-run(self.addr, int(self.port), handler,ipv6=self.use_ipv6, threading=threading)
-</code></pre><p>get_handler会返回django.core.servers.basehttp中定义的一个application（其实就是我们project下的wigs.py中定义的application）</p>
-<p>这是run函数的内容</p>
-<pre><code>def run(addr, port, wsgi_handler, ipv6=False, threading=False):
-    server_address = (addr, port)
-    if threading:
-        httpd_cls = type(str(&apos;WSGIServer&apos;), (socketserver.ThreadingMixIn, WSGIServer), {})
-    else:
-        httpd_cls = WSGIServer
-    httpd = httpd_cls(server_address, WSGIRequestHandler, ipv6=ipv6)
-    if threading:
-        # ThreadingMixIn.daemon_threads indicates how threads will behave on an
-        # abrupt shutdown; like quitting the server by the user or restarting
-        # by the auto-reloader. True means the server will not wait for thread
-        # termination before it quits. This will make auto-reloader faster
-        # and will prevent the need to kill the server manually if a thread
-        # isn&apos;t terminating correctly.
-        httpd.daemon_threads = True
-    httpd.set_app(wsgi_handler)
-    httpd.serve_forever()
-</code></pre><p>可以看出run函数其实就是启动一个WSGIServer实例（WSGIServer继承python内置类simple_server.WSGIServer），并把handler设置为前面get_handler的返回值</p>
-<h3 id="水落石出"><a href="#水落石出" class="headerlink" title="水落石出"></a>水落石出</h3><p>这样，一条python manage.py runserver命令的执行生命周期就一览无余了。<br>接下来，server就开始接收请求了。</p>
-<p>_</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1820,7 +1648,7 @@ run(self.addr, int(self.port), handler,ipv6=self.use_ipv6, threading=threading)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
