@@ -82,35 +82,35 @@
 
 <meta name="description" content="记录下C语言中的一些位操作。
 #define BIT_POSITION (1 &amp;lt;&amp;lt; 3)    // 00001000
-为flags设置一个bit 
+为flags设置一个bit：
 flags |= BIT_POSITION; 
-为flags清除一个bit
+为flags清除一个bit：
 flags &amp;amp;= ~BIT_POSITION;
-查看flags是否有某个bit
-if (flags &amp;amp; BIT_POSITION) {     /">
+查看flags是否有某个bit：
+if (flags &amp;amp; BIT_POSITION) {">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言中的位操作">
 <meta property="og:url" content="http://yoursite.com/2016/12/17/C语言中的位操作/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
 <meta property="og:description" content="记录下C语言中的一些位操作。
 #define BIT_POSITION (1 &amp;lt;&amp;lt; 3)    // 00001000
-为flags设置一个bit 
+为flags设置一个bit：
 flags |= BIT_POSITION; 
-为flags清除一个bit
+为flags清除一个bit：
 flags &amp;amp;= ~BIT_POSITION;
-查看flags是否有某个bit
-if (flags &amp;amp; BIT_POSITION) {     /">
-<meta property="og:updated_time" content="2016-12-24T14:15:44.000Z">
+查看flags是否有某个bit：
+if (flags &amp;amp; BIT_POSITION) {">
+<meta property="og:updated_time" content="2016-12-24T14:17:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C语言中的位操作">
 <meta name="twitter:description" content="记录下C语言中的一些位操作。
 #define BIT_POSITION (1 &amp;lt;&amp;lt; 3)    // 00001000
-为flags设置一个bit 
+为flags设置一个bit：
 flags |= BIT_POSITION; 
-为flags清除一个bit
+为flags清除一个bit：
 flags &amp;amp;= ~BIT_POSITION;
-查看flags是否有某个bit
-if (flags &amp;amp; BIT_POSITION) {     /">
+查看flags是否有某个bit：
+if (flags &amp;amp; BIT_POSITION) {">
 
 
 
@@ -326,14 +326,15 @@ if (flags &amp;amp; BIT_POSITION) {     /">
       
         <p>记录下C语言中的一些位操作。</p>
 <pre><code>#define BIT_POSITION (1 &lt;&lt; 3)    // 00001000
-</code></pre><p>为flags设置一个bit </p>
+</code></pre><p>为flags设置一个bit：</p>
 <pre><code>flags |= BIT_POSITION; 
-</code></pre><p>为flags清除一个bit</p>
+</code></pre><p>为flags清除一个bit：</p>
 <pre><code>flags &amp;= ~BIT_POSITION;
-</code></pre><p>查看flags是否有某个bit</p>
+</code></pre><p>查看flags是否有某个bit：</p>
 <pre><code>if (flags &amp; BIT_POSITION) {     // do something }
-</code></pre><p>查看flags是否设置了MULTI_BITS的所有bit<br>    if ((flags &amp; MULTI_BITS) == MULTI_BITS) {     // do something }</p>
-
+</code></pre><p>查看flags是否设置了MULTI_BITS的所有bit：</p>
+<pre><code>if ((flags &amp; MULTI_BITS) == MULTI_BITS) {     // do something }
+</code></pre>
       
     </div>
     

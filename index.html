@@ -311,14 +311,15 @@
           
             <p>记录下C语言中的一些位操作。</p>
 <pre><code>#define BIT_POSITION (1 &lt;&lt; 3)    // 00001000
-</code></pre><p>为flags设置一个bit </p>
+</code></pre><p>为flags设置一个bit：</p>
 <pre><code>flags |= BIT_POSITION; 
-</code></pre><p>为flags清除一个bit</p>
+</code></pre><p>为flags清除一个bit：</p>
 <pre><code>flags &amp;= ~BIT_POSITION;
-</code></pre><p>查看flags是否有某个bit</p>
+</code></pre><p>查看flags是否有某个bit：</p>
 <pre><code>if (flags &amp; BIT_POSITION) {     // do something }
-</code></pre><p>查看flags是否设置了MULTI_BITS的所有bit<br>    if ((flags &amp; MULTI_BITS) == MULTI_BITS) {     // do something }</p>
-
+</code></pre><p>查看flags是否设置了MULTI_BITS的所有bit：</p>
+<pre><code>if ((flags &amp; MULTI_BITS) == MULTI_BITS) {     // do something }
+</code></pre>
           
         
       
