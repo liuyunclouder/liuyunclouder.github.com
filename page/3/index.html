@@ -259,6 +259,241 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/10/Django源码分析之权限系统_ 擒贼先擒王/" itemprop="url">
+                  Django源码分析之权限系统\_ 擒贼先擒王
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T20:00:00+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/Django源码分析之权限系统_ 擒贼先擒王/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/Django源码分析之权限系统_ 擒贼先擒王/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="乍见"><a href="#乍见" class="headerlink" title="乍见"></a>乍见</h3><p>Django内置的权限系统已经很完善了，加上django-guardian提供的功能，基本上能满足大部分的权限需求。暂且不说django-guardian，我们先来看下Django内置的权限系统：django.contrib.auth 包。<br><img src="/images/django_auth_init.png" alt=""></p>
+<h3 id="相识"><a href="#相识" class="headerlink" title="相识"></a>相识</h3><p>一般权限系统分为全局权限和对象权限。Django只提供了一个对象权限的框架，具体实现由第三方库django-gardian完成。我们只看全局权限。</p>
+<p>先来看auth包暴露出哪些接口。</p>
+<p>django.contrib.auth.__init__.py</p>
+<pre><code>def load_backend(path):
+    return import_string(path)()
+
+
+def _get_backends(return_tuples=False):
+    backends = []
+    for backend_path in settings.AUTHENTICATION_BACKENDS:
+        backend = load_backend(backend_path)
+        backends.append((backend, backend_path) if return_tuples else backend)
+    if not backends:
+        raise ImproperlyConfigured(
+            &apos;No authentication backends have been defined. Does &apos;
+            &apos;AUTHENTICATION_BACKENDS contain anything?&apos;
+        )
+    return backends
+
+
+def get_backends():
+    return _get_backends(return_tuples=False)
+</code></pre><p>前三个方法都是为了加载backends。一个backend其实就是一个class，必须实现authenticate和get_user两个方法。每当我们这样验证用户时</p>
+<pre><code>authenticate(username=&apos;username&apos;, password=&apos;password&apos;)
+</code></pre><p>django就会去调用这些backend class，用其提供的方法去验证用户权限。那django是如何知道要调用哪些backend class呢？答案就在settings.py中，默认为</p>
+<pre><code>AUTHENTICATION_BACKENDS = [&apos;django.contrib.auth.backends.ModelBackend&apos;]
+</code></pre><p>那Django是如何调用这些backend class的呢？</p>
+<pre><code>def authenticate(**credentials):
+    &quot;&quot;&quot;
+    If the given credentials are valid, return a User object.
+    &quot;&quot;&quot;
+    for backend, backend_path in _get_backends(return_tuples=True):
+        try:
+            inspect.getcallargs(backend.authenticate, **credentials)
+        except TypeError:
+            # This backend doesn&apos;t accept these credentials as arguments. Try the next one.
+            continue
+
+        try:
+            user = backend.authenticate(**credentials)
+        except PermissionDenied:
+            # This backend says to stop in our tracks - this user should not be allowed in at all.
+            return None
+        if user is None:
+            continue
+        # Annotate the user object with the path of the backend.
+        user.backend = backend_path
+        return user
+
+    # The credentials supplied are invalid to all backends, fire signal
+    user_login_failed.send(sender=__name__,
+            credentials=_clean_credentials(credentials))
+</code></pre><p>由此可见，Django会在第一个验证正确的backend class调用完成后停止，或者碰到PermissionDenied异常也会停止，所以backend class的顺序也很重要。可以添加自定义的backend class。</p>
+<pre><code>def login(request, user):
+    &quot;&quot;&quot;
+    Persist a user id and a backend in the request. This way a user doesn&apos;t
+    have to reauthenticate on every request. Note that data set during
+    the anonymous session is retained when the user logs in.
+    &quot;&quot;&quot;
+    session_auth_hash = &apos;&apos;
+    if user is None:
+        user = request.user
+    if hasattr(user, &apos;get_session_auth_hash&apos;):
+        session_auth_hash = user.get_session_auth_hash()
+
+    if SESSION_KEY in request.session:
+        if _get_user_session_key(request) != user.pk or (
+                session_auth_hash and
+                request.session.get(HASH_SESSION_KEY) != session_auth_hash):
+            # To avoid reusing another user&apos;s session, create a new, empty
+            # session if the existing session corresponds to a different
+            # authenticated user.
+            request.session.flush()
+    else:
+        request.session.cycle_key()
+    request.session[SESSION_KEY] = user._meta.pk.value_to_string(user)
+    request.session[BACKEND_SESSION_KEY] = user.backend
+    request.session[HASH_SESSION_KEY] = session_auth_hash
+    if hasattr(request, &apos;user&apos;):
+        request.user = user
+    rotate_token(request)
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+</code></pre><p>login方法，顾名思义，登录用户，同时设置好session，最后发送登入成功通知</p>
+<pre><code>def logout(request):
+    &quot;&quot;&quot;
+    Removes the authenticated user&apos;s ID from the request and flushes their
+    session data.
+    &quot;&quot;&quot;
+    # Dispatch the signal before the user is logged out so the receivers have a
+    # chance to find out *who* logged out.
+    user = getattr(request, &apos;user&apos;, None)
+    if hasattr(user, &apos;is_authenticated&apos;) and not user.is_authenticated():
+        user = None
+    user_logged_out.send(sender=user.__class__, request=request, user=user)
+
+    # remember language choice saved to session
+    language = request.session.get(LANGUAGE_SESSION_KEY)
+
+    request.session.flush()
+
+    if language is not None:
+        request.session[LANGUAGE_SESSION_KEY] = language
+
+    if hasattr(request, &apos;user&apos;):
+        from django.contrib.auth.models import AnonymousUser
+        request.user = AnonymousUser()
+</code></pre><p>相对的，logout方法，负责登出用户，清理session，最后设置当前用户为匿名用户</p>
+<pre><code>def get_user_model():
+    &quot;&quot;&quot;
+    Returns the User model that is active in this project.
+    &quot;&quot;&quot;
+    try:
+        return django_apps.get_model(settings.AUTH_USER_MODEL)
+    except ValueError:
+        raise ImproperlyConfigured(&quot;AUTH_USER_MODEL must be of the form &apos;app_label.model_name&apos;&quot;)
+    except LookupError:
+        raise ImproperlyConfigured(
+            &quot;AUTH_USER_MODEL refers to model &apos;%s&apos; that has not been installed&quot; % settings.AUTH_USER_MODEL
+        )
+</code></pre><p>Django不推荐直接使用User class，而是通知get_user_model方法获取当前的用户class（或者使用settins.AUTH_USER_MODEL）。这是为了防止因为开发者使用了自定义用户class而导致的信息错误。</p>
+<pre><code>def update_session_auth_hash(request, user):
+    &quot;&quot;&quot;
+    Updating a user&apos;s password logs out all sessions for the user if
+    django.contrib.auth.middleware.SessionAuthenticationMiddleware is enabled.
+
+    This function takes the current request and the updated user object from
+    which the new session hash will be derived and updates the session hash
+    appropriately to prevent a password change from logging out the session
+    from which the password was changed.
+    &quot;&quot;&quot;
+    if hasattr(user, &apos;get_session_auth_hash&apos;) and request.user == user:
+        request.session[HASH_SESSION_KEY] = user.get_session_auth_hash()
+</code></pre><p>最后这个方法的使用场景很少。一般我们更新用户密码时，会在session中清除用户登录信息，导致用户需要重新登录。而使用update_session_auth_hash我们就可以在更新用户密码的同时更新用户的session信息，这样，用户就不需要重新登录了。</p>
+<h3 id="回想"><a href="#回想" class="headerlink" title="回想"></a>回想</h3><p>擒贼先擒王，以上都是django.contrib.auth包中的__init__.py入口文件中的内容，背后还有很多“能工巧匠”，否则怎么支撑起auth整套权限系统？后续文章会一一介绍。</p>
+<p>_</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/20/Django源码分析之执行入口/" itemprop="url">
                   Django源码分析之执行入口
                 </a>
@@ -1076,7 +1311,7 @@ def showMsg(self, msg):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
