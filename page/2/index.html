@@ -259,6 +259,136 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/05/COP VS POP/" itemprop="url">
+                  COP VS POP
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-05T20:00:00+08:00" content="2016-11-05">
+              2016-11-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/05/COP VS POP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/05/COP VS POP/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>软件架构关注对系统的分割和如何让分隔后的各部分交互，至于如何分割和如何交互，取决于对系统不同特性的关注程度的取舍。而不同的编程思想对架构的选型和建立影响很大。</p>
+<h3 id="编程思想"><a href="#编程思想" class="headerlink" title="编程思想"></a>编程思想</h3><p>PO（Process Oriented）<br>面向过程：对业务的顺序的抽象，更关注流程的顺序</p>
+<p>OO（Object Oriented）<br>面向对象：对业务的责任的抽象，更关注各个部分所承担的责任，也就是责任的划分。而架构关注系统的分割，两者都是关注与如何“化整为零”，所以设计架构时很容易就会采用OO的编程思想，即使语言设计之初时并没有考虑面向对象的JS也利用自己的特性实现了一种“非主流”的面向对象方式。</p>
+<p>AO（Aspect Oriented）<br>面向切面：对业务的扩展性的抽象，更关注如何扩展、替换业务属性</p>
+<p>SO （Service Oriented）<br>严格来说，SO并不属于编程思想，它针对的粒度更大，更关注业务的模块化、稳定性和部署要求</p>
+<p>编程思想影响着架构设计，同时，不同的实现有不同的侧重点和易用性，语言本身对编程思想的实现也对架构设计影响不小。</p>
+<p>下面就说说COP（Class Oriented Programming）和 POP（Protocol Oriented Programming）作为OO面向对象的两种实现，各自的优缺点。</p>
+<h3 id="COP？"><a href="#COP？" class="headerlink" title="COP？"></a>COP？</h3><p>COP（Class Oriented Programming），说白了就是以Class作为业务各个角色的模型，不同的角色拥有不同属性，体现在Class上就是不同的属性和方法。</p>
+<p>COP非常强调身份：<em>你</em>就是<em>你</em>，<em>我</em>就是<em>我</em>，<em>你</em>不是<em>我们家族</em>，具有强烈的“阶层意识”。于是在业务上，能够清晰地区分出角色的差异，也就是上面说的，专注于划分角色。</p>
+<h3 id="POP？"><a href="#POP？" class="headerlink" title="POP？"></a>POP？</h3><p> POP（Protocol Oriented Programming），说白了就是大家按照Protocol协议来做事，更强调角色的行为。</p>
+<p>一个很形象的说明就是duck typing <a href="https://en.wikipedia.org/wiki/Duck_typing" target="_blank" rel="external">https://en.wikipedia.org/wiki/Duck_typing</a>：</p>
+<blockquote>
+<p>When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck</p>
+</blockquote>
+<p>相对来说，COP就是严格的typing。</p>
+<h3 id="COP-VS-POP"><a href="#COP-VS-POP" class="headerlink" title="COP VS POP"></a>COP VS POP</h3><p>面向对象有三大特性：封装、继承、多态。下面就来看看两者对这三大特性的实现情况。</p>
+<p>前面说的很大一部分都可以看做是封装上的区别：COP封装的是类型、角色，POP封装的是行为。</p>
+<p>COP中，子类拥有一切父类的属性和方法，无论子类是否需要，对编程人员来说，很容易就无意地覆盖了父类的属性和方法，苹果自身的框架可以通过文档来说明，如果是自己的或者第三方的代码，就得沿着继承链挨个找，这就带来了额外的风险和负担；另外，每个子类的实例在初始化时除了初始化自身的属性和方法，还会把继承链上所有父类的属性方法都初始化一份，即使同名属性也一样，这显然会增大无谓的内存消耗。</p>
+<p>POP中，你只需要实现所声明协议的属性和方法，不需要的付出额外的代价。</p>
+<p>两者都能符合里氏替换原则，POP能以弱耦合的方式完成，而COP就会导致强耦合。</p>
+<p>关于多态，其实，POP更倾向于使用组合代替继承，所以，尽量少用多态。</p>
+<p>关于组合和继承，其实苹果也意识到这个问题，所以为OC实现了category的特性，的确避免了一部分“类爆炸”的问题。</p>
+<p>Swift是第一门原生支持POP的语言，苹果的Swift标准库负责人 Dave Abrahams，在WWDC2015上历数了COP的几大罪状，感兴趣的可以看看：<a href="https://www.youtube.com/watch?v=g2LwFZatfTI" target="_blank" rel="external">https://www.youtube.com/watch?v=g2LwFZatfTI</a>，其中有两点我觉得有点“栽赃”的嫌疑：</p>
+<ul>
+<li>implicit sharing：共享变量</li>
+<li>lost type relations：丢失类型关联</li>
+</ul>
+<p>我并不觉得共享变量是COP独有的问题，这个和是不是COP或者POP无关，严格来说，POP中的protocol也是一种类型，只不过是一种更“弱”的Class；同样，类型关联丢失也只是语法糖的问题。</p>
+<h4 id="POP对架构的助力"><a href="#POP对架构的助力" class="headerlink" title="POP对架构的助力"></a>POP对架构的助力</h4><p>计算机发展初期，各大操作系统和硬件厂商都按照Class的方式来生产，带来了很大的市场推广阻力，因为各个系统不能互相通信。最终，通过制定操作系统和网络中的各种协议protocol，使得各种异构系统能够以弱耦合的方式相互交互和通信，这才为互联网的诞生奠定了基础。</p>
+<p>协议的最大作用就在于弱化耦合关系，更多关注行为而非类型，这样我们才能专注实现需求。</p>
+<p>POP弱化了静态语言的严格的类型检查，为语言增加了更大的动态性，同时也有利于降低内存消耗，对于移动开发具有一定优势，更重要的是它弱化了各个子系统的耦合，对于关注分割和交互的架构设计在解耦上有不错的效果。<br><img src="http://d.pr/i/Np9W+" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/29/一些看过的书/" itemprop="url">
                   一些看过的书
                 </a>
@@ -1440,113 +1570,6 @@ EXPOSE 9200
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/30/关于几个初始化shell文件/" itemprop="url">
-                  关于几个初始化shell文件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-08-30T20:00:00+08:00" content="2016-08-30">
-              2016-08-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/30/关于几个初始化shell文件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/30/关于几个初始化shell文件/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>shell在类linux系统中扮演的角色非常重要，连操作系统启动的入口一般都是shell，一般类linux系统启动时会涉及到这几个shell脚本，今天就来看看这几个脚本的作用</p>
-<h2 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h2><p>/etc/profile:此文件为系统的每个用户设置环境信息,当用户第一次登录时,该文件被执行. 并从/etc/profile.d目录的配置文件中搜集shell的设置. </p>
-<p>/etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该文件被读取. </p>
-<p>~/.bash_profile:每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该 文件仅仅执行一次!默认情况下,他设置一些环境变量,执行用户的.bashrc文件. </p>
-<p>~/.bashrc:该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该 该文件被读取. </p>
-<p>另外,/etc/profile中设定的变量(全局)的可以作用于任何用户,而~/.bashrc等中设定的变量(局部)只能继承/etc/profile中的变量,他们是”父子”关系. </p>
-<p>~/.bash_profile 是交互式、login 方式进入 bash 运行的<br>~/.bashrc 是交互式 non-login 方式进入 bash 运行的<br>通常二者设置大致相同，所以通常前者会调用后者。 </p>
-<h2 id="MAC-OS"><a href="#MAC-OS" class="headerlink" title="MAC OS"></a>MAC OS</h2><p>MAC OS上的shell执行顺序有点特殊：<br>/etc/profile ->~/.bashrc(or .zshrc) -> /etc/bashrc</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1592,7 +1615,7 @@ EXPOSE 9200
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
