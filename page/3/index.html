@@ -259,6 +259,120 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/29/JSONizer：Popclip的JSON格式化扩展/" itemprop="url">
+                  Popclip的JSON格式化扩展
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-29T20:00:00+08:00" content="2016-09-29">
+              2016-09-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/29/JSONizer：Popclip的JSON格式化扩展/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/29/JSONizer：Popclip的JSON格式化扩展/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。</p>
+<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。</p>
+<p>这是我的Popclip扩展：<br><img src="http://d.pr/i/sfTc+" alt=""></p>
+<p>如果你还没装Popclip，马上停下来，去安装一个，再继续看下去；</p>
+<p>如果你不知道Popclip是什么，马上停下来，去看下这篇<a href="http://sspai.com/25483" target="_blank" rel="external">测评</a>，再继续看下去。</p>
+<h2 id="JSONizer的来由"><a href="#JSONizer的来由" class="headerlink" title="JSONizer的来由"></a>JSONizer的来由</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
+<p>后来改用sublime的插件CodeFormatter，也能比较方便地快速格式化，但还是有个点让我不开心：CodeFormatter要求必须先把需要格式化的内容保存在一个后缀为.json的文件中，才能识别并格式化。</p>
+<p>由于用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
+<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
+<p>Popclip的扩展没有Alfred的workflow能提供的功能多而复杂，相应地也容易上手。参照<a href="http://computers.tutsplus.com/tutorials/popclip-scripting-extensions--mac-55842" target="_blank" rel="external">TUTS</a>上的这篇教程，几分钟就搞定了大致框架。</p>
+<p>接下来就简单了，把依赖的几个lib依赖配好，基本文件布局如下：<br><img src="http://d.pr/i/V4JL+" alt=""></p>
+<p>注：editorconfig、six.py是jsbeautifier的依赖项。</p>
+<p>最后，测试效果完美：<br><img src="http://d.pr/i/hLal+" alt=""></p>
+<p><a href="https://github.com/liuyunclouder/popclip_extension" target="_blank" rel="external"> 下载入口 </a>，希望能帮到需要的朋友。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，需要先将需要格式化的内容拷贝到编辑器中，然后再选中才能格式化。其实还能改进一下，不需要拷贝，直接在内容来源上，比如浏览器中，选中需要格式化的字符并格式化，直接把格式化后的内容写入系统剪贴板。后续有时间可以研究下。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/25/格局/" itemprop="url">
                   格局
                 </a>
@@ -1737,146 +1851,11 @@ def get_wsgi_application():
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/20/定时爬虫抓当日免费应用/" itemprop="url">
-                  定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-03-20T20:00:00+08:00" content="2016-03-20">
-              2016-03-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/20/定时爬虫抓当日免费应用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/定时爬虫抓当日免费应用/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>花了个周末学了下Scrapy，正好一直想买<a href="https://mindnode.com/" target="_blank" rel="external">mindnode</a>，于是顺手做了个爬虫，抓取<a href="http://www.ifanr.com/app" target="_blank" rel="external">爱范儿</a>每天的限免应用信息。</p>
-<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。</p>
-<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><h3 id="Scrapy-＋-Tkinter"><a href="#Scrapy-＋-Tkinter" class="headerlink" title="Scrapy ＋ Tkinter"></a>Scrapy ＋ Tkinter</h3><p>``` bash</p>
-<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>import scrapy<br>import Tkinter<br>from scrapy.shell import inspect_response<br>import json</p>
-<h1 id="设置感兴趣的app名称"><a href="#设置感兴趣的app名称" class="headerlink" title="设置感兴趣的app名称"></a>设置感兴趣的app名称</h1><p>I_want_apps = set([‘mindnode pro’, ‘u.memory’])</p>
-<p>class XianmianSpider(scrapy.Spider):<br>    user_agent = ‘Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36’<br>    name = “xianmian”<br>    allowed_domains = [“app.so”]<br>    start_urls = (<br>        ‘<a href="http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10" target="_blank" rel="external">http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10</a>‘,<br>    )</p>
-<pre><code>def parse(self, response):
-
-    jsonresponse = json.loads(response.body_as_unicode())
-
-    apps = jsonresponse[&apos;objects&apos;]
-
-    appTitles = {item[&apos;display_name&apos;].lower() for item in apps}
-
-    self.logger.info(&apos;today\&apos; apps are: &apos; + str(appTitles))
-
-    the_apps = appTitles &amp; I_want_apps
-    if the_apps:
-        self.showMsg(&apos;found the apps: {}&apos;.format(list(the_apps)))
-
-def showMsg(self, msg):
-    import Tkinter
-    root = Tkinter.Tk()
-    root.title(&apos;福利到！&apos;)
-    label = Tkinter.Label(root, text=msg)
-    label.pack()
-    center_window(root, 300, 240)
-    root.maxsize(600, 400)
-    root.minsize(300, 240)
-    Tkinter.mainloop()
-</code></pre><p>def get_screen_size(window):<br>    return window.winfo_screenwidth(),window.winfo_screenheight()  </p>
-<p>def get_window_size(window):<br>    return window.winfo_reqwidth(),window.winfo_reqheight()  </p>
-<p>def center_window(root, width, height):<br>    screenwidth = root.winfo_screenwidth()<br>    screenheight = root.winfo_screenheight()<br>    size = ‘%dx%d+%d+%d’ % (width, height, (screenwidth - width)/2, (screenheight - height)/2)<br>    print(size)<br>    root.geometry(size)  </p>
-<p>```</p>
-<h3 id="LaunchControl"><a href="#LaunchControl" class="headerlink" title="LaunchControl"></a>LaunchControl</h3><p> <img src="/images/launchcontrol_shot.png" alt="title"></p>
-<p> LaunchControl用起来比较直观，当然，也可以直接用mac自带的launchctl，具体可参考<a href="http://ylq365.iteye.com/blog/1878917" target="_blank" rel="external">launchctl使用说明</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1917,7 +1896,7 @@ def showMsg(self, msg):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
