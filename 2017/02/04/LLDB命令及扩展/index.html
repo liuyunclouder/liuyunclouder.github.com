@@ -112,7 +112,7 @@ b ViewController.m:30
 br set -n viewDidLoad
 设置条件断点
 br mod -c &amp;quot;totalValue &amp;gt; 3000&amp;quo">
-<meta property="og:updated_time" content="2017-02-04T11:27:09.000Z">
+<meta property="og:updated_time" content="2017-02-04T11:30:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LLDB命令及扩展">
 <meta name="twitter:description" content="br命令：设置各种类型断点列出断点列表
@@ -378,9 +378,9 @@ expr (void)NSLog(@“hello world&quot;)
 expr -- (CGRect)[self.view frame]
 
 expr int $debugVar = 5
-expr NSString \*$debugString = @&quot;ezio cham&quot;
+expr NSString *$debugString = @&quot;ezio cham&quot;
 
-expr NSData \*$data = [$jsonString dataUsingEncoding: 4] //lldb不认识enum，需要传具体的值
+expr NSData *$data = [$jsonString dataUsingEncoding: 4] //lldb不认识enum，需要传具体的值
 </code></pre><h3 id="backtrace命令"><a href="#backtrace命令" class="headerlink" title="backtrace命令"></a>backtrace命令</h3><pre><code>bt
 
 bt all
@@ -417,9 +417,9 @@ watchpoint delete 1
 
 watchpoint set variable varName
 </code></pre><p>可以watch expression（my_pointer为expression的返回值）</p>
-<pre><code>watchpoint set expression — my\_pointer
+<pre><code>watchpoint set expression — my_pointer
 </code></pre><p>设置watchpoint的条件</p>
-<pre><code>watchpoint modify -c “\_x &gt; 0” 1
+<pre><code>watchpoint modify -c “_x &gt; 0” 1
 </code></pre><p>删除条件</p>
 <pre><code>watchpoint modify -c “” 1
 </code></pre><h3 id="script命令"><a href="#script命令" class="headerlink" title="script命令"></a>script命令</h3><p>查看lldb使用的python版本</p>
@@ -429,15 +429,15 @@ watchpoint set variable varName
 </code></pre><p>使用python脚本</p>
 <pre><code>breakpoint command add -s python 1
 </code></pre><p>使用python 函数my_script.breakpoint_func</p>
-<pre><code>breakpoint command add -F my\_script.breakpoint\_func 1
+<pre><code>breakpoint command add -F my_script.breakpoint_func 1
 </code></pre><h3 id="command命令"><a href="#command命令" class="headerlink" title="command命令"></a>command命令</h3><p>引入python脚本并指定新command命令:cmd_name</p>
-<pre><code>command script import “\~/my\_script.py&quot;
-command script add -f my\_script.python\_function cmd\_name
+<pre><code>command script import “~/my_script.py&quot;
+command script add -f my_script.python_function cmd_name
 </code></pre><p>引入python脚本并设置在断点中使用</p>
-<pre><code>command script import “\~/my\_script.py&quot;
-breakpoint command add -F my\_script.breakpoint\_func 1
+<pre><code>command script import “~/my_script.py&quot;
+breakpoint command add -F my_script.breakpoint_func 1
 </code></pre><p>引入其他lldb script</p>
-<pre><code>command script import “\~/my\_script.txt&quot;
+<pre><code>command script import “~/my_script.txt&quot;
 </code></pre><p>删除命令pf</p>
 <pre><code>command unalias pf
 </code></pre><p>显示命令历史列表（report navigator中有更详细的内容）</p>
@@ -449,26 +449,26 @@ breakpoint command add -F my\_script.breakpoint\_func 1
 </code></pre><p>设置positional alias </p>
 <pre><code>command alias sbr breakpoint set -l %1 
 
-command alias pf expr (CGRect)\[self.view frame\] 
+command alias pf expr (CGRect)[self.view frame] 
 </code></pre><p>设置regular alias </p>
 <pre><code>command regex sbr ’s/(\[0-9\]+)/breakpoint set -l %1&apos; 
 
 command regex pf 
-s/(.+)/expr (CGRect)\[%1 frame\]/ 
-s/^$/expr (CGRect)\[self.view frame\]/ 
+s/(.+)/expr (CGRect)[%1 frame]/ 
+s/^$/expr (CGRect)[self.view frame]/ 
 </code></pre><p>持久化alias<br>创建~/.lldbinit文件 ,添加以下内容： </p>
-<pre><code>command regex pf ‘s/(.+)/expr (CGRect)\[%1 frame\]/’ ‘s/^$/expr (CGRect)\[self.view frame\]/’ 
+<pre><code>command regex pf ‘s/(.+)/expr (CGRect)[%1 frame]/’ ‘s/^$/expr (CGRect)[self.view frame]/’ 
 </code></pre><h3 id="custom-summary"><a href="#custom-summary" class="headerlink" title="custom summary"></a>custom summary</h3><pre><code>type summary add CGRect -s &quot;width = ${var.size.width}, height = ${var.size.height}&quot; 
 </code></pre><p>为SavingsAccount设置summary </p>
-<pre><code>command script import \~/account.py 
-type summary add -F account.count\_summary SavingsAccount 
+<pre><code>command script import ~/account.py 
+type summary add -F account.count_summary SavingsAccount 
 </code></pre><p>删除 </p>
 <pre><code>type summary delete CGRect 
 </code></pre><p>过滤，只显示firstName属性 </p>
-<pre><code>type filter add SavingsAccount —child \_firstName 
+<pre><code>type filter add SavingsAccount —child _firstName 
 </code></pre><p>改变显示格式 </p>
-<pre><code>typedef int hex\_month 
-type format add —format hex hex\_month 
+<pre><code>typedef int hex_month 
+type format add —format hex hex_month 
 </code></pre><h3 id="quicklook"><a href="#quicklook" class="headerlink" title="quicklook"></a>quicklook</h3><p>quicklook in lldb<br><a href="https://github.com/ryanolsonk/LLDB-QuickLook" target="_blank" rel="external">https://github.com/ryanolsonk/LLDB-QuickLook</a></p>
 <p>quicklook in xcode<br><a href="http://nshipster.com/quick-look-debugging/" target="_blank" rel="external">http://nshipster.com/quick-look-debugging/</a></p>
 <h3 id="扩展LLDB命令"><a href="#扩展LLDB命令" class="headerlink" title="扩展LLDB命令"></a>扩展LLDB命令</h3><p>lldb的python接口文档<br><a href="http://lldb.llvm.org/python_reference/index.html" target="_blank" rel="external">http://lldb.llvm.org/python_reference/index.html</a></p>
