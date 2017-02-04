@@ -80,24 +80,34 @@
 
 
 
-<meta name="description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
-Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
-CodingScrapy ＋ Tkinter```">
+<meta name="description" content="br命令：设置各种类型断点列出断点列表    br l
+删除断点(2是断点id)    br delete 2
+enable断点    br e 2
+disable断点    br di 2
+设置断点(30是行数)    b ViewController.m:30
+设置symbolic断点    br set -n viewDidLoad
+设置条件断点    br mod -c “totalVal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
-<meta property="og:url" content="http://yoursite.com/2016/03/20/定时爬虫抓当日免费应用/index.html">
+<meta property="og:title" content="LLDB">
+<meta property="og:url" content="http://yoursite.com/2017/02/04/LLDB/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
-Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
-CodingScrapy ＋ Tkinter```">
-<meta property="og:image" content="http://yoursite.com/images/launchcontrol_shot.png">
-<meta property="og:updated_time" content="2016-11-07T09:12:23.000Z">
+<meta property="og:description" content="br命令：设置各种类型断点列出断点列表    br l
+删除断点(2是断点id)    br delete 2
+enable断点    br e 2
+disable断点    br di 2
+设置断点(30是行数)    b ViewController.m:30
+设置symbolic断点    br set -n viewDidLoad
+设置条件断点    br mod -c “totalVal">
+<meta property="og:updated_time" content="2017-02-04T11:21:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl">
-<meta name="twitter:description" content="花了个周末学了下Scrapy，正好一直想买mindnode，于是顺手做了个爬虫，抓取爱范儿每天的限免应用信息。
-Thinking大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。
-CodingScrapy ＋ Tkinter```">
-<meta name="twitter:image" content="http://yoursite.com/images/launchcontrol_shot.png">
+<meta name="twitter:title" content="LLDB">
+<meta name="twitter:description" content="br命令：设置各种类型断点列出断点列表    br l
+删除断点(2是断点id)    br delete 2
+enable断点    br e 2
+disable断点    br di 2
+设置断点(30是行数)    b ViewController.m:30
+设置symbolic断点    br set -n viewDidLoad
+设置条件断点    br mod -c “totalVal">
 
 
 
@@ -115,7 +125,7 @@ CodingScrapy ＋ Tkinter```">
   };
 </script>
 
-  <title> 定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl | Ezio's Blog </title>
+  <title> LLDB | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -265,7 +275,7 @@ CodingScrapy ＋ Tkinter```">
             
             
               
-                定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl
+                LLDB
               
             
           </h1>
@@ -277,8 +287,8 @@ CodingScrapy ＋ Tkinter```">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-03-20T20:00:00+08:00" content="2016-03-20">
-              2016-03-20
+            <time itemprop="dateCreated" datetime="2017-02-04T20:00:00+08:00" content="2017-02-04">
+              2017-02-04
             </time>
           </span>
 
@@ -288,8 +298,8 @@ CodingScrapy ＋ Tkinter```">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/20/定时爬虫抓当日免费应用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/定时爬虫抓当日免费应用/" itemprop="commentsCount"></span>
+                <a href="/2017/02/04/LLDB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/04/LLDB/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,42 +321,95 @@ CodingScrapy ＋ Tkinter```">
       
 
       
-        <p>花了个周末学了下Scrapy，正好一直想买<a href="https://mindnode.com/" target="_blank" rel="external">mindnode</a>，于是顺手做了个爬虫，抓取<a href="http://www.ifanr.com/app" target="_blank" rel="external">爱范儿</a>每天的限免应用信息。</p>
-<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>大概思路就是使用LaunchControl每天定时（比如早上9点50，这时正好刚到公司不久）跑一下爬虫脚本，如果找到感兴趣的应用在限免，就使用Tkinter弹出提示。当然，也可以直接用Scrapy做定时任务，以后再说。</p>
-<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><h3 id="Scrapy-＋-Tkinter"><a href="#Scrapy-＋-Tkinter" class="headerlink" title="Scrapy ＋ Tkinter"></a>Scrapy ＋ Tkinter</h3><p>``` bash</p>
-<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>import scrapy<br>import Tkinter<br>from scrapy.shell import inspect_response<br>import json</p>
-<h1 id="设置感兴趣的app名称"><a href="#设置感兴趣的app名称" class="headerlink" title="设置感兴趣的app名称"></a>设置感兴趣的app名称</h1><p>I_want_apps = set([‘mindnode pro’, ‘u.memory’])</p>
-<p>class XianmianSpider(scrapy.Spider):<br>    user_agent = ‘Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36’<br>    name = “xianmian”<br>    allowed_domains = [“app.so”]<br>    start_urls = (<br>        ‘<a href="http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10" target="_blank" rel="external">http://app.so/api/v1.1/appso/discount/?platform=web&amp;limit=10</a>‘,<br>    )</p>
-<pre><code>def parse(self, response):
+        <h3 id="br命令：设置各种类型断点"><a href="#br命令：设置各种类型断点" class="headerlink" title="br命令：设置各种类型断点"></a>br命令：设置各种类型断点</h3><p>列出断点列表<br>    br l</p>
+<p>删除断点(2是断点id)<br>    br delete 2</p>
+<p>enable断点<br>    br e 2</p>
+<p>disable断点<br>    br di 2</p>
+<p>设置断点(30是行数)<br>    b ViewController.m:30</p>
+<p>设置symbolic断点<br>    br set -n viewDidLoad</p>
+<p>设置条件断点<br>    br mod -c “totalValue &gt; 3000” 2</p>
+<p>删除条件断点<br>    br mod -c “” 2</p>
+<p>在某一个断点处执行多个命令<br>    br com add 2</p>
+<pre><code>&gt; bt
+&gt; continue
+&gt; DONE
+</code></pre><p>继续执行<br>    continue<br>    c</p>
+<p>单步执行<br>    n</p>
+<p>单步进入<br>    s</p>
+<p>退出当前函数<br>    finish</p>
+<h3 id="expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"><a href="#expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为" class="headerlink" title="expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"></a>expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为</h3><pre><code>expo self.view.hidden = YES
+expr -L — 5+5
+expr (void)NSLog(@“hello world&quot;)
+expr -- (CGRect)[self.view frame]
 
-    jsonresponse = json.loads(response.body_as_unicode())
+expr int $debugVar = 5
+expr NSString \*$debugString = @&quot;ezio cham&quot;
 
-    apps = jsonresponse[&apos;objects&apos;]
+expr NSData \*$data = [$jsonString dataUsingEncoding: 4] //lldb不认识enum，需要传具体的值
+</code></pre><h3 id="backtrace命令"><a href="#backtrace命令" class="headerlink" title="backtrace命令"></a>backtrace命令</h3><pre><code>bt
 
-    appTitles = {item[&apos;display_name&apos;].lower() for item in apps}
+bt all
+</code></pre><h3 id="thread命令：在排查多线程问题时会用到"><a href="#thread命令：在排查多线程问题时会用到" class="headerlink" title="thread命令：在排查多线程问题时会用到"></a>thread命令：在排查多线程问题时会用到</h3><pre><code>thread backtrace
 
-    self.logger.info(&apos;today\&apos; apps are: &apos; + str(appTitles))
+thread backtrace all
+</code></pre><p>显示thread列表<br>    thread list</p>
+<p>选择id为1的thread<br>    thread select 1</p>
+<p>使用thread命令完成断点功能（100是行号）<br>    thread until 100</p>
+<p>修改方法返回值（在代码中的return语句所在行执行）<br>    thread return @”new result”</p>
+<p>example:<br>    thread until 63（63行是当前方法的return语句所在行）<br>    thread return YES</p>
+<h3 id="frame命令"><a href="#frame命令" class="headerlink" title="frame命令"></a>frame命令</h3><p>查看当前frame的变量列表<br>    frame variable</p>
+<p>查看当前frame 名为varName的变量的值<br>    frame variable varName</p>
+<pre><code>frame info
+</code></pre><p>选择id为2的frame<br>    frame select 2</p>
+<p>选择当前frame的下一个frame<br>    frame select -relative -1</p>
+<h3 id="watchpoint"><a href="#watchpoint" class="headerlink" title="watchpoint"></a>watchpoint</h3><p>查看当前watchpoint列表<br>    watchpoint list</p>
+<pre><code>watchpoint delete 1
 
-    the_apps = appTitles &amp; I_want_apps
-    if the_apps:
-        self.showMsg(&apos;found the apps: {}&apos;.format(list(the_apps)))
 
-def showMsg(self, msg):
-    import Tkinter
-    root = Tkinter.Tk()
-    root.title(&apos;福利到！&apos;)
-    label = Tkinter.Label(root, text=msg)
-    label.pack()
-    center_window(root, 300, 240)
-    root.maxsize(600, 400)
-    root.minsize(300, 240)
-    Tkinter.mainloop()
-</code></pre><p>def get_screen_size(window):<br>    return window.winfo_screenwidth(),window.winfo_screenheight()  </p>
-<p>def get_window_size(window):<br>    return window.winfo_reqwidth(),window.winfo_reqheight()  </p>
-<p>def center_window(root, width, height):<br>    screenwidth = root.winfo_screenwidth()<br>    screenheight = root.winfo_screenheight()<br>    size = ‘%dx%d+%d+%d’ % (width, height, (screenwidth - width)/2, (screenheight - height)/2)<br>    print(size)<br>    root.geometry(size)  </p>
-<p>```</p>
-<h3 id="LaunchControl"><a href="#LaunchControl" class="headerlink" title="LaunchControl"></a>LaunchControl</h3><p> <img src="/images/launchcontrol_shot.png" alt="title"></p>
-<p> LaunchControl用起来比较直观，当然，也可以直接用mac自带的launchctl，具体可参考<a href="http://ylq365.iteye.com/blog/1878917" target="_blank" rel="external">launchctl使用说明</a></p>
+watchpoint set variable varName
+</code></pre><p>可以watch expression（my_pointer为expression的返回值）<br>    watchpoint set expression — my_pointer</p>
+<p>设置watchpoint的条件<br>    watchpoint modify -c “_x &gt; 0” 1</p>
+<p>删除条件<br>    watchpoint modify -c “” 1</p>
+<h3 id="script命令"><a href="#script命令" class="headerlink" title="script命令"></a>script命令</h3><p>查看lldb使用的python版本<br>    script print(sys.version)</p>
+<p>进入lldb的python环境<br>    script</p>
+<p>使用python脚本<br>    breakpoint command add -s python 1</p>
+<p>使用python 函数my_script.breakpoint_func<br>    breakpoint command add -F my_script.breakpoint_func 1</p>
+<h3 id="command命令"><a href="#command命令" class="headerlink" title="command命令"></a>command命令</h3><p>引入python脚本并指定新command命令:cmd_name<br>    command script import “~/my_script.py”<br>    command script add -f my_script.python_function cmd_name</p>
+<p>引入python脚本并设置在断点中使用<br>    command script import “~/my_script.py”<br>    breakpoint command add -F my_script.breakpoint_func 1</p>
+<p>引入其他lldb script<br>    command script import “~/my_script.txt”</p>
+<p>删除命令pf<br>    command unalias pf</p>
+<p>显示命令历史列表（report navigator中有更详细的内容）<br>    command list</p>
+<h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>获取当前所有alias<br>    help -a </p>
+<p>获取和关键字相关的alias<br>    apropos break </p>
+<p>设置positional alias<br>    command alias sbr breakpoint set -l %1 </p>
+<pre><code>command alias pf expr (CGRect)\[self.view frame\] 
+</code></pre><p>设置regular alias<br>    command regex sbr ’s/([0-9]+)/breakpoint set -l %1’ </p>
+<pre><code>command regex pf 
+s/(.+)/expr (CGRect)\[%1 frame\]/ 
+s/^$/expr (CGRect)\[self.view frame\]/ 
+</code></pre><p>持久化alias<br>创建~/.lldbinit文件 ,添加以下内容：<br>    command regex pf ‘s/(.+)/expr (CGRect)[%1 frame]/’ ‘s/^$/expr (CGRect)[self.view frame]/’ </p>
+<h3 id="custom-summary"><a href="#custom-summary" class="headerlink" title="custom summary"></a>custom summary</h3><pre><code>type summary add CGRect -s &quot;width = ${var.size.width}, height = ${var.size.height}&quot; 
+</code></pre><p>为SavingsAccount设置summary<br>    command script import ~/account.py<br>    type summary add -F account.count_summary SavingsAccount </p>
+<p>删除<br>    type summary delete CGRect </p>
+<p>过滤，只显示firstName属性<br>    type filter add SavingsAccount —child _firstName </p>
+<p>改变显示格式<br>    typedef int hex_month<br>    type format add —format hex hex_month </p>
+<h3 id="quicklook"><a href="#quicklook" class="headerlink" title="quicklook"></a>quicklook</h3><p>quicklook in lldb<br><a href="https://github.com/ryanolsonk/LLDB-QuickLook" target="_blank" rel="external">https://github.com/ryanolsonk/LLDB-QuickLook</a></p>
+<p>quicklook in xcode<br><a href="http://nshipster.com/quick-look-debugging/" target="_blank" rel="external">http://nshipster.com/quick-look-debugging/</a></p>
+<h3 id="扩展LLDB命令"><a href="#扩展LLDB命令" class="headerlink" title="扩展LLDB命令"></a>扩展LLDB命令</h3><p>lldb的python接口文档<br><a href="http://lldb.llvm.org/python_reference/index.html" target="_blank" rel="external">http://lldb.llvm.org/python_reference/index.html</a></p>
+<h3 id="chisel：Facebook的LLDB扩展"><a href="#chisel：Facebook的LLDB扩展" class="headerlink" title="chisel：Facebook的LLDB扩展"></a>chisel：Facebook的LLDB扩展</h3><pre><code>border self.view 
+border --color green self.view 
+</code></pre><p>让view透明<br>    mask self.button </p>
+<p>让view从透明状态恢复<br>    unmask self.button </p>
+<p>打印当前界面的layer tree<br>    pca </p>
+<p>打印当前界面的view 层级<br>    pviews </p>
+<p>打印view的responder chain<br>    presponder self.view </p>
+<p>交互式查看view的层级树<br>    vs self.view </p>
+<p>重绘当前界面<br>    caflush </p>
+<p>快速闪烁view<br>    flicker self.view </p>
+<p>显示view<br>    show self.view </p>
+<p>隐藏view<br>    hide self.view </p>
+<p>打印class的继承树<br>    pclass self.property </p>
+<p>截屏预览<br>    visualize self.view </p>
 
       
     </div>
@@ -391,13 +454,13 @@ def showMsg(self, msg):
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/01/28/罗曼波兰斯基/" rel="next" title="罗曼波兰斯基">
+                <i class="fa fa-chevron-left"></i> 罗曼波兰斯基
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/08/排查实时tail功能cpu占用过高问题/" rel="prev" title="排查实时tail功能cpu占用过高问题">
-                排查实时tail功能cpu占用过高问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -446,8 +509,8 @@ def showMsg(self, msg):
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/20/定时爬虫抓当日免费应用/"
-           data-title="定时爬虫抓当日免费应用：Scrapy + Tkinter + LaunchControl" data-url="http://yoursite.com/2016/03/20/定时爬虫抓当日免费应用/">
+      <div class="ds-thread" data-thread-key="2017/02/04/LLDB/"
+           data-title="LLDB" data-url="http://yoursite.com/2017/02/04/LLDB/">
       </div>
     
   </div>
@@ -526,7 +589,7 @@ def showMsg(self, msg):
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thinking"><span class="nav-number">1.</span> <span class="nav-text">Thinking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding"><span class="nav-number">2.</span> <span class="nav-text">Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-＋-Tkinter"><span class="nav-number">2.1.</span> <span class="nav-text">Scrapy ＋ Tkinter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coding-utf-8"><span class="nav-number"></span> <span class="nav-text">-- coding: utf-8 --</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置感兴趣的app名称"><span class="nav-number"></span> <span class="nav-text">设置感兴趣的app名称</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LaunchControl"><span class="nav-number">0.1.</span> <span class="nav-text">LaunchControl</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#br命令：设置各种类型断点"><span class="nav-number">1.</span> <span class="nav-text">br命令：设置各种类型断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"><span class="nav-number">2.</span> <span class="nav-text">expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#backtrace命令"><span class="nav-number">3.</span> <span class="nav-text">backtrace命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#thread命令：在排查多线程问题时会用到"><span class="nav-number">4.</span> <span class="nav-text">thread命令：在排查多线程问题时会用到</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#frame命令"><span class="nav-number">5.</span> <span class="nav-text">frame命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#watchpoint"><span class="nav-number">6.</span> <span class="nav-text">watchpoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#script命令"><span class="nav-number">7.</span> <span class="nav-text">script命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#command命令"><span class="nav-number">8.</span> <span class="nav-text">command命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alias"><span class="nav-number">9.</span> <span class="nav-text">alias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#custom-summary"><span class="nav-number">10.</span> <span class="nav-text">custom summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quicklook"><span class="nav-number">11.</span> <span class="nav-text">quicklook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展LLDB命令"><span class="nav-number">12.</span> <span class="nav-text">扩展LLDB命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chisel：Facebook的LLDB扩展"><span class="nav-number">13.</span> <span class="nav-text">chisel：Facebook的LLDB扩展</span></a></li></ol></div>
             
           </div>
         </section>

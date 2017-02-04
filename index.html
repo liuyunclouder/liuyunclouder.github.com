@@ -259,6 +259,194 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/04/LLDB/" itemprop="url">
+                  LLDB
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-02-04T20:00:00+08:00" content="2017-02-04">
+              2017-02-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/04/LLDB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/04/LLDB/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="br命令：设置各种类型断点"><a href="#br命令：设置各种类型断点" class="headerlink" title="br命令：设置各种类型断点"></a>br命令：设置各种类型断点</h3><p>列出断点列表<br>    br l</p>
+<p>删除断点(2是断点id)<br>    br delete 2</p>
+<p>enable断点<br>    br e 2</p>
+<p>disable断点<br>    br di 2</p>
+<p>设置断点(30是行数)<br>    b ViewController.m:30</p>
+<p>设置symbolic断点<br>    br set -n viewDidLoad</p>
+<p>设置条件断点<br>    br mod -c “totalValue &gt; 3000” 2</p>
+<p>删除条件断点<br>    br mod -c “” 2</p>
+<p>在某一个断点处执行多个命令<br>    br com add 2</p>
+<pre><code>&gt; bt
+&gt; continue
+&gt; DONE
+</code></pre><p>继续执行<br>    continue<br>    c</p>
+<p>单步执行<br>    n</p>
+<p>单步进入<br>    s</p>
+<p>退出当前函数<br>    finish</p>
+<h3 id="expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"><a href="#expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为" class="headerlink" title="expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"></a>expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为</h3><pre><code>expo self.view.hidden = YES
+expr -L — 5+5
+expr (void)NSLog(@“hello world&quot;)
+expr -- (CGRect)[self.view frame]
+
+expr int $debugVar = 5
+expr NSString \*$debugString = @&quot;ezio cham&quot;
+
+expr NSData \*$data = [$jsonString dataUsingEncoding: 4] //lldb不认识enum，需要传具体的值
+</code></pre><h3 id="backtrace命令"><a href="#backtrace命令" class="headerlink" title="backtrace命令"></a>backtrace命令</h3><pre><code>bt
+
+bt all
+</code></pre><h3 id="thread命令：在排查多线程问题时会用到"><a href="#thread命令：在排查多线程问题时会用到" class="headerlink" title="thread命令：在排查多线程问题时会用到"></a>thread命令：在排查多线程问题时会用到</h3><pre><code>thread backtrace
+
+thread backtrace all
+</code></pre><p>显示thread列表<br>    thread list</p>
+<p>选择id为1的thread<br>    thread select 1</p>
+<p>使用thread命令完成断点功能（100是行号）<br>    thread until 100</p>
+<p>修改方法返回值（在代码中的return语句所在行执行）<br>    thread return @”new result”</p>
+<p>example:<br>    thread until 63（63行是当前方法的return语句所在行）<br>    thread return YES</p>
+<h3 id="frame命令"><a href="#frame命令" class="headerlink" title="frame命令"></a>frame命令</h3><p>查看当前frame的变量列表<br>    frame variable</p>
+<p>查看当前frame 名为varName的变量的值<br>    frame variable varName</p>
+<pre><code>frame info
+</code></pre><p>选择id为2的frame<br>    frame select 2</p>
+<p>选择当前frame的下一个frame<br>    frame select -relative -1</p>
+<h3 id="watchpoint"><a href="#watchpoint" class="headerlink" title="watchpoint"></a>watchpoint</h3><p>查看当前watchpoint列表<br>    watchpoint list</p>
+<pre><code>watchpoint delete 1
+
+
+watchpoint set variable varName
+</code></pre><p>可以watch expression（my_pointer为expression的返回值）<br>    watchpoint set expression — my_pointer</p>
+<p>设置watchpoint的条件<br>    watchpoint modify -c “_x &gt; 0” 1</p>
+<p>删除条件<br>    watchpoint modify -c “” 1</p>
+<h3 id="script命令"><a href="#script命令" class="headerlink" title="script命令"></a>script命令</h3><p>查看lldb使用的python版本<br>    script print(sys.version)</p>
+<p>进入lldb的python环境<br>    script</p>
+<p>使用python脚本<br>    breakpoint command add -s python 1</p>
+<p>使用python 函数my_script.breakpoint_func<br>    breakpoint command add -F my_script.breakpoint_func 1</p>
+<h3 id="command命令"><a href="#command命令" class="headerlink" title="command命令"></a>command命令</h3><p>引入python脚本并指定新command命令:cmd_name<br>    command script import “~/my_script.py”<br>    command script add -f my_script.python_function cmd_name</p>
+<p>引入python脚本并设置在断点中使用<br>    command script import “~/my_script.py”<br>    breakpoint command add -F my_script.breakpoint_func 1</p>
+<p>引入其他lldb script<br>    command script import “~/my_script.txt”</p>
+<p>删除命令pf<br>    command unalias pf</p>
+<p>显示命令历史列表（report navigator中有更详细的内容）<br>    command list</p>
+<h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>获取当前所有alias<br>    help -a </p>
+<p>获取和关键字相关的alias<br>    apropos break </p>
+<p>设置positional alias<br>    command alias sbr breakpoint set -l %1 </p>
+<pre><code>command alias pf expr (CGRect)\[self.view frame\] 
+</code></pre><p>设置regular alias<br>    command regex sbr ’s/([0-9]+)/breakpoint set -l %1’ </p>
+<pre><code>command regex pf 
+s/(.+)/expr (CGRect)\[%1 frame\]/ 
+s/^$/expr (CGRect)\[self.view frame\]/ 
+</code></pre><p>持久化alias<br>创建~/.lldbinit文件 ,添加以下内容：<br>    command regex pf ‘s/(.+)/expr (CGRect)[%1 frame]/’ ‘s/^$/expr (CGRect)[self.view frame]/’ </p>
+<h3 id="custom-summary"><a href="#custom-summary" class="headerlink" title="custom summary"></a>custom summary</h3><pre><code>type summary add CGRect -s &quot;width = ${var.size.width}, height = ${var.size.height}&quot; 
+</code></pre><p>为SavingsAccount设置summary<br>    command script import ~/account.py<br>    type summary add -F account.count_summary SavingsAccount </p>
+<p>删除<br>    type summary delete CGRect </p>
+<p>过滤，只显示firstName属性<br>    type filter add SavingsAccount —child _firstName </p>
+<p>改变显示格式<br>    typedef int hex_month<br>    type format add —format hex hex_month </p>
+<h3 id="quicklook"><a href="#quicklook" class="headerlink" title="quicklook"></a>quicklook</h3><p>quicklook in lldb<br><a href="https://github.com/ryanolsonk/LLDB-QuickLook" target="_blank" rel="external">https://github.com/ryanolsonk/LLDB-QuickLook</a></p>
+<p>quicklook in xcode<br><a href="http://nshipster.com/quick-look-debugging/" target="_blank" rel="external">http://nshipster.com/quick-look-debugging/</a></p>
+<h3 id="扩展LLDB命令"><a href="#扩展LLDB命令" class="headerlink" title="扩展LLDB命令"></a>扩展LLDB命令</h3><p>lldb的python接口文档<br><a href="http://lldb.llvm.org/python_reference/index.html" target="_blank" rel="external">http://lldb.llvm.org/python_reference/index.html</a></p>
+<h3 id="chisel：Facebook的LLDB扩展"><a href="#chisel：Facebook的LLDB扩展" class="headerlink" title="chisel：Facebook的LLDB扩展"></a>chisel：Facebook的LLDB扩展</h3><pre><code>border self.view 
+border --color green self.view 
+</code></pre><p>让view透明<br>    mask self.button </p>
+<p>让view从透明状态恢复<br>    unmask self.button </p>
+<p>打印当前界面的layer tree<br>    pca </p>
+<p>打印当前界面的view 层级<br>    pviews </p>
+<p>打印view的responder chain<br>    presponder self.view </p>
+<p>交互式查看view的层级树<br>    vs self.view </p>
+<p>重绘当前界面<br>    caflush </p>
+<p>快速闪烁view<br>    flicker self.view </p>
+<p>显示view<br>    show self.view </p>
+<p>隐藏view<br>    hide self.view </p>
+<p>打印class的继承树<br>    pclass self.property </p>
+<p>截屏预览<br>    visualize self.view </p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/28/罗曼波兰斯基/" itemprop="url">
                   罗曼波兰斯基
                 </a>
@@ -1399,121 +1587,6 @@ open &quot;${PROJECT_DIR}&quot;
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/03/Invictus 不可征服/" itemprop="url">
-                  Invictus 不可征服
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-03T20:00:00+08:00" content="2016-12-03">
-              2016-12-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/03/Invictus 不可征服/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/03/Invictus 不可征服/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>　　Out of the night that covers me, 透过覆盖我的深夜，  </p>
-<p>　　Black as the Pit from pole to pole, 我看见层层无底的黑暗。  </p>
-<p>　　I thank whatever gods may be 感谢上帝曾赐我，  </p>
-<p>　　For my unconquerable soul. 不可征服的灵魂。  </p>
-<p>　　In the fell clutch of circumstance 就算被地狱紧紧攫住，  </p>
-<p>　　I have not winced nor cried aloud. 我不会畏缩，也不惊叫。  </p>
-<p>　　Under the bludgeoninmgs of chance 经受过一浪又一浪的打击，  </p>
-<p>　　My head is bloody, but unbowed. 我满头鲜血都不低头。  </p>
-<p>　　Beyond this place of wrath and tear 在这满是愤怒和眼泪的世界之外，  </p>
-<p>　　Looms but the Horror of the shade, 可怕的阴影在游荡。  </p>
-<p>　　And yet the menace of the years 还有，未来的威胁，  </p>
-<p>　　Finds, and shall find, me unafraid. 可我是毫不畏惧的。  </p>
-<p>　　It matters not how strait the gate, 无论我将穿过的那扇门有多窄，  </p>
-<p>　　How charged with punishments the scroll, 无论我将肩承怎样的责罚。  </p>
-<p>　　I am the master of my fate: 我是命运的主宰，  </p>
-<p>　　I am the captain of my soul. 我是灵魂的统帅。 </p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1559,7 +1632,7 @@ open &quot;${PROJECT_DIR}&quot;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
