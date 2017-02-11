@@ -80,29 +80,28 @@
 
 
 
-<meta name="description" content="之前总结了 iOS framework开发流程，当然，开发完了还需要发布和更新版本，以便开发者能快速方便地使用。
-包管理工具目前苹果生态下的包管理工具有：Cocoapods、Carthage、Swift Package Manager。Cocoapods是老牌的包管理工具，ruby写的，中心化包管理工具；Carthage是随着Swift的诞生出现的，swift写的，与Cocoapods不同，它是去">
+<meta name="description" content="__bridge  //不涉及引用计数，用于不赋值或者不作为返回值时
+CFArrayGetcount((__bridge CFArrayRef) nsArray); 
+__bridge_transfer //把 Core Foundation类型转换为 Cocoa 类型
+//减少cfString的计数，把所有权交给ARC 
+NSString *nsString = (__bridge_transf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS framework 发布流程总结">
-<meta property="og:url" content="http://yoursite.com/2017/01/14/iOS framework 发布流程总结/index.html">
+<meta property="og:title" content="Core Foundation 与 Cocoa类型转换">
+<meta property="og:url" content="http://yoursite.com/2017/02/11/Core Foundation 与 Cocoa类型转换/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="之前总结了 iOS framework开发流程，当然，开发完了还需要发布和更新版本，以便开发者能快速方便地使用。
-包管理工具目前苹果生态下的包管理工具有：Cocoapods、Carthage、Swift Package Manager。Cocoapods是老牌的包管理工具，ruby写的，中心化包管理工具；Carthage是随着Swift的诞生出现的，swift写的，与Cocoapods不同，它是去">
-<meta property="og:image" content="http://d.pr/i/3Kcg+">
-<meta property="og:image" content="http://d.pr/i/ieCH+">
-<meta property="og:image" content="http://d.pr/i/G1Aj+">
-<meta property="og:image" content="http://d.pr/i/OHPS+">
-<meta property="og:image" content="http://d.pr/i/Y4dW+">
-<meta property="og:image" content="http://d.pr/i/6YZM+">
-<meta property="og:image" content="http://d.pr/i/QlL7+">
-<meta property="og:image" content="http://d.pr/i/Mo3q+">
-<meta property="og:image" content="http://d.pr/i/puCw+">
-<meta property="og:updated_time" content="2017-01-14T15:40:09.000Z">
+<meta property="og:description" content="__bridge  //不涉及引用计数，用于不赋值或者不作为返回值时
+CFArrayGetcount((__bridge CFArrayRef) nsArray); 
+__bridge_transfer //把 Core Foundation类型转换为 Cocoa 类型
+//减少cfString的计数，把所有权交给ARC 
+NSString *nsString = (__bridge_transf">
+<meta property="og:updated_time" content="2017-02-11T15:26:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS framework 发布流程总结">
-<meta name="twitter:description" content="之前总结了 iOS framework开发流程，当然，开发完了还需要发布和更新版本，以便开发者能快速方便地使用。
-包管理工具目前苹果生态下的包管理工具有：Cocoapods、Carthage、Swift Package Manager。Cocoapods是老牌的包管理工具，ruby写的，中心化包管理工具；Carthage是随着Swift的诞生出现的，swift写的，与Cocoapods不同，它是去">
-<meta name="twitter:image" content="http://d.pr/i/3Kcg+">
+<meta name="twitter:title" content="Core Foundation 与 Cocoa类型转换">
+<meta name="twitter:description" content="__bridge  //不涉及引用计数，用于不赋值或者不作为返回值时
+CFArrayGetcount((__bridge CFArrayRef) nsArray); 
+__bridge_transfer //把 Core Foundation类型转换为 Cocoa 类型
+//减少cfString的计数，把所有权交给ARC 
+NSString *nsString = (__bridge_transf">
 
 
 
@@ -120,7 +119,7 @@
   };
 </script>
 
-  <title> iOS framework 发布流程总结 | Ezio's Blog </title>
+  <title> Core Foundation 与 Cocoa类型转换 | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -270,7 +269,7 @@
             
             
               
-                iOS framework 发布流程总结
+                Core Foundation 与 Cocoa类型转换
               
             
           </h1>
@@ -282,8 +281,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2017-01-14T20:00:00+08:00" content="2017-01-14">
-              2017-01-14
+            <time itemprop="dateCreated" datetime="2017-02-11T20:00:00+08:00" content="2017-02-11">
+              2017-02-11
             </time>
           </span>
 
@@ -293,8 +292,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/01/14/iOS framework 发布流程总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/14/iOS framework 发布流程总结/" itemprop="commentsCount"></span>
+                <a href="/2017/02/11/Core Foundation 与 Cocoa类型转换/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/11/Core Foundation 与 Cocoa类型转换/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -316,76 +315,21 @@
       
 
       
-        <p>之前总结了 <a href="http://liuyunclouder.github.io/2016/12/10/iOS%20framework%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93/" target="_blank" rel="external">iOS framework开发流程</a>，当然，开发完了还需要发布和更新版本，以便开发者能快速方便地使用。</p>
-<h2 id="包管理工具"><a href="#包管理工具" class="headerlink" title="包管理工具"></a>包管理工具</h2><p>目前苹果生态下的包管理工具有：Cocoapods、Carthage、Swift Package Manager。Cocoapods是老牌的包管理工具，ruby写的，中心化包管理工具；Carthage是随着Swift的诞生出现的，swift写的，与Cocoapods不同，它是去中心化的；而Swift Package Manager，是苹果官方推出的Swift包管理工具，目前只支持OSX和macOS开发，包括Swift server开发的包管理。</p>
-<p>因此，我们需要支持Cocoapods和Carthage。</p>
-<h2 id="Cocoapods"><a href="#Cocoapods" class="headerlink" title="Cocoapods"></a>Cocoapods</h2><p>Cocoapods的framework发布流程有两种，一种是Cocoapods官方提供的 <a href="https://guides.cocoapods.org/making/using-pod-lib-create.html" target="_blank" rel="external">pod lib create</a>命令，优点是会自动生成framework发布工程，包含demo工程、测试框架以及符号重命名，缺点是必须把源码文件添加进去以便打framework。当你不想发布源码时，就得使用第二种方式：自己建framework发布工程。<br>1.在github上创建git仓库，目录结构：<br><img src="http://d.pr/i/3Kcg+" alt=""><br>2.生成podspec：进入新建的git仓库，执行以下命令</p>
-<pre><code>pod spec create DTTracker
-</code></pre><p>3.编辑新生成的podspec文件，添加必要的依赖和编译参数</p>
-<pre><code>Pod::Spec.new do |s|
-
-
-  s.name         = &quot;DTTracker&quot;
-  s.version      = &quot;0.0.1&quot;
-  s.summary      = &quot;DTTracker SDK&quot;
-
-  s.description  = &quot;you can use DTTracker to track your user behavior in your app&quot;
-
-  s.homepage     = &quot;https://www.dtstack.com/&quot;
-
-
-  s.license      = &quot;MIT&quot;
-
-
-  s.author       = { &quot;liuyunclouder&quot; =&gt; &quot;liuyunclouder@gmail.com&quot; }
-
-
-  s.platform     = :ios, &quot;8.0&quot;
-
-
-
-  s.source       = { :git =&gt; &quot;https://github.com/liuyunclouder/DTTracker.git&quot;, :tag =&gt; s.version }
-
-
-  s.vendored_frameworks = &quot;frameworks/cocoapods/DTTracker.framework&quot;
-
-
-  s.frameworks = &quot;Foundation&quot;, &quot;UIKit&quot;, &quot;CoreTelephony&quot;
-
-  s.libraries = &quot;sqlite3&quot;, &quot;z&quot;
-
-  s.requires_arc = true
-
-  s.pod_target_xcconfig = { &quot;OTHER_LDFLAGS&quot; =&gt; &quot;-ObjC -all_load&quot; }
-
-end
-</code></pre><p>4.提交修改，打上tag，再次带上tag提交（tag要和podspec里的version匹配）<br>5.本地校验podspec：</p>
-<pre><code>pod lib lint DTTracker.podspec —verbose
-</code></pre><p>6.再次远程校验：</p>
-<pre><code>pod spec lint DTTracker.podspec —verbose
-</code></pre><p>7.推送到Cocoapods：</p>
-<pre><code>pod trunk push DTTracker.podspec
-</code></pre><p>8.验证是否推送成功：</p>
-<pre><code>rm ~/Library/Caches/CocoaPods/search_index.json
-pod search DTTracker
-</code></pre><h2 id="Carthage"><a href="#Carthage" class="headerlink" title="Carthage"></a>Carthage</h2><p>Carthage目前只支持动态库，而在<a href="http://liuyunclouder.github.io/2016/12/10/iOS%20framework%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93/" target="_blank" rel="external">iOS framework开发流程</a>中，我们新建的framework是静态库，因此，我们需要新建一个framework工程：<br>1.创建Cocoa touch framework：DTTrackerForCarthage<br>2.添加valid architecture类型<br><img src="http://d.pr/i/ieCH+" alt=""><br>3.添加compile source(.m文件)和header文件<br><img src="http://d.pr/i/G1Aj+" alt=""><br>4.添加link库<br><img src="http://d.pr/i/OHPS+" alt=""><br>5.我们需要让生成的framework名称为DTTracker，而不是DTTrackerForCarthage，因此还需要修改framework名称<br><img src="http://d.pr/i/Y4dW+" alt=""><br>6.修改scheme为shared<br>7.生成framework：进入framework开发工程根目录，执行以下命令</p>
-<pre><code>carthage build --no-skip-current
-carthage archive DTTracker
-</code></pre><p>8.找到生成的DTTrack.framework.zip文件，放入最开始我们创建的framework发布工程，这时我们的目录结构是这样的<br><img src="http://d.pr/i/6YZM+" alt=""><br>9.打tag，提交远程<br>10.创建 github release，提交DTTracker.framework.zip<br><img src="http://d.pr/i/QlL7+" alt=""></p>
-<p>当然，每次还要打开命令行去执行carthage命令，显然是浪费时间，为节省时间同时也方便其它同事打framework，我们可以再添加一个aggregate target：<br><img src="http://d.pr/i/Mo3q+" alt=""></p>
-<pre><code>set -e
-
-carthage build --no-skip-current
-carthage archive ${PROJECT_NAME}
-
-mkdir -p &quot;${PROJECT_DIR}/frameworks/carthage&quot;
-
-mv &quot;${PROJECT_DIR}/${PROJECT_NAME}.framework.zip&quot; &quot;${PROJECT_DIR}/frameworks/carthage&quot;
-</code></pre><p>这样，每次我们只需要运行一下这个target对应的scheme就能生成我们需要的DTTracker.framework.zip文件<br><img src="http://d.pr/i/puCw+" alt=""></p>
-<p>当然，目前的流程还可以再改进，我们可以再建一个target，修改framework开发工程的版本号后同时为Cocoapods和Carthage打包并copy到framework发布工程，然后修改podspec版本号并打好tag并提交。然而目前就我一个人开发，基本够用，有时间再弄。</p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://guides.cocoapods.org/syntax/podspec.html" target="_blank" rel="external">https://guides.cocoapods.org/syntax/podspec.html</a></p>
-<p><a href="https://github.com/Carthage/Carthage#supporting-carthage-for-your-framework" target="_blank" rel="external">https://github.com/Carthage/Carthage#supporting-carthage-for-your-framework</a></p>
-
+        <p>__bridge  //不涉及引用计数，用于不赋值或者不作为返回值时</p>
+<pre><code>CFArrayGetcount((__bridge CFArrayRef) nsArray); 
+</code></pre><p>__bridge_transfer //把 Core Foundation类型转换为 Cocoa 类型</p>
+<pre><code>//减少cfString的计数，把所有权交给ARC 
+NSString *nsString = (__bridge_transfer id)cfString; 
+或者
+NSString *nsString = CFBridgingRelease(cfString);
+</code></pre><p>__bridge_retained //把 Cocoa 类型转换为  Core Foundation类型</p>
+<pre><code>//增加nsString的计数，把所有权交给Core Foundation，PS：别忘了使用后CFRelease
+CFStringRef cfString = (__bridge_retained CFTypeRef)nsString;  
+或者
+CFStringRef cfString = CFBridgingRetain(nsString); 
+</code></pre><p>以上规则的前提是我们拥有这个对象的ownership，否则，我们最好别转移所有权。比如： </p>
+<pre><code>NSMutableDictionary *keyAnimationDict = (__bridge id)CFDictionaryGetValue(_dict, (__bridge void *)obj); 
+</code></pre>
       
     </div>
     
@@ -429,17 +373,13 @@ mv &quot;${PROJECT_DIR}/${PROJECT_NAME}.framework.zip&quot; &quot;${PROJECT_DIR}
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/07/《暗时间》阅读笔记/" rel="next" title="《暗时间》阅读笔记">
-                <i class="fa fa-chevron-left"></i> 《暗时间》阅读笔记
+              <a href="/2017/02/04/LLDB命令及扩展/" rel="next" title="LLDB命令及扩展">
+                <i class="fa fa-chevron-left"></i> LLDB命令及扩展
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/21/个人信息系统/" rel="prev" title="个人信息系统">
-                个人信息系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -488,8 +428,8 @@ mv &quot;${PROJECT_DIR}/${PROJECT_NAME}.framework.zip&quot; &quot;${PROJECT_DIR}
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/14/iOS framework 发布流程总结/"
-           data-title="iOS framework 发布流程总结" data-url="http://yoursite.com/2017/01/14/iOS framework 发布流程总结/">
+      <div class="ds-thread" data-thread-key="2017/02/11/Core Foundation 与 Cocoa类型转换/"
+           data-title="Core Foundation 与 Cocoa类型转换" data-url="http://yoursite.com/2017/02/11/Core Foundation 与 Cocoa类型转换/">
       </div>
     
   </div>
@@ -568,7 +508,7 @@ mv &quot;${PROJECT_DIR}/${PROJECT_NAME}.framework.zip&quot; &quot;${PROJECT_DIR}
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#包管理工具"><span class="nav-number">1.</span> <span class="nav-text">包管理工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cocoapods"><span class="nav-number">2.</span> <span class="nav-text">Cocoapods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Carthage"><span class="nav-number">3.</span> <span class="nav-text">Carthage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
             
           </div>
         </section>
