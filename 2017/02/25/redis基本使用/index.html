@@ -80,22 +80,39 @@
 
 
 
-<meta name="description" content="说说我所碰到的几个比较折腾的bug
-vpn + reachability之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：
-reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;">
+<meta name="description" content="基本命令安装brew install redis 
+启动redisredis-server 
+开机启动brew services start redis
+连接本地redisredis-cli 
+连接远程redisredis-cli -h {redis_host} -p {redis_port}
+获取redis所有db的统计数据info keyspace 
+进入dbselect 2 
+获取当前db所">
 <meta property="og:type" content="article">
-<meta property="og:title" content="那些把我们坑惨了的bug">
-<meta property="og:url" content="http://yoursite.com/2016/11/19/那些把我们坑惨了的bug/index.html">
+<meta property="og:title" content="redis基本使用">
+<meta property="og:url" content="http://yoursite.com/2017/02/25/redis基本使用/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="说说我所碰到的几个比较折腾的bug
-vpn + reachability之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：
-reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;">
-<meta property="og:updated_time" content="2016-11-19T12:37:42.000Z">
+<meta property="og:description" content="基本命令安装brew install redis 
+启动redisredis-server 
+开机启动brew services start redis
+连接本地redisredis-cli 
+连接远程redisredis-cli -h {redis_host} -p {redis_port}
+获取redis所有db的统计数据info keyspace 
+进入dbselect 2 
+获取当前db所">
+<meta property="og:image" content="http://d.pr/i/Wgr3+">
+<meta property="og:updated_time" content="2017-02-25T14:22:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那些把我们坑惨了的bug">
-<meta name="twitter:description" content="说说我所碰到的几个比较折腾的bug
-vpn + reachability之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：
-reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;">
+<meta name="twitter:title" content="redis基本使用">
+<meta name="twitter:description" content="基本命令安装brew install redis 
+启动redisredis-server 
+开机启动brew services start redis
+连接本地redisredis-cli 
+连接远程redisredis-cli -h {redis_host} -p {redis_port}
+获取redis所有db的统计数据info keyspace 
+进入dbselect 2 
+获取当前db所">
+<meta name="twitter:image" content="http://d.pr/i/Wgr3+">
 
 
 
@@ -113,7 +130,7 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
   };
 </script>
 
-  <title> 那些把我们坑惨了的bug | Ezio's Blog </title>
+  <title> redis基本使用 | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -263,7 +280,7 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
             
             
               
-                那些把我们坑惨了的bug
+                redis基本使用
               
             
           </h1>
@@ -275,8 +292,8 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-19T20:00:00+08:00" content="2016-11-19">
-              2016-11-19
+            <time itemprop="dateCreated" datetime="2017-02-25T20:00:00+08:00" content="2017-02-25">
+              2017-02-25
             </time>
           </span>
 
@@ -286,8 +303,8 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/11/19/那些把我们坑惨了的bug/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/19/那些把我们坑惨了的bug/" itemprop="commentsCount"></span>
+                <a href="/2017/02/25/redis基本使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/25/redis基本使用/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -309,37 +326,20 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
       
 
       
-        <p>说说我所碰到的几个比较折腾的bug</p>
-<h4 id="vpn-reachability"><a href="#vpn-reachability" class="headerlink" title="vpn + reachability"></a>vpn + reachability</h4><p>之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：</p>
-<p><code>reach = Reachability reachabilityWithHostname:@&quot;http://ibbpp.com/&quot;</code><br>本地测试了下，没问题，于是就放心提交了。<br>后来客户反馈说在有网状态下，图片一直没上传。</p>
-<p>首先怀疑是服务器挂了，结果发现<a href="http://ibbpp.com/" target="_blank" rel="external">http://ibbpp.com/</a>首页能正常打开。用自己的手机测试了下，也没问题。</p>
-<p>最终发现客户的截图上显示有挂VPN，于是挂上VPN测试，果然。同时，客户在国外没挂VPN也能复现这个问题。</p>
-<p>于是猜测很可能是网络本身的问题，比如DNS解析服务。最终的解决方案：</p>
-<p><code>reach = Reachability reachabilityWithHostname:@&quot;www.baidu.com&quot;</code><br>当然，当我们服务器挂了，只要阿里云OSS服务没挂，图片还是能正常上传，不会影响业务逻辑。</p>
-<p>这里有个小问题。Reachability底层使用SCNetworkReachabilityRef来监测网络状况</p>
-<pre><code>+(Reachability*)reachabilityWithHostname:(NSString*)hostname
-{
-    SCNetworkReachabilityRef ref = SCNetworkReachabilityCreateWithName(NULL, [hostname UTF8String]);
-    if (ref) 
-    {
-        id reachability = [[self alloc] initWithReachabilityRef:ref];
-
-        return reachability;
-    }
-
-    return nil;
-}
-</code></pre><p>而SCNetworkReachabilityRef本身是不准确的：</p>
-<blockquote>
-<p>The SCNetworkReachability programming interface allows an application to determine the status of a system’s current network configuration and the reachability of a target host. A remote host is considered reachable when a data packet, sent by an application into the network stack, can leave the local device. Reachability does not guarantee that the data packet will actually be received by the host</p>
-</blockquote>
-<p>在局域网没有连接互联网的情况下，比如家里 WiFi能连上但宽带欠费了，SCNetworkReachability还会显示网络可用。</p>
-<p>最好的方案还是直接调用一个自定义的服务器接口，使用短超时和特定返回来监测网络状况。或者直接Ping也行。</p>
-<h4 id="messageid"><a href="#messageid" class="headerlink" title="messageid"></a>messageid</h4><p>在IM应用中，需要记录消息的id，这个id一般位数会比较长，比如64bit。后续从数据库中取出时需要经过JSON序列化，比如</p>
-<p><code>NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:error</code><br>而苹果的NSJSONSerialization在iOS7和iOS7以下的系统上转换大数值时会使用NSDecimalNumber，在iOS8上会使用CFNumber。</p>
-<p>而苹果在设计NSDecimalNumber时，只保证53bit的精度，所以任何超过这一精度的数值在JSON序列化之后，如果直接通过unsignedLongLongValue方法来获取时都可能会出错。</p>
-<p>解决方案，先转化为字符串再转成数值：</p>
-<p><code>[[decimalNumber description] longLongValue]</code></p>
+        <h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code>brew install redis 
+</code></pre><h4 id="启动redis"><a href="#启动redis" class="headerlink" title="启动redis"></a>启动redis</h4><pre><code>redis-server 
+</code></pre><h4 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h4><pre><code>brew services start redis
+</code></pre><h4 id="连接本地redis"><a href="#连接本地redis" class="headerlink" title="连接本地redis"></a>连接本地redis</h4><pre><code>redis-cli 
+</code></pre><h4 id="连接远程redis"><a href="#连接远程redis" class="headerlink" title="连接远程redis"></a>连接远程redis</h4><pre><code>redis-cli -h {redis_host} -p {redis_port}
+</code></pre><h4 id="获取redis所有db的统计数据"><a href="#获取redis所有db的统计数据" class="headerlink" title="获取redis所有db的统计数据"></a>获取redis所有db的统计数据</h4><pre><code>info keyspace 
+</code></pre><h4 id="进入db"><a href="#进入db" class="headerlink" title="进入db"></a>进入db</h4><pre><code>select 2 
+</code></pre><h4 id="获取当前db所有key"><a href="#获取当前db所有key" class="headerlink" title="获取当前db所有key"></a>获取当前db所有key</h4><pre><code>keys * 
+</code></pre><h4 id="设置和获取"><a href="#设置和获取" class="headerlink" title="设置和获取"></a>设置和获取</h4><pre><code>set varname value1 
+get varname 
+</code></pre><h4 id="清空"><a href="#清空" class="headerlink" title="清空"></a>清空</h4><pre><code>flushdb // 清除当前数据库的所有keys
+flushall // 清除所有数据库的所有keys 
+</code></pre><h2 id="导图"><a href="#导图" class="headerlink" title="导图"></a>导图</h2><p><img src="http://d.pr/i/Wgr3+" alt=""></p>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p><a href="http://www.redis.cn/documentation.html" target="_blank" rel="external">http://www.redis.cn/documentation.html</a></p>
 
       
     </div>
@@ -384,17 +384,13 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/12/保存Git用户名密码/" rel="next" title="保存Git用户名密码">
-                <i class="fa fa-chevron-left"></i> 保存Git用户名密码
+              <a href="/2017/02/18/读完《软技能》，妈妈再也不用担心35岁后的我被开除了/" rel="next" title="读完《软技能》，妈妈再也不用担心35岁后的我被开除了">
+                <i class="fa fa-chevron-left"></i> 读完《软技能》，妈妈再也不用担心35岁后的我被开除了
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/26/常用Docker命令/" rel="prev" title="常用Docker命令">
-                常用Docker命令 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -443,8 +439,8 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/19/那些把我们坑惨了的bug/"
-           data-title="那些把我们坑惨了的bug" data-url="http://yoursite.com/2016/11/19/那些把我们坑惨了的bug/">
+      <div class="ds-thread" data-thread-key="2017/02/25/redis基本使用/"
+           data-title="redis基本使用" data-url="http://yoursite.com/2017/02/25/redis基本使用/">
       </div>
     
   </div>
@@ -523,7 +519,7 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#vpn-reachability"><span class="nav-number">1.</span> <span class="nav-text">vpn + reachability</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#messageid"><span class="nav-number">2.</span> <span class="nav-text">messageid</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本命令"><span class="nav-number">1.</span> <span class="nav-text">基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">1.0.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动redis"><span class="nav-number">1.0.2.</span> <span class="nav-text">启动redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开机启动"><span class="nav-number">1.0.3.</span> <span class="nav-text">开机启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接本地redis"><span class="nav-number">1.0.4.</span> <span class="nav-text">连接本地redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接远程redis"><span class="nav-number">1.0.5.</span> <span class="nav-text">连接远程redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取redis所有db的统计数据"><span class="nav-number">1.0.6.</span> <span class="nav-text">获取redis所有db的统计数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入db"><span class="nav-number">1.0.7.</span> <span class="nav-text">进入db</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取当前db所有key"><span class="nav-number">1.0.8.</span> <span class="nav-text">获取当前db所有key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置和获取"><span class="nav-number">1.0.9.</span> <span class="nav-text">设置和获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#清空"><span class="nav-number">1.0.10.</span> <span class="nav-text">清空</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导图"><span class="nav-number">2.</span> <span class="nav-text">导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档"><span class="nav-number">3.</span> <span class="nav-text">文档</span></a></li></ol></div>
             
           </div>
         </section>
