@@ -1,0 +1,768 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/libs/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/libs/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近事情太多了，偷懒把15年的读书笔记发上来充个数。
+Questioncategory用的是哪种设计模式？不属于23种设计模式的任何一种，本身就是一种设计模式 
+perform selector用的是哪种设计模式？类似于命令模式，NSInvocation是一种更为完备的命令模式 
+bundle用的是哪种设计模式？bundle本身就是一种设计模式，类似facade 
+binding是什么？ In t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Cocoa Design Patterns》阅读笔记">
+<meta property="og:url" content="http://yoursite.com/2017/03/11/《Cocoa Design Patterns》阅读笔记/index.html">
+<meta property="og:site_name" content="Ezio's Blog">
+<meta property="og:description" content="最近事情太多了，偷懒把15年的读书笔记发上来充个数。
+Questioncategory用的是哪种设计模式？不属于23种设计模式的任何一种，本身就是一种设计模式 
+perform selector用的是哪种设计模式？类似于命令模式，NSInvocation是一种更为完备的命令模式 
+bundle用的是哪种设计模式？bundle本身就是一种设计模式，类似facade 
+binding是什么？ In t">
+<meta property="og:image" content="http://d.pr/i/D02C+">
+<meta property="og:image" content="http://d.pr/i/dhUo+">
+<meta property="og:image" content="http://d.pr/i/fxWl+">
+<meta property="og:image" content="http://d.pr/i/BpyW+">
+<meta property="og:image" content="http://d.pr/i/VpQF+">
+<meta property="og:image" content="http://d.pr/i/Odey+">
+<meta property="og:updated_time" content="2017-03-11T12:18:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Cocoa Design Patterns》阅读笔记">
+<meta name="twitter:description" content="最近事情太多了，偷懒把15年的读书笔记发上来充个数。
+Questioncategory用的是哪种设计模式？不属于23种设计模式的任何一种，本身就是一种设计模式 
+perform selector用的是哪种设计模式？类似于命令模式，NSInvocation是一种更为完备的命令模式 
+bundle用的是哪种设计模式？bundle本身就是一种设计模式，类似facade 
+binding是什么？ In t">
+<meta name="twitter:image" content="http://d.pr/i/D02C+">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 《Cocoa Design Patterns》阅读笔记 | Ezio's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?a63d6742fa06ccda252c7c1bdc9649d9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ezio's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">record</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《Cocoa Design Patterns》阅读笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-11T20:00:00+08:00" content="2017-03-11">
+              2017-03-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/11/《Cocoa Design Patterns》阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/11/《Cocoa Design Patterns》阅读笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近事情太多了，偷懒把15年的读书笔记发上来充个数。</p>
+<h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><h3 id="category用的是哪种设计模式？"><a href="#category用的是哪种设计模式？" class="headerlink" title="category用的是哪种设计模式？"></a>category用的是哪种设计模式？</h3><p>不属于23种设计模式的任何一种，本身就是一种设计模式 </p>
+<h3 id="perform-selector用的是哪种设计模式？"><a href="#perform-selector用的是哪种设计模式？" class="headerlink" title="perform selector用的是哪种设计模式？"></a>perform selector用的是哪种设计模式？</h3><p>类似于命令模式，NSInvocation是一种更为完备的命令模式 </p>
+<h3 id="bundle用的是哪种设计模式？"><a href="#bundle用的是哪种设计模式？" class="headerlink" title="bundle用的是哪种设计模式？"></a>bundle用的是哪种设计模式？</h3><p>bundle本身就是一种设计模式，类似facade </p>
+<h3 id="binding是什么？"><a href="#binding是什么？" class="headerlink" title="binding是什么？"></a>binding是什么？</h3><p> In the C programming language and languages derived from it like Objective-C and C++, compilers and linkers convert explicit function calls in program source code into machine language jumps to code at predetermined fixed addresses in memory.The conversion of code to fixed addresses in sometimes called binding </p>
+<p>mac开发中还有一种binding是利用KVO做双向绑定，具体实现原理不清楚，但有类似的ios开源库（Bind），可以研究下 </p>
+<h3 id="访问者和命令模式在cocoa的哪些地方有用到？"><a href="#访问者和命令模式在cocoa的哪些地方有用到？" class="headerlink" title="访问者和命令模式在cocoa的哪些地方有用到？"></a>访问者和命令模式在cocoa的哪些地方有用到？</h3><p>NSProxy </p>
+<h3 id="装饰者模式在cocoa的哪些地方有用到？"><a href="#装饰者模式在cocoa的哪些地方有用到？" class="headerlink" title="装饰者模式在cocoa的哪些地方有用到？"></a>装饰者模式在cocoa的哪些地方有用到？</h3><p>UIView的子类、category </p>
+<h2 id="摘要笔记"><a href="#摘要笔记" class="headerlink" title="摘要笔记"></a>摘要笔记</h2><h3 id="One-Pattern-to-Rule-Them-All"><a href="#One-Pattern-to-Rule-Them-All" class="headerlink" title="One Pattern to Rule Them All"></a>One Pattern to Rule Them All</h3><p>Model View Controller</p>
+<h3 id="Fundamental-Patterns"><a href="#Fundamental-Patterns" class="headerlink" title="Fundamental Patterns"></a>Fundamental Patterns</h3><h4 id="two-stage-creation"><a href="#two-stage-creation" class="headerlink" title="two stage creation"></a>two stage creation</h4><p>分离成两个步骤后，有desinated initializer和非desinated initializer，方便创建非desinated initializer </p>
+<h4 id="template-method"><a href="#template-method" class="headerlink" title="template method"></a>template method</h4><p>If you find yourself contemplating the creation of Template Methods in code intended for reuse, first consider Delegates. In many cases, Delegates provide a more flexible alter- native to Template Methods. </p>
+<h4 id="dynamic-creation"><a href="#dynamic-creation" class="headerlink" title="dynamic creation"></a>dynamic creation</h4><p>One very important aspect of this power is the fact that this function allows a developer to use an object that was unknown to the compiler and linker when the application was built </p>
+<h4 id="Heterogeneous-Containers"><a href="#Heterogeneous-Containers" class="headerlink" title="Heterogeneous Containers"></a>Heterogeneous Containers</h4><p>The NSArray and NSMutableArray classes store ordered collections of object refer- ences.The NSDictionary and NSMutableDictionary classes store associations of keys and values for rapid retrieval.The NSSet and NSMutableSet classes store unordered col- lections of unique object references; each object can be referenced at most once in any particular set. Finally, NSCountedSet, a subclass of NSMutableSet, provides an unordered collection, but it allows multiple references to the same object within one collection. </p>
+<p>NSOrderedSet NSMutableOrderedSet </p>
+<h4 id="Enumerators"><a href="#Enumerators" class="headerlink" title="Enumerators"></a>Enumerators</h4><p>一个通过继承(NSEnumerator)，一个通过协议（NSFastEnumeration） </p>
+<h4 id="perform-selector"><a href="#perform-selector" class="headerlink" title="perform selector"></a>perform selector</h4><p>The Invocation pattern and the NSInvocation class provide a more complete implementation of late binding of messages than the simple –performSelector: method. NSInvocation can store messages that have nonobject return types or require complex arguments. </p>
+<p>An Action is really just a variable selector, and the target is just an anonymous object </p>
+<h4 id="accessor"><a href="#accessor" class="headerlink" title="accessor"></a>accessor</h4><p>Methods like NSData’s -(void)getBytes:(void <em>)aBuffer return values by reference because the number of bytes that will be returned can’t be determined at compile time. Other examples of get methods include NSArray’s -(void)getOb- jects:(id </em>)aBuffer, NSString’s -(void)getCharacters:(unichar <em>)aBuffer, and NSValue’s -(void)getValue:(void </em>)aBuffer. In each case, the size of the value copied into the referenced memory is variable.Another reason for returning values by ref- erence is to enable the return of more than one value from a single method.A good ex- ample of that is NSColor’s -(void)getRed:(CGFloat <em>)red green:(CGFloat </em>)green blue:(CGFloat <em>)blue alpha:(CGFloat </em>)alpha method, which returns four floating point values by reference. </p>
+<ul>
+<li>(NSString *)title {<br>return _myTitle;<br>}<br>The -title implementation is adequate in most cases, but a more sophisticated tech- nique may be necessary if the application using the title is multithreaded. In a multithreaded<br>application, there is a chance that another thread of execution may alter _myTitle or release it after it has been returned from the -title method but before the code that called -title has had an opportunity to retain the returned object. In that case, _myTitle’s retain count may reach zero, and the object may be deallocated, leaving the code that called -title with a pointer to a deallocated (invalid) object. One solution that supports the multithreaded case is to retain and autorelease the ob- ject being returned as follows: </li>
+<li>(NSString *)title {<br>id result;<br>// Lock<br>result = [[_myTitle retain]() autorelease];<br>// Unlock<br>return result];<br>} </li>
+</ul>
+<h4 id="archiving-and-unarchiving"><a href="#archiving-and-unarchiving" class="headerlink" title="archiving and unarchiving"></a>archiving and unarchiving</h4><p>Conditional Encoding </p>
+<h3 id="Patterns-That-Primarily-Empower-by-Decoupling"><a href="#Patterns-That-Primarily-Empower-by-Decoupling" class="headerlink" title="Patterns That Primarily Empower by Decoupling"></a>Patterns That Primarily Empower by Decoupling</h3><h4 id="singleton"><a href="#singleton" class="headerlink" title="singleton"></a>singleton</h4><p>Classes exist to encapsulate information about instances and provide a single inter- face for creating instances. Using an instance of MYGameHighScoreManager to manage scores and using the MYGameHighScoreManager class itself to encapsulate access to the in- stance is the cleanest way to achieve the goals of flexibility and maintainability. </p>
+<h4 id="nsnotification"><a href="#nsnotification" class="headerlink" title="nsnotification"></a>nsnotification</h4><p>The object that sends a message to a notification center doesn’t need to know what observers exist or how many observers ultimately receive the notification. Similarly, the observers don’t necessarily need to know where notifications originate </p>
+<p>Use the Notification pattern when anonymous objects need to passively observe and react to important events. In contrast, use the Delegates pattern when anonymous objects need to actively influence events as they happen. </p>
+<h4 id="delegate"><a href="#delegate" class="headerlink" title="delegate"></a>delegate</h4><p>Delegates simplify the customization of object behavior while minimizing coupling be- tween objects </p>
+<h4 id="delegate-vs-subclassing"><a href="#delegate-vs-subclassing" class="headerlink" title="delegate vs subclassing"></a>delegate vs subclassing</h4><p>Subclassing statically establishes the relationship between the subclass and its superclass at compile time. In many cases, runtime flexibility is desired. For example, constraints on the resizing behav- ior of a window might change based on user actions at runtime </p>
+<h4 id="datasource"><a href="#datasource" class="headerlink" title="datasource"></a>datasource</h4><p>Data sources are similar to delegates, but they play a different role. Delegates react to changes or control other objects.A data source provides data to another object whenever needed. Delegates are always optional; the object that uses a delegate falls back to default behavior if there is no delegate assigned.An object that uses a data source may not be functional without a valid data source to supply data. For example, Cocoa’s NSTableView class retrieves data as needed from a data source. Using a data source provides several advantages. First and most importantly, using a data source preserves the separation of subsystems in the Model-View-Controller pattern.The graphical table drawing and editing features of NSTableView clearly belong in the View subsystem. Calculation, retrieval, and storage of the data values to be displayed are clearly part of the Model subsystem.The calculations and storage of data remains the same even if the mechanism used to display the data changes.The same Model data could be displayed in a pie chart or output to a file or sent to a printer.The object acting as a data source for an instance of NSTableView is typically part of the Controller subsystem.The data source responds to the NSTableView’s requests for data by retrieving the data from the Model. NSTableView is decoupled from details regarding the retrieval of data from the Model. Similarly, classes in the Model subsystem have no coupling to the View objects that dis- play data. Using a data source has the added advantage of enabling efficient data processing and memory usage. For example, even if a table has a million rows, at most a few dozen rows can be seen on the screen at once. NSTableView only asks its data source for the data needed to display the currently visible rows. If the Model subsystem needs to calculate the data or the data must be fetched over a network from a database, there is no need to cal- culate or fetch a million rows of data at once. Like a delegate, the data source object is not retained by the object that uses it. A single object acting as a data source may provide data to any number of objects.Apple identifies the messages that will be sent to a data source in the class documentation for the classes that require a data source. Just like delegate methods, there is typically an informal proto- col that declares the methods a data source must implement. </p>
+<h4 id="outlets-target-action"><a href="#outlets-target-action" class="headerlink" title="outlets target action"></a>outlets target action</h4><p>Any instance variable with type id and a name that doesn’t start with an underscore character is automatically considered an outlet. In addi- tion, any instance variable that is a pointer to an object and includes the IBOutlet macro in its declaration is treated as an outlet. </p>
+<p>The IBOutlet macro is defined in NSNibDeclarations.h, which is part of Cocoa’s Application Kit framework, and the C preprocessor replaces it with a single space charac- ter whenever it’s encountered in source code. IBOutlet doesn’t change the meaning of compiled code at all. It is just a hint to Interface Builder that identifies outlets with types more specific than id.When a specific type is declared, Interface Builder will respect it and use that information to limit what types of objects may be connected to that outlet. </p>
+<p>The IBAction type is actually a preprocessor macro that evaluates to the void type. </p>
+<h4 id="MVC之间的耦合"><a href="#MVC之间的耦合" class="headerlink" title="MVC之间的耦合"></a>MVC之间的耦合</h4><p>With regard to coupling, the MYPlayerController class knows about the MYSongPlayer object in the Model and is therefore coupled to the Model, but the Model knows nothing about the Controller subsystem.The MYPlayerController instance also has outlets that are con- nected toView objects.The Controller is slightly coupled to theView but knows very lit- tle about theView objects with which it communicates.TheView has no dependence on the Controller.The buttons and slider have targets defined with type id, which means they could be connected to any objects that respond to the assigned action messages. </p>
+<h4 id="MVC信息流"><a href="#MVC信息流" class="headerlink" title="MVC信息流"></a>MVC信息流</h4><p>￼<img src="http://d.pr/i/D02C+" alt=""></p>
+<h4 id="responder-chain"><a href="#responder-chain" class="headerlink" title="responder chain"></a>responder chain</h4><p>As a user works with an application, Cocoa automatically tracks where the user’s focus is.The window currently receiving keyboard input is known as the “key” window.The currently focused document is known as the “main” window. Usually a user is working directly in the document, so the key and main windows are the same. Sometimes the user’s focus is actually on two windows, however. For example, in a multidocument appli- cation with utility panels, the user might be focused on a particular document while entering something into a utility panel.The input to the utility panel is expected to mod- ify the focused document in some way. In this case, the utility panel would be the key window, while the document it affects is the main window </p>
+<p>Incoming keyboard and mouse events are converted to NSEvent objects by the NSApplication object and then dispatched to the correct responder object by passing them down a Responder Chain. For a keyboard events and mouse moved events, the first responder of the key window is the head of the chain. For mouse clicks, the most deeply nested view directly under the mouse is the head. If a responder doesn’t want to handle the event, then it will pass the event on to the next responder in the chain until either an object handles the event or the event reaches the end of the chain. </p>
+<ol>
+<li>Start with the first responder of the key window. </li>
+<li>Follow the Responder Chain up the view hierarchy. </li>
+<li>Try the window object. </li>
+<li>Try the window’s delegate,which is often an NSDocument instance. </li>
+<li>Next is an NSWindowController instance,if there is one. </li>
+<li>Repeat 1-5 starting with the first responder of the main window. </li>
+<li>Try the NSApplication object and its delegate. </li>
+<li>Try the NSDocumentController,ifthereisone. </li>
+</ol>
+<h4 id="Associative-Storage"><a href="#Associative-Storage" class="headerlink" title="Associative Storage"></a>Associative Storage</h4><p>In addition to conforming to the NSCopying protocol, objects used as keys in a dictionary must implement the -isEqual: and -hash methods so that any two objects that are considered equal by the -isEqual: method also have the same hash value.The -isEqual: and -hash methods are declared in the NSObject class, which provides basic implementations using the addresses of objects. In other words, two objects are equal if they have the same address, and the -hash value is computed from the address. </p>
+<p>The key value system allows pro- grams to interact with objects as if every object is a dictionary that associates its properties with string keys</p>
+<p>KeyValue Coding provides a way for scripting languages to access the values stored in objects at runtime based on the string name of the value. Perhaps more importantly, Key Value Coding is the foundation for Cocoa bindings technology. Key Value Coding applies the Associative Storage pattern to every Cocoa object so that object instance variables or accessors are selected at runtime via string keys. </p>
+<p>KVC/KVO is a variation of the Associative Storage pattern, which lets you access the properties of ob- jects as if every object were a simple dictionary of key/value pairs </p>
+<h4 id="invocation"><a href="#invocation" class="headerlink" title="invocation"></a>invocation</h4><p>One point of confusion for many developers is in how messages are named. Each name has two parts, the selector and the method signature. Both parts are required to properly configure NSInvocation objects. A selector is the message’s name without any type infor- mation, for example “countOfObjectsOfType:” is a selector. Objective-C also has the data type SEL, which is a unique identifier representing a selector.The Objective-C direc- tive @selector() can be used to obtain a SEL. </p>
+<p>Most programmers consider the selector to be the same thing as the message name, and in most cases this is fine. However, selectors do not provide any type information. To build a complete message, the types of each argument and the return value’s type need to be known.This type information is known as a method signature.The class NSMethodSignature encapsulates this information </p>
+<p>Invocations package up an Objective-C method so that it can be handled as if it were an object </p>
+<ul>
+<li>(id)tellPerson:(id)person<br>{ </li>
+</ul>
+<p>} </p>
+<p>selector(用sel表示)<br>tellPerson:   @selector(tellPerson:) </p>
+<p>method signature (用NSMethodSignature表示)<br>id id </p>
+<h4 id="invocation创建及执行流程"><a href="#invocation创建及执行流程" class="headerlink" title="invocation创建及执行流程"></a>invocation创建及执行流程</h4><pre><code>NSString *receivingString = [receiver stringValue];  
+NSString *messageString = [message titleOfSelectedItem];  
+SEL selector = NSSelectorFromString(messageString);  
+NSMethodSignature *methodSignature = [receivingString methodSignatureForSelector:selector];  
+NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature]; 
+
+[invocation setTarget:receivingString]; // argument 0 is &quot;self&quot;  
+[invocation setSelector:selector]; // argument 1 is &quot;_cmd&quot; 
+
+int numberOfArguments = [[message selectedItem] tag];  
+if (numberOfArguments &gt; 0) 
+{ 
+NSString *argumentString1 = [argument1 stringValue];  
+[invocation setArgument:&amp;argumentString1 atIndex:2];  
+if (numberOfArguments &gt; 1) 
+{ 
+NSString *argumentString2 = [argument2 stringValue]; 
+[invocation setArgument:&amp;argumentString2 atIndex:3];  
+} 
+} 
+
+
+[invocation invoke]; 
+void *returnValue = NULL; 
+[invocation getReturnValue:&amp;returnValue]; 
+const char *returnType = [methodSignature methodReturnType]; 
+if (returnType) { 
+switch (returnType[0]) { 
+case ‘@&apos;: 
+[result setObjectValue:(id)returnValue]; break; 
+case ‘i&apos;: 
+[result setIntValue:(int)returnValue]; break; 
+default: break; 
+}  
+} 
+</code></pre><h4 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h4><p>The most essential feature of prototype objects is that they can be copied </p>
+<h4 id="flyweight"><a href="#flyweight" class="headerlink" title="flyweight"></a>flyweight</h4><p>There may be a lot of NSNumber instances in use at any one time in a Cocoa program. Cocoa optimizes storage for NSNumber instances by sharing them. Each time you call <a href="">NSNumber numberWithInt:0</a>;, you are likely to get the same instance returned. Cocoa keeps a cache of recently or frequently used NSNumber instances.When you ask for a new NSNumber that stores the same value as a cached instance, the cached instance is returned instead of a new instance </p>
+<h3 id="Patterns-That-Primarily-Hide-Complexity"><a href="#Patterns-That-Primarily-Hide-Complexity" class="headerlink" title="Patterns That Primarily Hide Complexity"></a>Patterns That Primarily Hide Complexity</h3><p>The patterns in Part IV hide complexity and implementation details so programmers can focus on solving problems.<br>编程是为了解决问题，不要被技术细节困住，专注于解决问题 </p>
+<h4 id="bundle"><a href="#bundle" class="headerlink" title="bundle"></a>bundle</h4><p>iOS<br>￼<img src="http://d.pr/i/dhUo+" alt=""></p>
+<p>Mac OS<br>￼<img src="http://d.pr/i/fxWl+" alt=""></p>
+<p>class cluster<br>￼<img src="http://d.pr/i/BpyW+" alt=""></p>
+<p>多例模式：可以用这个模式设计内存池</p>
+<h4 id="facade"><a href="#facade" class="headerlink" title="facade"></a>facade</h4><p>The philosophy is to keep common interaction simple while making complex interaction possible </p>
+<h4 id="proxy-and-forwarding"><a href="#proxy-and-forwarding" class="headerlink" title="proxy and forwarding"></a>proxy and forwarding</h4><p>The Proxy pattern allows messages to be sent to an object that is separated from the mes- sage’s sender by time or space. Proxies can also control access to or alter the behavior of other objects. Forwarding simplifies the capture of messages as invocations so that they can be resent, delayed, repeated, stored, or altered. </p>
+<h4 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h4><p>A proxy can simulate a category with instance variables by defining its own variables and methods and then forwarding everything else to the real object. </p>
+<p>Furthermore, when a category overrides an object’s existing methods, it has no easy way to access the original method, but a proxy can.<br>给个例子啊。。。 </p>
+<p>Proxies are also able to simulate multiple inheritance by for- warding messages to multiple other objects, creating a form of composite object. </p>
+<h4 id="manager"><a href="#manager" class="headerlink" title="manager"></a>manager</h4><p>The Manager pattern is a hybrid and a generalization of other patterns such as Singleton, Façade, and Controllers. </p>
+<p>In custom code, a manager should be used when a class is needed for managing instances of other classes, especially when uniqueness is required. </p>
+<h4 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h4><p>￼<img src="http://d.pr/i/VpQF+" alt=""></p>
+<h4 id="Application-Kit-Views"><a href="#Application-Kit-Views" class="headerlink" title="Application Kit Views"></a>Application Kit Views</h4><p><img src="http://d.pr/i/Odey+" alt="">￼</p>
+<p>When input data becomes available, the run loop translates the data into events and sends Objective-C messages to various objects to process the events. </p>
+<p>The key window receives key- board events.The main window is the window that is affected by actions in the key win- dow.The key window and the main window are usually the same, but in some cases they might be different </p>
+<p>The first view to receive an event-processing message depends on the type of the event.The first mouse-down event within a window that is not the key window is usually consumed by the window itself to make the window into the key window and bring it to the front.This behavior can be modified in several ways. For example, a subclass of NSView can override the - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent method to return YES based on the mouse event. Returning YES means that the view is able to use the first mouse click in an inactive window. NSWindow sends mouse-down and mouse-move event messages to the top-most view under the mouse. Subviews are drawn after their superview.The top-most view under the mouse is therefore usually the most deeply nested view under the mouse. Mouse-move events occur frequently and are seldom used. NSWindow does not send mouse move event messages to views by default. If a subclass of NSView needs to receive mouse-move events, it must tell NSWindow to send them. NSWindow’s -(void)setAcceptsMouseMovedEvents: (BOOL)acceptMouseMovedEvents method is used to tell the window to send mouse- move event messages to views. Mouse-drag and mouse-up event messages are sent to the view that received the corresponding mouse-down event. Keyboard event messages are sent to the first responder within the window.The NSView class implements the - (BOOL)acceptsFirstResponder method to always return NO. As a result, most views never become the first responder within a window. </p>
+<p>Objective-C mes- sages that have one object argument are called actions </p>
+<p>The role of the shared NSApplication object in the target-action implementation is important. If the target of a user interface element is specified, the shared application ob- ject just sends the action message to the target directly. However, if no target is specified (the to: argument is nil), -sendAction:to:from: uses the Responder Chain to select the object that receives the action message. Setting the target of a user interface element to nil makes the target context-sensitive. If the to: argument to -sendAction:to:from: is nil, NSApplication searches the Responder Chain for an object that can respond to the action message.The search begins with the first responder in the key window. If the first responder can’t respond to the ac- tion message, the next responder is checked and so on until the key window itself is reached. After the key window gets a chance, the key window’s delegate is checked. If the key window’s delegate can’t respond to the action message, and the main window is dif- ferent from the key window, the first responder in the main window is checked.The search for an object that responds to the action continues up the main window’s Respon- der Chain to the main window itself and then the main window’s delegate. If no target has been found, the application object is tried. Finally, if the application object can’t re- spond to the action, the application object’s delegate is given a chance </p>
+<h4 id="binding-and-controller"><a href="#binding-and-controller" class="headerlink" title="binding and controller"></a>binding and controller</h4><p>Inside NSObject’s default implementation of the NSKeyValueObserving informal pro- tocol, -willChangeValueForKey: and -didChangeValueForKey: are implemented to send messages to registered observers before and after the property value changes. </p>
+<p>It’s not necessary to explicitly call -willChangeValueForKey: and -didChangeValueForKey: within correctly named Accessor methods.When you use Objective-C 2.0’s @synthesize directive to generate Accessor method implementations, the details are handled for you. Even if you hand-write Accessor methods, Cocoa provides auto- matic support for KeyValue Observing through a little bit of Objective-C runtime manipu- lation briefly described at <a href="http://developer.apple.com/documentation/Cocoa/Conceptual/" target="_blank" rel="external">http://developer.apple.com/documentation/Cocoa/Conceptual/</a> KeyValueObserving/Concepts/KVOImplementation.html.At runtime,Cocoa is able to replace your implementation of each Accessor method with a version that first calls -willChangeValueForKey:, then calls your implementation, and finally calls -didChangeValueForKey:. When Key Value Coding’s -(void)setValue:(id)value forKey:(NSString <em>)key or -(void)setValue:(id)value forKeyPath:(NSString </em>)keyPath methods are used to modify an observed property, the appropriate Accessor methods (if any) are called, and the Accessor methods take care of calling -willChangeValueForKey: and -did- ChangeValueForKey:. If there aren’t any available Accessor methods, -setValue:forKey: and -setValue:forKeyPath: call -willChangeValueForKey: and -didChangeValueForKey: directly. In summary, you only need to explicitly call -willChangeValueForKey: and -didChangeValueForKey: if you change the value of an observed property without using Key Value Coding and without using an appropriately named Accessor method. </p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat_pay.png" alt="Ezio WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay_pay.png" alt="Ezio Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+</div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/04/移动端数据埋点/" rel="next" title="移动端数据埋点">
+                <i class="fa fa-chevron-left"></i> 移动端数据埋点
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/11/《Cocoa Design Patterns》阅读笔记/"
+           data-title="《Cocoa Design Patterns》阅读笔记" data-url="http://yoursite.com/2017/03/11/《Cocoa Design Patterns》阅读笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpeg"
+               alt="Ezio" />
+          <p class="site-author-name" itemprop="name">Ezio</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Question"><span class="nav-number">1.</span> <span class="nav-text">Question</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#category用的是哪种设计模式？"><span class="nav-number">1.1.</span> <span class="nav-text">category用的是哪种设计模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#perform-selector用的是哪种设计模式？"><span class="nav-number">1.2.</span> <span class="nav-text">perform selector用的是哪种设计模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bundle用的是哪种设计模式？"><span class="nav-number">1.3.</span> <span class="nav-text">bundle用的是哪种设计模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#binding是什么？"><span class="nav-number">1.4.</span> <span class="nav-text">binding是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问者和命令模式在cocoa的哪些地方有用到？"><span class="nav-number">1.5.</span> <span class="nav-text">访问者和命令模式在cocoa的哪些地方有用到？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰者模式在cocoa的哪些地方有用到？"><span class="nav-number">1.6.</span> <span class="nav-text">装饰者模式在cocoa的哪些地方有用到？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要笔记"><span class="nav-number">2.</span> <span class="nav-text">摘要笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#One-Pattern-to-Rule-Them-All"><span class="nav-number">2.1.</span> <span class="nav-text">One Pattern to Rule Them All</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fundamental-Patterns"><span class="nav-number">2.2.</span> <span class="nav-text">Fundamental Patterns</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#two-stage-creation"><span class="nav-number">2.2.1.</span> <span class="nav-text">two stage creation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#template-method"><span class="nav-number">2.2.2.</span> <span class="nav-text">template method</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dynamic-creation"><span class="nav-number">2.2.3.</span> <span class="nav-text">dynamic creation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Heterogeneous-Containers"><span class="nav-number">2.2.4.</span> <span class="nav-text">Heterogeneous Containers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Enumerators"><span class="nav-number">2.2.5.</span> <span class="nav-text">Enumerators</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#perform-selector"><span class="nav-number">2.2.6.</span> <span class="nav-text">perform selector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#accessor"><span class="nav-number">2.2.7.</span> <span class="nav-text">accessor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#archiving-and-unarchiving"><span class="nav-number">2.2.8.</span> <span class="nav-text">archiving and unarchiving</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Patterns-That-Primarily-Empower-by-Decoupling"><span class="nav-number">2.3.</span> <span class="nav-text">Patterns That Primarily Empower by Decoupling</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#singleton"><span class="nav-number">2.3.1.</span> <span class="nav-text">singleton</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nsnotification"><span class="nav-number">2.3.2.</span> <span class="nav-text">nsnotification</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delegate"><span class="nav-number">2.3.3.</span> <span class="nav-text">delegate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delegate-vs-subclassing"><span class="nav-number">2.3.4.</span> <span class="nav-text">delegate vs subclassing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#datasource"><span class="nav-number">2.3.5.</span> <span class="nav-text">datasource</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#outlets-target-action"><span class="nav-number">2.3.6.</span> <span class="nav-text">outlets target action</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVC之间的耦合"><span class="nav-number">2.3.7.</span> <span class="nav-text">MVC之间的耦合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVC信息流"><span class="nav-number">2.3.8.</span> <span class="nav-text">MVC信息流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#responder-chain"><span class="nav-number">2.3.9.</span> <span class="nav-text">responder chain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Associative-Storage"><span class="nav-number">2.3.10.</span> <span class="nav-text">Associative Storage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#invocation"><span class="nav-number">2.3.11.</span> <span class="nav-text">invocation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#invocation创建及执行流程"><span class="nav-number">2.3.12.</span> <span class="nav-text">invocation创建及执行流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prototype"><span class="nav-number">2.3.13.</span> <span class="nav-text">prototype</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flyweight"><span class="nav-number">2.3.14.</span> <span class="nav-text">flyweight</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Patterns-That-Primarily-Hide-Complexity"><span class="nav-number">2.4.</span> <span class="nav-text">Patterns That Primarily Hide Complexity</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bundle"><span class="nav-number">2.4.1.</span> <span class="nav-text">bundle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#facade"><span class="nav-number">2.4.2.</span> <span class="nav-text">facade</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#proxy-and-forwarding"><span class="nav-number">2.4.3.</span> <span class="nav-text">proxy and forwarding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#proxy"><span class="nav-number">2.4.4.</span> <span class="nav-text">proxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#manager"><span class="nav-number">2.4.5.</span> <span class="nav-text">manager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Core-Data"><span class="nav-number">2.4.6.</span> <span class="nav-text">Core Data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Application-Kit-Views"><span class="nav-number">2.4.7.</span> <span class="nav-text">Application Kit Views</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#binding-and-controller"><span class="nav-number">2.4.8.</span> <span class="nav-text">binding and controller</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezio</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/libs/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/libs/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/libs/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/libs/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/libs/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/libs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"githubliuyunclouder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
