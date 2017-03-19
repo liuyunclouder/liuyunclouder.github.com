@@ -259,6 +259,123 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/07/常用shell命令/" itemprop="url">
+                  常用shell命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-07T20:00:00+08:00" content="2016-11-07">
+              2016-11-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/07/常用shell命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/07/常用shell命令/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="top"><a href="#top" class="headerlink" title="top"></a>top</h4><p>查看某进程的资源消耗情况<br>top -pid 60653</p>
+<h4 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h4><p>查看所有python进程<br>ps aux | grep python</p>
+<h4 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h4><p>查看当前主机所有打开的端口<br>netstat -anL</p>
+<p>查看某端口连接情况<br>netstat -an | grep -w 9092</p>
+<h4 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a>lsof</h4><p>查看某端口打开的文件情况<br>lsof -i:80</p>
+<p>查看当前主机所有打开文件<br>lsof -ni | grep LISTEN</p>
+<p>查看所有python进程<br>lsof -nP -iTCP -sTCP:LISTEN | grep python</p>
+<p>查看指定端口<br>lsof -nP -iTCP:8877 -sTCP:LISTEN</p>
+<p>输出占用该端口的 PID<br>lsof -nP -iTCP:8877 |grep LISTEN|awk ‘{print $2;}’</p>
+<h4 id="traceroute"><a href="#traceroute" class="headerlink" title="traceroute"></a>traceroute</h4><p>查看数据到达目标主机的路由情况<br>traceroute www.baidu.com</p>
+<h4 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h4><p>ssh登录<br>ssh root@114.55.10.42</p>
+<p>获取ssh key<br>pbcopy \&lt; /.ssh/idrsa.pub</p>
+<h4 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h4><p>从本地复制到远程<br>scp /home/space/music/1.mp3 root@www.cumt.edu.cn:/home/root/others/music</p>
+<p>从远程复制到本地<br>scp root@www.cumt.edu.cn:/home/root/others/music /home/space/music/1.mp3</p>
+<h4 id="LD-DEBUG（linux）"><a href="#LD-DEBUG（linux）" class="headerlink" title="LD_DEBUG（linux）"></a>LD_DEBUG（linux）</h4><p>查看nginx命令lib搜索路径<br>LD_DEBUG=libs nginx</p>
+<h4 id="ulimit"><a href="#ulimit" class="headerlink" title="ulimit"></a>ulimit</h4><p>查看系统限制的最大文件描述符数<br>sysctl -a | grep maxfiles</p>
+<p>查看当前限制的最大文件描述符数<br>ulimit -n</p>
+<p>设置当前限制的最大文件描述符数<br>ulimit -n 4863</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/05/COP VS POP/" itemprop="url">
                   COP VS POP
                 </a>
@@ -1443,133 +1560,6 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/17/使用Docker创建Elasticsearch服务/" itemprop="url">
-                  使用Docker创建Elasticsearch服务
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-17T20:00:00+08:00" content="2016-09-17">
-              2016-09-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/17/使用Docker创建Elasticsearch服务/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/17/使用Docker创建Elasticsearch服务/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近需要做的几个功能都是基于Elasticsearch，但又不想污染系统环境，所以就花了些时间研究下如何使用Docker创建Elastcisearch服务。</p>
-<p>首先先分别了解下Docker和Elasticssearch。</p>
-<h2 id="Docker是什么？"><a href="#Docker是什么？" class="headerlink" title="Docker是什么？"></a>Docker是什么？</h2><p>Docker是一个开源工具，能将一个WEB应用封装在一个轻量级，便携且独立的容器里，然后可以运行在几乎任何服务环境下。<br>Docker的容器能使应用跑在任何服务器上并且表现一致。一个开发者在笔记本上建立的一个容器，能跑在很多环境下，如：测试环境，生产环境，虚拟机上，VPS，OpenStack集群，公用的电脑等等<br>Docker的一般使用在以下几点：<br>•    自动化打包和部署应用<br>•    创造一个轻量级的，私人的 PAAS 环境<br>•    自动化测试和连续的 整合/部署<br>•    部署WEB应用，数据库和后端服务</p>
-<p>所以，Docker是一个系统级兼容的容器，它采用Linux Container技术构建一个虚拟环境，用户可以在这个环境下安装各种应用来提供服务，并且这个环境可以随时创建或销毁，不会影响宿主环境</p>
-<h2 id="Elasticsearch是什么？"><a href="#Elasticsearch是什么？" class="headerlink" title="Elasticsearch是什么？"></a>Elasticsearch是什么？</h2><p>Elasticsearch也使用Java开发并使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的RESTful API来隐藏Lucene的复杂性，从而让全文搜索变得简单。</p>
-<p>不过，Elasticsearch不仅仅是Lucene和全文搜索，我们还能这样去描述它：<br>•    分布式的实时文件存储，每个字段都被索引并可被搜索<br>•    分布式的实时分析搜索引擎<br>•    可以扩展到上百台服务器，处理PB级结构化或非结构化数据</p>
-<p>总之，ES是一个牛逼的搜索存储引擎</p>
-<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>Mac上安装Docker很简单，基本跟着<a href="https://docs.docker.com/docker-for-mac/" title="https://docs.docker.com/docker-for-mac/" target="_blank" rel="external">官网</a>的引导就可以顺利安装了，完成后确保Docker已启动，如下图<br><img src="http://d.pr/i/13gIp+" alt=""></p>
-<h2 id="创建Docker-镜像"><a href="#创建Docker-镜像" class="headerlink" title="创建Docker 镜像"></a>创建Docker 镜像</h2><p>Elasticsearch官方在Docker Hub上已经有提供镜像，如果没有额外需求，执行下面这个命令就可以直接使用Elasticsearch官方提供的镜像：</p>
-<pre><code>docker run -d -p 9200:9200 --name=&quot;es&quot; elasticsearch:2.3.5
-</code></pre><p>但我还想额外装一个Elasticsearch的插件，方便调适，所以就自己做了一个镜像，<a href=""> Dockerfile </a></p>
-<pre><code>FROM elasticsearch:2.3.5
-
-RUN /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
-
-EXPOSE 9200
-</code></pre><p>进入Dockerfile所在的文件夹，执行以下命令：</p>
-<pre><code>docker build --tag=es_ezio:2.3.5 .
-</code></pre><p>然后执行</p>
-<pre><code>docker ps
-</code></pre><p>就能看到刚才创建的镜像了<br><img src="http://d.pr/i/1k6a8+" alt=""></p>
-<h2 id="启动容器及服务"><a href="#启动容器及服务" class="headerlink" title="启动容器及服务"></a>启动容器及服务</h2><p>上一步我们只是制作了一个Docker镜像，还没有创建Docker容器。关于Docker中镜像和容器的关系，可以类比为操作系统中的程序和进程，或者面向对象语言中的Class和Instance。我们必须从镜像创建出容器才能运行我们的服务（也就是Elasticsearch服务）。</p>
-<p>第一次创建Docker容器，执行以下命令：</p>
-<pre><code>docker run -d -p 9200:9200 --name=&quot;es_ezio&quot; es_ezio:2.3.5
-</code></pre><p>Elasticsearch的默认端口是9200，我们把宿主环境9200映射到Docker容器中的9200端口，这样我们就可以直接访问宿主环境的9200端口就可以访问到Docker容器中的Elasticsearch服务了，同时我们把这个容器命名为es_ezio。</p>
-<p>如果一切顺利，访问 <a href="http://127.0.0.1:9200/_plugin/head/" target="_blank" rel="external">http://127.0.0.1:9200/_plugin/head/</a><br><img src="http://d.pr/i/n8i8+" alt=""></p>
-<p>这样，我们就完成了用Docker提供Elasticsearch服务，而不污染宿主机环境了，这样还有一个好处，如果想同时启动多个不同版本的Elastcsearch或者其他服务，Docker也是一个理想的解决方案。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Docker主要是面向运维部署，但其实对开发人员来说也是一个不错的playground，后续我的个人服务会尽量都采用Docker的方式部署。<br>Elastic search是一个功能强大的搜索存储引擎，特别是它强大的全文搜索能力，要好好研究下。</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1615,7 +1605,7 @@ EXPOSE 9200
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-count">38</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
