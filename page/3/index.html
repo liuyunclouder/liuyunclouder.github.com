@@ -259,6 +259,125 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/26/常用Docker命令/" itemprop="url">
+                  常用Docker命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-26T20:00:00+08:00" content="2016-11-26">
+              2016-11-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/26/常用Docker命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/26/常用Docker命令/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用Docker已经有段时间了，积累了一些常用命令，记录一下</p>
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><pre><code>docker run -it lingwu/kafka
+</code></pre><h3 id="启动并进入容器控制台"><a href="#启动并进入容器控制台" class="headerlink" title="启动并进入容器控制台"></a>启动并进入容器控制台</h3><pre><code>docker run -it --rm -v /Users/ezio/docker_volume/webapp:/webapp -p 3000:80 webapp sh
+</code></pre><h3 id="以后台进程启动"><a href="#以后台进程启动" class="headerlink" title="以后台进程启动"></a>以后台进程启动</h3><pre><code>docker run -d -v /Users/ezio/docker_volume/webapp:/webapp -p 3000:80 webapp
+</code></pre><h2 id="查看正在运行的容器"><a href="#查看正在运行的容器" class="headerlink" title="查看正在运行的容器"></a>查看正在运行的容器</h2><pre><code>docker ps
+</code></pre><h3 id="查看所有容器（运行中和已停止）"><a href="#查看所有容器（运行中和已停止）" class="headerlink" title="查看所有容器（运行中和已停止）"></a>查看所有容器（运行中和已停止）</h3><pre><code>docker ps -a
+</code></pre><h2 id="查看容器中的进程信息"><a href="#查看容器中的进程信息" class="headerlink" title="查看容器中的进程信息"></a>查看容器中的进程信息</h2><pre><code>docker top es
+</code></pre><h2 id="查看端口映射"><a href="#查看端口映射" class="headerlink" title="查看端口映射"></a>查看端口映射</h2><pre><code>docker port 9b7bb332ab88
+</code></pre><h2 id="查看log"><a href="#查看log" class="headerlink" title="查看log"></a>查看log</h2><pre><code>docker logs 9b7bb332ab88
+</code></pre><h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><pre><code>docker exec -it 9b7bb332ab88 sh
+</code></pre><h2 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h2><pre><code>docker stop 9b7bb332ab88
+</code></pre><h2 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h2><pre><code>docker start 9b7bb332ab88
+</code></pre><h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><pre><code>docker rm 9b7bb332ab88
+</code></pre><h3 id="删除所有容器"><a href="#删除所有容器" class="headerlink" title="删除所有容器"></a>删除所有容器</h3><pre><code>docker rm docker ps -qa
+</code></pre><h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><pre><code>docker rmi webapp
+</code></pre><h2 id="从容器生成镜像"><a href="#从容器生成镜像" class="headerlink" title="从容器生成镜像"></a>从容器生成镜像</h2><pre><code>docker commit -a 作者名字 -m 提交原因 容器ID 镜像名称:版本号 
+docker commit -a &quot;lingwu&quot; -m &quot;added vim&quot; 13d26d692be1 lingwu/kafka:v1 
+</code></pre><h2 id="把镜像推送到仓库"><a href="#把镜像推送到仓库" class="headerlink" title="把镜像推送到仓库"></a>把镜像推送到仓库</h2><pre><code>docker login
+docker push lingwu/kafka
+</code></pre><p>参考： <a href="https://github.com/wsargent/docker-cheat-sheet" target="_blank" rel="external">https://github.com/wsargent/docker-cheat-sheet</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/19/那些把我们坑惨了的bug/" itemprop="url">
                   那些把我们坑惨了的bug
                 </a>
@@ -1464,125 +1583,11 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/29/JSONizer：Popclip的JSON格式化扩展/" itemprop="url">
-                  Popclip的JSON格式化扩展
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-29T20:00:00+08:00" content="2016-09-29">
-              2016-09-29
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/29/JSONizer：Popclip的JSON格式化扩展/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/29/JSONizer：Popclip的JSON格式化扩展/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>作为一个MAC党，不好好利用MAC的神兵利器，简直就是罪过。Alfred、Dash、Ulysses、SnippetsLib、Mindnode等大名鼎鼎的效率神器自然不用提了，Popclip更是一个每天都会使用上百遍的好帮手。</p>
-<h2 id="Popclip？"><a href="#Popclip？" class="headerlink" title="Popclip？"></a>Popclip？</h2><p>简单来说，Popclip就是一个对选中的内容作快速处理的工具，比如直接搜索选中的内容、从选中的内容生成二维码、计算选中的内容的字数等，除此之外，还能自定义扩展来实现你想要的功能。</p>
-<p>这是我的Popclip扩展：<br><img src="http://d.pr/i/sfTc+" alt=""></p>
-<p>如果你还没装Popclip，马上停下来，去安装一个，再继续看下去；</p>
-<p>如果你不知道Popclip是什么，马上停下来，去看下这篇<a href="http://sspai.com/25483" target="_blank" rel="external">测评</a>，再继续看下去。</p>
-<h2 id="JSONizer的来由"><a href="#JSONizer的来由" class="headerlink" title="JSONizer的来由"></a>JSONizer的来由</h2><p>平时经常需要对一坨字符进行格式化，那时每次都需要复制、打开<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>、粘贴、点击格式化按钮，碰到网络不好的情况还要等半天，如果没网络，更是头疼。</p>
-<p>后来改用sublime的插件CodeFormatter，也能比较方便地快速格式化，但还是有个点让我不开心：CodeFormatter要求必须先把需要格式化的内容保存在一个后缀为.json的文件中，才能识别并格式化。</p>
-<p>由于用Popclip已经好一段时间了，很享受它提供的便利，于是就想装个JSON格式化扩展，搜了一下，发现竟然没有，于是就萌生了自己写一个的想法。</p>
-<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p>JSON格式化的lib都已经很成熟了，正好在<a href="http://jsbeautifier.org/" target="_blank" rel="external">jsbeautifier.org</a>上看到有提供python的一个lib。</p>
-<p>Popclip的扩展没有Alfred的workflow能提供的功能多而复杂，相应地也容易上手。参照<a href="http://computers.tutsplus.com/tutorials/popclip-scripting-extensions--mac-55842" target="_blank" rel="external">TUTS</a>上的这篇教程，几分钟就搞定了大致框架。</p>
-<p>接下来就简单了，把依赖的几个lib依赖配好，基本文件布局如下：<br><img src="http://d.pr/i/V4JL+" alt=""></p>
-<p>注：editorconfig、six.py是jsbeautifier的依赖项。</p>
-<p>最后，测试效果完美：<br><img src="http://d.pr/i/hLal+" alt=""></p>
-<p><a href="https://github.com/liuyunclouder/popclip_extension" target="_blank" rel="external"> 下载入口 </a>，希望能帮到需要的朋友。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，需要先将需要格式化的内容拷贝到编辑器中，然后再选中才能格式化。其实还能改进一下，不需要拷贝，直接在内容来源上，比如浏览器中，选中需要格式化的字符并格式化，直接把格式化后的内容写入系统剪贴板。后续有时间可以研究下。</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1623,7 +1628,7 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
