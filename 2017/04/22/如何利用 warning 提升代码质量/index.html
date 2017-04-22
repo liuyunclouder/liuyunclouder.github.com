@@ -80,22 +80,21 @@
 
 
 
-<meta name="description" content="说说我所碰到的几个比较折腾的bug
-vpn + reachability之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：
-reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;">
+<meta name="description" content="warning的作用哲学上说“存在即是合理”，warning的必要在于它能提示开发者潜在的问题，让我们尽快调整从而提高代码质量。
+warning的干扰另一方面，如果原有工程代码量过大，warning动则上千上万，都说互联网迭代开发基本上等于高速上换轮胎，哪还有时间去抽根烟，所以在实际开发过程中不可能有专门的时间来去除warning，而又不能完全无视warning，毕竟，warning的存在是我们优">
 <meta property="og:type" content="article">
-<meta property="og:title" content="那些把我们坑惨了的bug">
-<meta property="og:url" content="http://yoursite.com/2016/11/19/那些把我们坑惨了的bug/index.html">
+<meta property="og:title" content="如何利用 warning 提升代码质量">
+<meta property="og:url" content="http://yoursite.com/2017/04/22/如何利用 warning 提升代码质量/index.html">
 <meta property="og:site_name" content="Ezio's Blog">
-<meta property="og:description" content="说说我所碰到的几个比较折腾的bug
-vpn + reachability之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：
-reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;">
-<meta property="og:updated_time" content="2016-11-19T12:37:42.000Z">
+<meta property="og:description" content="warning的作用哲学上说“存在即是合理”，warning的必要在于它能提示开发者潜在的问题，让我们尽快调整从而提高代码质量。
+warning的干扰另一方面，如果原有工程代码量过大，warning动则上千上万，都说互联网迭代开发基本上等于高速上换轮胎，哪还有时间去抽根烟，所以在实际开发过程中不可能有专门的时间来去除warning，而又不能完全无视warning，毕竟，warning的存在是我们优">
+<meta property="og:image" content="http://d.pr/i/GFEz+">
+<meta property="og:updated_time" content="2017-04-22T14:07:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="那些把我们坑惨了的bug">
-<meta name="twitter:description" content="说说我所碰到的几个比较折腾的bug
-vpn + reachability之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：
-reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;">
+<meta name="twitter:title" content="如何利用 warning 提升代码质量">
+<meta name="twitter:description" content="warning的作用哲学上说“存在即是合理”，warning的必要在于它能提示开发者潜在的问题，让我们尽快调整从而提高代码质量。
+warning的干扰另一方面，如果原有工程代码量过大，warning动则上千上万，都说互联网迭代开发基本上等于高速上换轮胎，哪还有时间去抽根烟，所以在实际开发过程中不可能有专门的时间来去除warning，而又不能完全无视warning，毕竟，warning的存在是我们优">
+<meta name="twitter:image" content="http://d.pr/i/GFEz+">
 
 
 
@@ -113,7 +112,7 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
   };
 </script>
 
-  <title> 那些把我们坑惨了的bug | Ezio's Blog </title>
+  <title> 如何利用 warning 提升代码质量 | Ezio's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -263,7 +262,7 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
             
             
               
-                那些把我们坑惨了的bug
+                如何利用 warning 提升代码质量
               
             
           </h1>
@@ -275,8 +274,8 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-19T20:00:00+08:00" content="2016-11-19">
-              2016-11-19
+            <time itemprop="dateCreated" datetime="2017-04-22T20:00:00+08:00" content="2017-04-22">
+              2017-04-22
             </time>
           </span>
 
@@ -286,8 +285,8 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/11/19/那些把我们坑惨了的bug/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/19/那些把我们坑惨了的bug/" itemprop="commentsCount"></span>
+                <a href="/2017/04/22/如何利用 warning 提升代码质量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/22/如何利用 warning 提升代码质量/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -309,37 +308,76 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
       
 
       
-        <p>说说我所碰到的几个比较折腾的bug</p>
-<h4 id="vpn-reachability"><a href="#vpn-reachability" class="headerlink" title="vpn + reachability"></a>vpn + reachability</h4><p>之前在开发宝宝拍拍app的时候，需要监控网络状态，一旦有网络，需要尽快把本地图片上传到阿里云OSS，因为上传图片的同时，还需要把SQLite记录上传到我们自己的服务器，所以就这么写了：</p>
-<p><code>reach = Reachability reachabilityWithHostname:@&quot;http://ibbpp.com/&quot;</code><br>本地测试了下，没问题，于是就放心提交了。<br>后来客户反馈说在有网状态下，图片一直没上传。</p>
-<p>首先怀疑是服务器挂了，结果发现<a href="http://ibbpp.com/" target="_blank" rel="external">http://ibbpp.com/</a>首页能正常打开。用自己的手机测试了下，也没问题。</p>
-<p>最终发现客户的截图上显示有挂VPN，于是挂上VPN测试，果然。同时，客户在国外没挂VPN也能复现这个问题。</p>
-<p>于是猜测很可能是网络本身的问题，比如DNS解析服务。最终的解决方案：</p>
-<p><code>reach = Reachability reachabilityWithHostname:@&quot;www.baidu.com&quot;</code><br>当然，当我们服务器挂了，只要阿里云OSS服务没挂，图片还是能正常上传，不会影响业务逻辑。</p>
-<p>这里有个小问题。Reachability底层使用SCNetworkReachabilityRef来监测网络状况</p>
-<pre><code>+(Reachability*)reachabilityWithHostname:(NSString*)hostname
-{
-    SCNetworkReachabilityRef ref = SCNetworkReachabilityCreateWithName(NULL, [hostname UTF8String]);
-    if (ref) 
-    {
-        id reachability = [[self alloc] initWithReachabilityRef:ref];
+        <h3 id="warning的作用"><a href="#warning的作用" class="headerlink" title="warning的作用"></a>warning的作用</h3><p>哲学上说“存在即是合理”，warning的必要在于它能提示开发者潜在的问题，让我们尽快调整从而提高代码质量。</p>
+<h3 id="warning的干扰"><a href="#warning的干扰" class="headerlink" title="warning的干扰"></a>warning的干扰</h3><p>另一方面，如果原有工程代码量过大，warning动则上千上万，都说互联网迭代开发基本上等于高速上换轮胎，哪还有时间去抽根烟，所以在实际开发过程中不可能有专门的时间来去除warning，而又不能完全无视warning，毕竟，warning的存在是我们优化代码提高代码健壮性和稳定性的契机。</p>
+<p>既不能熟视无睹，也无法一蹴而就，那怎么办？虽然没法立马根除，但根据“化大为小”的原则，我们可以逐一击破。</p>
+<h3 id="屏蔽部分warning"><a href="#屏蔽部分warning" class="headerlink" title="屏蔽部分warning"></a>屏蔽部分warning</h3><p>Xcode工程中一般都会引用第三方工程，比如pod，如果是以源码的形式引入，则很可能随着pod的增加，warning数会剧增，而这部分warning其实我们不一定有足够的控制力，即使去修改其中的代码也要考虑到后期每次升级都需要重新再来一次，过于耗费人力。去除warning只是方法，我们的目的是提高自身代码的质量，所以可以直接屏蔽第三方pod的warning。如果某些pod是公司内部的，可以推动pod的负责人去优化。</p>
+<p>Cocoapods提供了</p>
+<pre><code>inhibit_all_warnings!
+</code></pre><p>的指令，可以直接屏蔽所有第三方pod的warning，同时也提供了</p>
+<pre><code>pod &apos;ReactiveCocoa&apos;, &apos;~&gt; 2.1&apos;, :inhibit_warnings =&gt; true
+</code></pre><p>的配置项，可以屏蔽某一三方库的warning。</p>
+<p>但在Cocoapods 1.2.1版本都无效，打开pod install后的pod工程配置，inhibit_all_warnings还是NO。</p>
+<p>但我们可以用post_install钩子直接修改各个pod工程的配置</p>
+<pre><code>post_install do |installer| 
+        installer.pods_project.targets.each do |target| 
+            target.build_configurations.each do |config| 
+                config.build_settings[&apos;GCC_WARN_INHIBIT_ALL_WARNINGS&apos;] = &apos;YES&apos;
+            end
+        end
 
-        return reachability;
-    }
-
-    return nil;
-}
-</code></pre><p>而SCNetworkReachabilityRef本身是不准确的：</p>
-<blockquote>
-<p>The SCNetworkReachability programming interface allows an application to determine the status of a system’s current network configuration and the reachability of a target host. A remote host is considered reachable when a data packet, sent by an application into the network stack, can leave the local device. Reachability does not guarantee that the data packet will actually be received by the host</p>
-</blockquote>
-<p>在局域网没有连接互联网的情况下，比如家里 WiFi能连上但宽带欠费了，SCNetworkReachability还会显示网络可用。</p>
-<p>最好的方案还是直接调用一个自定义的服务器接口，使用短超时和特定返回来监测网络状况。或者直接Ping也行。</p>
-<h4 id="messageid"><a href="#messageid" class="headerlink" title="messageid"></a>messageid</h4><p>在IM应用中，需要记录消息的id，这个id一般位数会比较长，比如64bit。后续从数据库中取出时需要经过JSON序列化，比如</p>
-<p><code>NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:error</code><br>而苹果的NSJSONSerialization在iOS7和iOS7以下的系统上转换大数值时会使用NSDecimalNumber，在iOS8上会使用CFNumber。</p>
-<p>而苹果在设计NSDecimalNumber时，只保证53bit的精度，所以任何超过这一精度的数值在JSON序列化之后，如果直接通过unsignedLongLongValue方法来获取时都可能会出错。</p>
-<p>解决方案，先转化为字符串再转成数值：</p>
-<p><code>[[decimalNumber description] longLongValue]</code></p>
+    end
+</code></pre><h3 id="增加部分warning"><a href="#增加部分warning" class="headerlink" title="增加部分warning"></a>增加部分warning</h3><p>同时，为了更好地发挥warning的作用，我们还可以让Xcode更好地产生warning。</p>
+<p><img src="http://d.pr/i/GFEz+" alt=""></p>
+<p>其他还有很多设置</p>
+<pre><code>Wall
+Wbad-function-cast
+Wcast-align
+Wconversion
+Wdeclaration-after-statement
+Wdeprecated-implementations
+Wextra
+Wfloat-equal
+Wformat=2
+Wformat-nonliteral
+Wfour-char-constants
+Wimplicit-atomic-properties
+Wmissing-braces
+Wmissing-declarations
+Wmissing-field-initializers
+Wmissing-format-attribute
+Wmissing-noreturn
+Wmissing-prototypes
+Wnested-externs
+Wnewline-eof
+Wold-style-definition
+Woverlength-strings
+Wparentheses
+Wpointer-arith
+Wredundant-decls
+Wreturn-type
+Wsequence-point
+Wshadow
+Wshorten-64-to-32
+Wsign-compare
+Wsign-conversion
+Wstrict-prototypes
+Wstrict-selector-match
+Wswitch
+Wswitch-default
+Wswitch-enum
+Wundeclared-selector
+Wuninitialized
+Wunknown-pragmas
+Wunreachable-code
+Wunused-function
+Wunused-label
+Wunused-parameter
+Wunused-value
+Wunused-variable
+Wwrite-strings
+</code></pre><p>根据需要添加。<br>感兴趣的可以看看<a href="https://onevcat.com/2013/05/talk-about-warning/" target="_blank" rel="external"> 这篇文章 </a>。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>我们屏蔽了第三方pod的warning，同时增加了主工程的warning，目的都是一个：更有针对性地提升代码的健壮性和稳定性。</p>
 
       
     </div>
@@ -384,17 +422,13 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/12/保存Git用户名密码/" rel="next" title="保存Git用户名密码">
-                <i class="fa fa-chevron-left"></i> 保存Git用户名密码
+              <a href="/2017/04/15/雾中羊/" rel="next" title="雾中羊">
+                <i class="fa fa-chevron-left"></i> 雾中羊
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/26/常用Docker命令/" rel="prev" title="常用Docker命令">
-                常用Docker命令 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -443,8 +477,8 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/19/那些把我们坑惨了的bug/"
-           data-title="那些把我们坑惨了的bug" data-url="http://yoursite.com/2016/11/19/那些把我们坑惨了的bug/">
+      <div class="ds-thread" data-thread-key="2017/04/22/如何利用 warning 提升代码质量/"
+           data-title="如何利用 warning 提升代码质量" data-url="http://yoursite.com/2017/04/22/如何利用 warning 提升代码质量/">
       </div>
     
   </div>
@@ -523,7 +557,7 @@ reach = Reachability reachabilityWithHostname:@&amp;quot;http://ibbpp.com/&amp;"
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#vpn-reachability"><span class="nav-number">1.</span> <span class="nav-text">vpn + reachability</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#messageid"><span class="nav-number">2.</span> <span class="nav-text">messageid</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#warning的作用"><span class="nav-number">1.</span> <span class="nav-text">warning的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#warning的干扰"><span class="nav-number">2.</span> <span class="nav-text">warning的干扰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#屏蔽部分warning"><span class="nav-number">3.</span> <span class="nav-text">屏蔽部分warning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加部分warning"><span class="nav-number">4.</span> <span class="nav-text">增加部分warning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

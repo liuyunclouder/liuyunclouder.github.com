@@ -259,6 +259,175 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/22/如何利用 warning 提升代码质量/" itemprop="url">
+                  如何利用 warning 提升代码质量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-04-22T20:00:00+08:00" content="2017-04-22">
+              2017-04-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/22/如何利用 warning 提升代码质量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/22/如何利用 warning 提升代码质量/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="warning的作用"><a href="#warning的作用" class="headerlink" title="warning的作用"></a>warning的作用</h3><p>哲学上说“存在即是合理”，warning的必要在于它能提示开发者潜在的问题，让我们尽快调整从而提高代码质量。</p>
+<h3 id="warning的干扰"><a href="#warning的干扰" class="headerlink" title="warning的干扰"></a>warning的干扰</h3><p>另一方面，如果原有工程代码量过大，warning动则上千上万，都说互联网迭代开发基本上等于高速上换轮胎，哪还有时间去抽根烟，所以在实际开发过程中不可能有专门的时间来去除warning，而又不能完全无视warning，毕竟，warning的存在是我们优化代码提高代码健壮性和稳定性的契机。</p>
+<p>既不能熟视无睹，也无法一蹴而就，那怎么办？虽然没法立马根除，但根据“化大为小”的原则，我们可以逐一击破。</p>
+<h3 id="屏蔽部分warning"><a href="#屏蔽部分warning" class="headerlink" title="屏蔽部分warning"></a>屏蔽部分warning</h3><p>Xcode工程中一般都会引用第三方工程，比如pod，如果是以源码的形式引入，则很可能随着pod的增加，warning数会剧增，而这部分warning其实我们不一定有足够的控制力，即使去修改其中的代码也要考虑到后期每次升级都需要重新再来一次，过于耗费人力。去除warning只是方法，我们的目的是提高自身代码的质量，所以可以直接屏蔽第三方pod的warning。如果某些pod是公司内部的，可以推动pod的负责人去优化。</p>
+<p>Cocoapods提供了</p>
+<pre><code>inhibit_all_warnings!
+</code></pre><p>的指令，可以直接屏蔽所有第三方pod的warning，同时也提供了</p>
+<pre><code>pod &apos;ReactiveCocoa&apos;, &apos;~&gt; 2.1&apos;, :inhibit_warnings =&gt; true
+</code></pre><p>的配置项，可以屏蔽某一三方库的warning。</p>
+<p>但在Cocoapods 1.2.1版本都无效，打开pod install后的pod工程配置，inhibit_all_warnings还是NO。</p>
+<p>但我们可以用post_install钩子直接修改各个pod工程的配置</p>
+<pre><code>post_install do |installer| 
+        installer.pods_project.targets.each do |target| 
+            target.build_configurations.each do |config| 
+                config.build_settings[&apos;GCC_WARN_INHIBIT_ALL_WARNINGS&apos;] = &apos;YES&apos;
+            end
+        end
+
+    end
+</code></pre><h3 id="增加部分warning"><a href="#增加部分warning" class="headerlink" title="增加部分warning"></a>增加部分warning</h3><p>同时，为了更好地发挥warning的作用，我们还可以让Xcode更好地产生warning。</p>
+<p><img src="http://d.pr/i/GFEz+" alt=""></p>
+<p>其他还有很多设置</p>
+<pre><code>Wall
+Wbad-function-cast
+Wcast-align
+Wconversion
+Wdeclaration-after-statement
+Wdeprecated-implementations
+Wextra
+Wfloat-equal
+Wformat=2
+Wformat-nonliteral
+Wfour-char-constants
+Wimplicit-atomic-properties
+Wmissing-braces
+Wmissing-declarations
+Wmissing-field-initializers
+Wmissing-format-attribute
+Wmissing-noreturn
+Wmissing-prototypes
+Wnested-externs
+Wnewline-eof
+Wold-style-definition
+Woverlength-strings
+Wparentheses
+Wpointer-arith
+Wredundant-decls
+Wreturn-type
+Wsequence-point
+Wshadow
+Wshorten-64-to-32
+Wsign-compare
+Wsign-conversion
+Wstrict-prototypes
+Wstrict-selector-match
+Wswitch
+Wswitch-default
+Wswitch-enum
+Wundeclared-selector
+Wuninitialized
+Wunknown-pragmas
+Wunreachable-code
+Wunused-function
+Wunused-label
+Wunused-parameter
+Wunused-value
+Wunused-variable
+Wwrite-strings
+</code></pre><p>根据需要添加。<br>感兴趣的可以看看<a href="https://onevcat.com/2013/05/talk-about-warning/" target="_blank" rel="external"> 这篇文章 </a>。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>我们屏蔽了第三方pod的warning，同时增加了主工程的warning，目的都是一个：更有针对性地提升代码的健壮性和稳定性。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/04/15/雾中羊/" itemprop="url">
                   雾中羊
                 </a>
@@ -1404,261 +1573,6 @@ CFStringRef cfString = CFBridgingRetain(nsString);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/04/LLDB命令及扩展/" itemprop="url">
-                  LLDB命令及扩展
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2017-02-04T20:00:00+08:00" content="2017-02-04">
-              2017-02-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/04/LLDB命令及扩展/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/04/LLDB命令及扩展/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="br命令：设置各种类型断点"><a href="#br命令：设置各种类型断点" class="headerlink" title="br命令：设置各种类型断点"></a>br命令：设置各种类型断点</h3><p>列出断点列表</p>
-<pre><code>br l
-</code></pre><p>删除断点(2是断点id)</p>
-<pre><code>br delete 2
-</code></pre><p>enable断点</p>
-<pre><code>br e 2
-</code></pre><p>disable断点</p>
-<pre><code>br di 2
-</code></pre><p>设置断点(30是行数)</p>
-<pre><code>b ViewController.m:30
-</code></pre><p>设置symbolic断点</p>
-<pre><code>br set -n viewDidLoad
-</code></pre><p>设置条件断点</p>
-<pre><code>br mod -c &quot;totalValue &gt; 3000&quot; 2
-</code></pre><p>删除条件断点</p>
-<pre><code>br mod -c &quot;&quot; 2
-</code></pre><p>在某一个断点处执行多个命令</p>
-<pre><code>br com add 2
-&gt; bt
-&gt; continue
-&gt; DONE
-</code></pre><p>继续执行</p>
-<pre><code>continue
-c
-</code></pre><p>单步执行</p>
-<pre><code>n
-</code></pre><p>单步进入</p>
-<pre><code>s
-</code></pre><p>退出当前函数</p>
-<pre><code>finish
-</code></pre><h3 id="expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"><a href="#expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为" class="headerlink" title="expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为"></a>expr命令：可以不用修改代码即可以在程序运行时修改程序数据和行为</h3><pre><code>expo self.view.hidden = YES
-expr -L — 5+5
-expr (void)NSLog(@“hello world&quot;)
-expr -- (CGRect)[self.view frame]
-
-expr int $debugVar = 5
-expr NSString *$debugString = @&quot;ezio cham&quot;
-
-expr NSData *$data = [$jsonString dataUsingEncoding: 4] //lldb不认识enum，需要传具体的值
-</code></pre><h3 id="backtrace命令"><a href="#backtrace命令" class="headerlink" title="backtrace命令"></a>backtrace命令</h3><pre><code>bt
-
-bt all
-</code></pre><h3 id="thread命令：在排查多线程问题时会用到"><a href="#thread命令：在排查多线程问题时会用到" class="headerlink" title="thread命令：在排查多线程问题时会用到"></a>thread命令：在排查多线程问题时会用到</h3><pre><code>thread backtrace
-
-thread backtrace all
-</code></pre><p>显示thread列表</p>
-<pre><code>thread list
-</code></pre><p>选择id为1的thread</p>
-<pre><code>thread select 1
-</code></pre><p>使用thread命令完成断点功能（100是行号）</p>
-<pre><code>thread until 100
-</code></pre><p>修改方法返回值（在代码中的return语句所在行执行）</p>
-<pre><code>thread return @&quot;new result&quot;
-</code></pre><p>example:</p>
-<pre><code>thread until 63（63行是当前方法的return语句所在行）
-thread return YES
-</code></pre><h3 id="frame命令"><a href="#frame命令" class="headerlink" title="frame命令"></a>frame命令</h3><p>查看当前frame的变量列表</p>
-<pre><code>frame variable
-</code></pre><p>查看当前frame 名为varName的变量的值</p>
-<pre><code>frame variable varName
-
-frame info
-</code></pre><p>选择id为2的frame</p>
-<pre><code>frame select 2
-</code></pre><p>选择当前frame的下一个frame</p>
-<pre><code>frame select -relative -1
-</code></pre><h3 id="watchpoint"><a href="#watchpoint" class="headerlink" title="watchpoint"></a>watchpoint</h3><p>查看当前watchpoint列表</p>
-<pre><code>watchpoint list
-
-
-watchpoint delete 1
-
-
-watchpoint set variable varName
-</code></pre><p>可以watch expression（my_pointer为expression的返回值）</p>
-<pre><code>watchpoint set expression — my_pointer
-</code></pre><p>设置watchpoint的条件</p>
-<pre><code>watchpoint modify -c “_x &gt; 0” 1
-</code></pre><p>删除条件</p>
-<pre><code>watchpoint modify -c “” 1
-</code></pre><h3 id="script命令"><a href="#script命令" class="headerlink" title="script命令"></a>script命令</h3><p>查看lldb使用的python版本</p>
-<pre><code>script print(sys.version)
-</code></pre><p>进入lldb的python环境</p>
-<pre><code>script
-</code></pre><p>使用python脚本</p>
-<pre><code>breakpoint command add -s python 1
-</code></pre><p>使用python 函数my_script.breakpoint_func</p>
-<pre><code>breakpoint command add -F my_script.breakpoint_func 1
-</code></pre><h3 id="command命令"><a href="#command命令" class="headerlink" title="command命令"></a>command命令</h3><p>引入python脚本并指定新command命令:cmd_name</p>
-<pre><code>command script import “~/my_script.py&quot;
-command script add -f my_script.python_function cmd_name
-</code></pre><p>引入python脚本并设置在断点中使用</p>
-<pre><code>command script import “~/my_script.py&quot;
-breakpoint command add -F my_script.breakpoint_func 1
-</code></pre><p>引入其他lldb script</p>
-<pre><code>command script import “~/my_script.txt&quot;
-</code></pre><p>删除命令pf</p>
-<pre><code>command unalias pf
-</code></pre><p>显示命令历史列表（report navigator中有更详细的内容）</p>
-<pre><code>command list
-</code></pre><h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>获取当前所有alias </p>
-<pre><code>help -a 
-</code></pre><p>获取和关键字相关的alias </p>
-<pre><code>apropos break 
-</code></pre><p>设置positional alias </p>
-<pre><code>command alias sbr breakpoint set -l %1 
-
-command alias pf expr (CGRect)[self.view frame] 
-</code></pre><p>设置regular alias </p>
-<pre><code>command regex sbr ’s/(\[0-9\]+)/breakpoint set -l %1&apos; 
-
-command regex pf 
-s/(.+)/expr (CGRect)[%1 frame]/ 
-s/^$/expr (CGRect)[self.view frame]/ 
-</code></pre><p>持久化alias<br>创建~/.lldbinit文件 ,添加以下内容： </p>
-<pre><code>command regex pf ‘s/(.+)/expr (CGRect)[%1 frame]/’ ‘s/^$/expr (CGRect)[self.view frame]/’ 
-</code></pre><h3 id="custom-summary"><a href="#custom-summary" class="headerlink" title="custom summary"></a>custom summary</h3><pre><code>type summary add CGRect -s &quot;width = ${var.size.width}, height = ${var.size.height}&quot; 
-</code></pre><p>为SavingsAccount设置summary </p>
-<pre><code>command script import ~/account.py 
-type summary add -F account.count_summary SavingsAccount 
-</code></pre><p>删除 </p>
-<pre><code>type summary delete CGRect 
-</code></pre><p>过滤，只显示firstName属性 </p>
-<pre><code>type filter add SavingsAccount —child _firstName 
-</code></pre><p>改变显示格式 </p>
-<pre><code>typedef int hex_month 
-type format add —format hex hex_month 
-</code></pre><h3 id="quicklook"><a href="#quicklook" class="headerlink" title="quicklook"></a>quicklook</h3><p>quicklook in lldb<br><a href="https://github.com/ryanolsonk/LLDB-QuickLook" target="_blank" rel="external">https://github.com/ryanolsonk/LLDB-QuickLook</a></p>
-<p>quicklook in xcode<br><a href="http://nshipster.com/quick-look-debugging/" target="_blank" rel="external">http://nshipster.com/quick-look-debugging/</a></p>
-<h3 id="扩展LLDB命令"><a href="#扩展LLDB命令" class="headerlink" title="扩展LLDB命令"></a>扩展LLDB命令</h3><p>lldb的python接口文档<br><a href="http://lldb.llvm.org/python_reference/index.html" target="_blank" rel="external">http://lldb.llvm.org/python_reference/index.html</a></p>
-<h3 id="chisel：Facebook的LLDB扩展"><a href="#chisel：Facebook的LLDB扩展" class="headerlink" title="chisel：Facebook的LLDB扩展"></a>chisel：Facebook的LLDB扩展</h3><pre><code>border self.view 
-border --color green self.view 
-</code></pre><p>让view透明 </p>
-<pre><code>mask self.button 
-</code></pre><p>让view从透明状态恢复 </p>
-<pre><code>unmask self.button 
-</code></pre><p>打印当前界面的layer tree </p>
-<pre><code>pca 
-</code></pre><p>打印当前界面的view 层级 </p>
-<pre><code>pviews 
-</code></pre><p>打印view的responder chain </p>
-<pre><code>presponder self.view 
-</code></pre><p>交互式查看view的层级树 </p>
-<pre><code>vs self.view 
-</code></pre><p>重绘当前界面 </p>
-<pre><code>caflush 
-</code></pre><p>快速闪烁view </p>
-<pre><code>flicker self.view 
-</code></pre><p>显示view </p>
-<pre><code>show self.view 
-</code></pre><p>隐藏view </p>
-<pre><code>hide self.view 
-</code></pre><p>打印class的继承树 </p>
-<pre><code>pclass self.property 
-</code></pre><p>截屏预览 </p>
-<pre><code>visualize self.view 
-</code></pre>
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1704,7 +1618,7 @@ border --color green self.view
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">41</span>
+              <span class="site-state-item-count">42</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
