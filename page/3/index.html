@@ -259,6 +259,195 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/10/iOS framework开发流程总结/" itemprop="url">
+                  iOS framework开发流程总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-10T20:00:00+08:00" content="2016-12-10">
+              2016-12-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/10/iOS framework开发流程总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/10/iOS framework开发流程总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在做一个iOS的统计SDK，需要从零开始做一个framework，同时为了方便开发，花了点时间折腾，于是顺便总结一下iOS framework的开发流程，不同的Xcode版本流程会有些小区别，以下使用的是7.3.1。</p>
+<h2 id="建立framework工程"><a href="#建立framework工程" class="headerlink" title="建立framework工程"></a>建立framework工程</h2><p>建framework工程之前，要先了解framework</p>
+<h3 id="framework和-a"><a href="#framework和-a" class="headerlink" title="framework和.a"></a>framework和.a</h3><p>iOS一直只对用户开放静态库，直到iOS8用户才能用动态库，然而这个动态库貌似也只能是进程内，无法跨进程共享。</p>
+<p>我们用的更多的还是静态库，iOS静态库有两种类型，framework和.a，看过linux系统方面的人对.a和.so应该都不陌生，事实上苹果下的.a和linux下的.a从格式上来看不是同一个东西，一个是Mach-O，一个是ELF，但其实Mach-O只是苹果在ELF的基础上添加一些额外的段，可以认为基本一样。那么framework呢？可以认为framework只是对.a的一层额外的封装，类似苹果对ipa的封装，把.a文件包装进一个结构化的目录结构，这样就是一个framework。由于framework本身是一个目录，于是可以把属于framework内部的一些资源也放进去，比如头文件、图片、音视频文件等等，从封装的角度来看，framework是比.a更好的选择。</p>
+<p>其实，我们不需要了解这么多，也不需要自己建这些目录层次，xcode已经帮我们做了大部分的工作，我们需要的只是改几个配置。</p>
+<h3 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h3><p>新建framework工程：<br><img src="http://d.pr/i/Q1tm+" alt=""></p>
+<p>填好framework名称，确定，就生成了一个完整的framework工程：<br><img src="http://d.pr/i/G4WS+" alt=""></p>
+<p>运行一下，红色的framework就变黑，说明framework已经生成了。但这个framework并不是我们想要的<br><img src="http://d.pr/i/vbRS+" alt=""></p>
+<p>这个framework只有arm7和arm64两种架构的指令内容，如果直接发布这个framework，开发者将无法在模拟器上编译，后续我们会说到多架构指令的必要。另外，这是一个动态库，我们需要的是静态库。</p>
+<p>在Build Setting里设置以下几个参数<br><img src="http://d.pr/i/CATu+" alt=""><br><img src="http://d.pr/i/13OyS+" alt=""><br><img src="http://d.pr/i/w95z+" alt=""><br><img src="http://d.pr/i/fJqs+" alt=""></p>
+<p>Architectures：包含哪些架构指令，这里我们需要添加armv7s架构<br>Build Active Architecture Only：是否只为当前架构编译<br>Dead Code Stripping：是否从framework中删除未使用的代码<br>Link With Standard Libraries：是否链接苹果标准库<br>Mach-O Type：这里有好几种类型，我们需要选中static library<br>Other Linker Flags：链接参数，如果framework中使用了category，最好加上ObjC、all_load，确保运行时系统会加载其中的category<br>Other C Flags：额外的C语言链接参数，如果需要支持bitcode，需要加上-fembed-bitcode<br>Generate Debug Symbols：生成Debug符号，设为Yes，这样作为依赖工程时断点才会生效</p>
+<p>重新编译运行：<br><img src="http://d.pr/i/xx82+" alt=""></p>
+<p>这离我们想要的framework不远了。</p>
+<p>另外，我们新建一个类，毕竟，我们要做一个统计SDK</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+@interface DTTrackManager : NSObject
+
+- (void)trackEvent:(NSString *)event;
+
+@end
+
+@implementation DTTrackManager
+
+- (void)trackEvent:(NSString *)event {
+    NSLog(@&quot;you are tracking event: %@&quot;, event);
+}
+
+@end
+</code></pre><p>我们想要把DTTrackManager开放给开发者，让他们能使用这个类，还需要做一点额外设置：<br><img src="http://d.pr/i/S7gk+" alt=""></p>
+<p>这样，打包出来的framework就包含了我们想要公开的头文件了<br><img src="http://d.pr/i/FDY4+" alt=""></p>
+<h3 id="多架构和打包"><a href="#多架构和打包" class="headerlink" title="多架构和打包"></a>多架构和打包</h3><p>不同的CPU使用不同的指令，我们一般称一套指令为一种架构，比如笔记本电脑的CPU和移动端手机的CPU使用不同的指令，类似的，32位CPU与64位CPU使用不同的指令，因此我们需要一个能包含所有架构指令的framework，这样，开发者才能在不同的CPU环境下都能使用我们的framework。</p>
+<p>我们现在的framework包含了3种架构指令，armv7、armv7s、arm64，这些都是iOS系统使用的架构，macbook等macOS系统是无法使用这个framework的，这就导致开发者目前是无法用这个framework在模拟器上调试。</p>
+<p>因此，我们需要再添加i386和x86_64这两种桌面端系统使用的架构。我们可以单独编译这两个架构，然后用lipo命令手工合成，但xcode提供了一个更好的方案。<br><img src="http://d.pr/i/1MV1+" alt=""></p>
+<p>选中刚创建的DTTrackerCombiner，在Build Phase下添加一个执行脚本：<br><img src="http://d.pr/i/mnl0+" alt=""></p>
+<p>脚本内容：</p>
+<pre><code>set -e
+
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
+
+
+mkdir -p &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;
+
+
+xcodebuild -target &quot;${PROJECT_NAME}&quot; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; clean build
+xcodebuild -arch x86_64 -arch i386 -target &quot;${PROJECT_NAME}&quot; -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; clean build
+
+
+cp -R &quot;${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework&quot; &quot;${UNIVERSAL_OUTPUTFOLDER}/&quot;
+
+
+lipo -create -output &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot; &quot;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot; &quot;${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot;
+
+
+cp -R &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework&quot; &quot;${PROJECT_DIR}&quot;
+
+
+open &quot;${PROJECT_DIR}&quot;
+</code></pre><p>ps:<br>    -arch x86_64 -arch i386<br>为模拟器编译的两个架构需要显式指定，否则编译报错</p>
+<p>选择正确的scheme和目标，开始编译<br><img src="http://d.pr/i/c9O7+" alt=""></p>
+<p>如果编译成功，会弹出编译好的framework所在目录，检查下是不是包含了我们想要的全部架构<br><img src="http://d.pr/i/4PQh+" alt=""></p>
+<p>One More Thing!<br>把打包scheme的配置改为release<br><img src="http://d.pr/i/J9wX+" alt=""></p>
+<p>这样，我们只要把源文件放入这个工程里，设置好需要公开的头文件，就能编译出我们想要的framework了，非常方便。但是，实际开发中，我们需要一边开发framework，一边在使用这个framework的Demo工程里测试这个framework，如果每次都需要编译一遍framework工程，然后在Demo工程里替换framework，这会严重影响开发效率。</p>
+<h2 id="Demo工程"><a href="#Demo工程" class="headerlink" title="Demo工程"></a>Demo工程</h2><p>新建一个DTTrackerDemo工程，注意Deployment Target设置不要低于framework的。</p>
+<h3 id="接入framework工程"><a href="#接入framework工程" class="headerlink" title="接入framework工程"></a>接入framework工程</h3><p>接入framework工程很简单，在Finder里找到DTTracker.xcodeproj，直接拖入DTTrackerDemo工程中就行了<br><img src="http://d.pr/i/dtg0+" alt=""></p>
+<p>这样，就可以直接在Demo工程里运行framework工程的target来编译framework了。注意，framework工程只能存在一份，额外的framework工程必须关掉，否则DTTrackerDemo工程里会找不到DTTracker.xcodeproj下的文件和target。<br><img src="http://d.pr/i/iCHA+" alt=""></p>
+<p>我们需要在每次运行Demo工程时先运行framework工程，这样才能获取最新代码，因此在Demo工程的Build Phase中添加对framework的依赖<br><img src="http://d.pr/i/NrWK+" alt=""></p>
+<p>这里的Target Dependencies选择DTTracker而不是DTTrackerCombiner只是因为可以缩短打包时间，毕竟DTTrackerCombiner需要把5份架构打进去，而DTTracker只需要打3份。至于为什么DTTracker明明不包含模拟器的架构却可以启动Demo APP，这个需要看下Demo APP的所在目录<br><img src="http://d.pr/i/M7bG+" alt=""><br>Demo APP被放在Debug-iphonesimulator目录下，再看下该目录下的DTTracker.framework<br><img src="http://d.pr/i/1lCdb+" alt=""></p>
+<p>没毛病，是模拟器需要的架构。</p>
+<h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><p>万事具备，来测试一下我们的framework。</p>
+<p>在Demo工程的ViewController.m引入framework头文件：</p>
+<pre><code>#import &lt;DTTracker/DTTrackManager.h&gt;
+</code></pre><p>初始化一个DTTrackManager并调用trackEvent方法</p>
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    DTTrackManager *tracker = [[DTTrackManager alloc] init];
+    [tracker trackEvent:@&quot;viewDidLoad&quot;];
+}
+</code></pre><p>运行<br><img src="http://d.pr/i/tFih+" alt=""></p>
+<p>完美！</p>
+<p>那打包framework呢？直接在Demo工程里，选中DTTracker.xcodeproj，选中我们之前添加Aggregate target对应的scheme：DTTrackerCombiner，直接打包<br><img src="http://d.pr/i/DL24+" alt=""></p>
+<p>至此，我们完成了</p>
+<ol>
+<li>framework工程的建立和优化，能独立编译可以直接发布的framework</li>
+<li>在Demo工程添加对framework工程的依赖，建立了framework开发流程</li>
+</ol>
+<p>这样，整个我们就可以愉快地开发framework了！</p>
+<p>关于framework还有一些没提到的内容，比如bundle资源、添加framework自定义编译宏，后续有时间再写。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/03/Invictus 不可征服/" itemprop="url">
                   Invictus 不可征服
                 </a>
@@ -1457,127 +1646,6 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/08/iOS面试题/" itemprop="url">
-                  iOS面试题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-08T20:00:00+08:00" content="2016-10-08">
-              2016-10-08
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/08/iOS面试题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/08/iOS面试题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>之前帮朋友的公司面试iOS开发，于是列了个问题清单</p>
-<h2 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h2><p>使用什么版本工具？git使用经历？</p>
-<p>查看代码风格</p>
-<p>聊下内存管理</p>
-<p>说下多线程的认识和使用经历</p>
-<p>面向对象思想</p>
-<p>更多问题：<br><a href="">http://www.cnblogs.com/ios8/p/ios-oc-test.html</a></p>
-<h3 id="UI布局"><a href="#UI布局" class="headerlink" title="UI布局"></a>UI布局</h3><p>View的生命周期<br>Autolayout<br>Core Animation<br>POP<br>UICollectionView<br>UITableView<br>reveal</p>
-<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>sqlite<br>core data<br>userdefaults<br>file</p>
-<h3 id="网络交互"><a href="#网络交互" class="headerlink" title="网络交互"></a>网络交互</h3><p>AFNetworking<br>NSURLConnection<br>NSURLSession<br>SDWebImage<br>如何封装以适应具体业务</p>
-<h3 id="调试思路"><a href="#调试思路" class="headerlink" title="调试思路"></a>调试思路</h3><p>哪些调试手段？<br>如何使用哪些工具优化内存？</p>
-<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><p>拿到一个需求后，如何开始做？</p>
-<p>使用CoreLocation时遇到的问题</p>
-<p>SDWebImage可以调整过期时间么？怎么调？</p>
-<h2 id="沟通"><a href="#沟通" class="headerlink" title="沟通"></a>沟通</h2><p>说下你最近一个项目的经历？哪些让人不爽的情况？你是如何处理的？越详细越好</p>
-<h2 id="视野"><a href="#视野" class="headerlink" title="视野"></a>视野</h2><p>有github账号么？</p>
-<p>平时浏览哪些网站来学习iOS？</p>
-<p>看过哪些iOS书籍？</p>
-<h2 id="架构意识与设计"><a href="#架构意识与设计" class="headerlink" title="架构意识与设计"></a>架构意识与设计</h2><p>设计模式</p>
-<p>有看过什么架构类书籍么？</p>
-<p>一个列表，需要从cocoaChina上获取数据后显示，从UI布局到网络请求，如何设计？</p>
-<h2 id="职业规划"><a href="#职业规划" class="headerlink" title="职业规划"></a>职业规划</h2><p>能描述下3年后你希望自己在技术上达到什么样的程度？在公司的位置是怎么样？</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1623,7 +1691,7 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
