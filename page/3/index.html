@@ -259,6 +259,144 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/17/iOS绕过HTTPS证书校验/" itemprop="url">
+                  iOS绕过HTTPS证书校验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-17T20:00:00+08:00" content="2016-12-17">
+              2016-12-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/17/iOS绕过HTTPS证书校验/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/17/iOS绕过HTTPS证书校验/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>　　iOS开发中使用的通信协议，除了聊天和物联网相关的APP可能会用到XMPP和MQTT，剩下的应用通常都只会用到HTTP和HTTPS这两种协议，而由于ATS的限制，iOS默认都是实用HTTPS，除非修改项目的info.plist：<br><img src="http://d.pr/i/eMcv+" alt=""></p>
+<p>对于HTTPS，熟悉HTTPS协议的人都知道，HTTPS基本上就是在HTTP协议的基础上加了一层SSL/TLS加密协议，这层加密协议在建立通信时除了HTTP本身的3次握手外，还会再经历额外的身份校验、数据加解密过程：<br><img src="http://d.pr/i/AFoF+" alt=""></p>
+<p>这些过程中会混合使用非对称加密、对称加密、证书校验和数字签名等手段，其中证书校验的过程：<br><img src="http://d.pr/i/Ik26+" alt=""></p>
+<ol>
+<li>首先，服务器的运营人员向数字证书认证机构提出公开密钥的申请。数字证书认证机构在判明提出申请者的身份之后，会对已申请的公开密钥做数字签名，然后分配这个已签名的公开密钥，并将该公开密钥放入公钥证书后绑定在一起。</li>
+<li>服务器会将这份由数字证书认证机构颁发的公钥证书发送给客户端，以进行公开密钥加密方式通信。公钥证书也可叫做数字证书或直接称为证书。</li>
+<li>接到证书的客户端可使用数字证书认证机构的公开密钥，对那张证书上的数字签名进行验证，一旦验证通过，客户端便可明确两件事：一，认证服务器的公开密钥的是真实有效的数字证书认证机构。二，服务器的公开密钥是值得信赖的。 </li>
+<li>此处认证机关的公开密钥必须安全地转交给客户端。使用通信方式时，如何安全转交是一件很困难的事。因此，多数浏览器开发商发布版本时，会事先在内部植入常用认证机关的公开密钥。  </li>
+</ol>
+<p>而通常在开发环境中服务端会使用自签名证书，或者即使在生产环境中可能也会使用免费的证书，这些证书的认证机构可信度通常低于那些收费的大型认证机构，这样，在步骤3的时候客户端对证书的认证可能就失败了。最近在开发公司的iOS SDK就碰到这个问题，直接调用HTTPS接口会报错：</p>
+<pre><code>HTTP load failed (kCFStreamErrorDomainSSL, -9843)
+</code></pre><p>明白了原理后，解决方案就简单了，只需要客户端在校验时对使用的域名设置白名单就行了，以下是使用NSURLSession时需要在delegate上做的修改：</p>
+<pre><code>NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
+
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
+    if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
+        if([challenge.protectionSpace.host isEqualToString:@&quot;recvapi.log.dtstack.com&quot;]){
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+        } else {
+            completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
+        }
+    }
+}
+</code></pre><p>这样就可以解决开发时的证书校验失败的问题。</p>
+<p>但这只限于开发阶段，治标不治本，不能在生产环境下使用，要想治本，最好还是更换服务器证书，找个可信度高的大型认证机构重新弄份证书。</p>
+<p>服务端更换证书也简单，以Nginx为例，拿到证书后，修改Nginx的配置：</p>
+<pre><code>server { 
+    listen 443 ssl;
+    server_name example.com;
+
+    ssl on;
+    ssl_certificate /etc/ssl/private/example_com.crt;
+    ssl_certificate_key /etc/ssl/private/example_com.key;
+}
+</code></pre><p>然后重启服务就行了：</p>
+<pre><code>nginx -t &amp;&amp; nginx -s reload
+</code></pre>
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/10/iOS framework开发流程总结/" itemprop="url">
                   iOS framework开发流程总结
                 </a>
@@ -1477,175 +1615,6 @@ docker push lingwu/kafka
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/15/回放机制/" itemprop="url">
-                  回放机制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-15T20:00:00+08:00" content="2016-10-15">
-              2016-10-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/15/回放机制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/15/回放机制/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近把《深入理解计算机系统》又看了一遍，除了复习了下编译链接和存储系统的知识外，还注意到一个很有意思的点：一个通用的回放机制。</p>
-<h3 id="系统底层的回放机制：换页"><a href="#系统底层的回放机制：换页" class="headerlink" title="系统底层的回放机制：换页"></a>系统底层的回放机制：换页</h3><p><img src="http://d.pr/i/6hPB+" alt=""><br>计算机处于平衡读写速度和存储容量的目的，把存储划分为类似金字塔的各个层次，每一层都可以看作是对下层的缓存，这样，存储系统利用程序的时间和空间局部性，在能提供足够的容量的前提下也能保持高速的读写速度。</p>
-<p>其中，操作系统会把内存和磁盘看做一个整体：虚拟内存。用户空间下的内存读写不会直接操作物理内存，而是通过虚拟内存来管理的。虚拟内存会根据需要在物理内存和磁盘中做不同的操作。</p>
-<p>另外，出于节省物理内存以便同时运行多个任务的目的，操作系统在加载程序创建进程的时候不会把整个程序一次性都加载到物理内存中，而是只加载当前需要的一部分。于是，当需要读取的数据还没加载到物理内存中，操作系统就需要提供一套机制来尽快把需要的数据从磁盘加载到物理内存中。</p>
-<p>这套机制就叫做换页（paging），而需要读取的数据还没加载到物理内存这种情况就叫做缺页。</p>
-<p>当发生缺页时，也就是CPU发送的内存读写指令发现要读写的内存地址不在物理内存中，会出发一个异常而进入一个内核的异常处理流程：系统会把暂时不需要的物理内存中的数据存入磁盘，把目的内存地址所在的页（操作系统一般把大小为4K的内存数据划分为一页）加载进内存，同时会<em>重新执行之前CPU发送的内存读写指令</em>，这时需要的内存数据就已经在物理内存中了，同时相邻的内存数据也可以直接读取了。</p>
-<p>“重新执行执行之前CPU发送的内存读写指令”。同样，OC也有类似的回放机制。</p>
-<h3 id="OC-runtime的回放机制：消息发送"><a href="#OC-runtime的回放机制：消息发送" class="headerlink" title="OC runtime的回放机制：消息发送"></a>OC runtime的回放机制：消息发送</h3><p>OC 的runtime是这门语言的精髓，各种特性都离不开runtime。其中，runtime中的消息发送也有类似的回放机制。</p>
-<p>当执行</p>
-<pre><code>@interface EZObject : NSObject
-@end
-
-@implementation EZObject
-static void lightup_imp(id self, SEL sel) {
-    NSLog(@&quot;it&apos;s on fire!&quot;);
-}
-
-+ (BOOL)resolveInstanceMethod:(SEL)sel {
-    if ([NSStringFromSelector(sel) isEqualToString:@&quot;lightup&quot;]) {
-        class_addMethod([self class], sel, (IMP)lightup_imp, &quot;v@:&quot;);
-    }
-
-    return true;
-}
-
-@end
-
-EZObject *ez_instance = [[EZObject alloc] init];
-SEL lightup_sel = NSSelectorFromString(@&quot;lightup&quot;);
-[ez_instance performSelector:lightup_sel];
-</code></pre><p>时，无论是在EZObject还是NSObject，无论是类的cache还是method_list中都找不到lightup的实现，OC会调用EZObject的resolveInstanceMethod方法，来再次确认是否可以找出该方法，于是这里也就提供了一个机会让我们可以利用runtime的class_addMethod来创建一个OC的方法，创建好之后告诉OC现在有了light方法，于是OC<em> 再次向ez_instance发送lightup消息</em>，这次就可以成功找到并调用该方法了。</p>
-<p>具体的实现由于NSObject所在的Foundation框架并没有开源，并不能确定，但参考cocoa的开源实现<a href="https://github.com/gnustep/base" target="_blank" rel="external"> GNUStep </a>，可以有一些收获。</p>
-<p>在GSFFIInvocation.m中有这么一段代码：</p>
-<pre><code>/**
- * Runtime hook used to provide message redirections with libobjc2.
- * If lookup fails but this function returns non-nil then the lookup
- * will be retried with the returned value.
- *
- * Note: Every message sent by this function MUST be understood by the
- * receiver.  If this is not the case then there is a potential for infinite
- * recursion.  
- */
-static id gs_objc_proxy_lookup(id receiver, SEL op) {
-    id cls = object_getClass(receiver);
-    BOOL resolved = NO;
-
-    /* Note that __GNU_LIBOBJC__ implements +resolveClassMethod: and
-       +resolveInstanceMethod: directly in the runtime instead.  */
-
-    /* Let the class try to add a method for this thing. */
-    if (class_isMetaClass(cls)) {
-        if (class_respondsToSelector(cls, @selector(resolveClassMethod: ))) {
-            resolved = [receiver resolveClassMethod: op];
-        }
-    } else {
-        if (class_respondsToSelector(object_getClass(cls),
-                @selector(resolveInstanceMethod: ))) {
-            resolved = [cls resolveInstanceMethod: op];
-        }
-    }
-    if (resolved) {
-        return receiver;
-    }
-    if (class_respondsToSelector(cls, @selector(forwardingTargetForSelector: ))) {
-        return [receiver forwardingTargetForSelector: op];
-    }
-    return nil;
-}
-</code></pre><p>gs_objc_proxy_lookup函数就是完成方法查询的工作。大致意思就是如果查询失败但返回的是一个非nil对象，那么就会在这个非nil对象上重试查询。这样，就完成了消息发送时的回放机制。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>应用层的很多东西都是从操作系统学习过来的，比如类似kafka和rabbitmq等消息系统，都受到了操作系统的事件通知系统的启发，比如linux的inotify，毕竟普通应用要解决的问题基本上操作系统都已经解决过了，并且经过长时间的优化改进，架构设计都已经足够成熟和优雅，因此，了解底层的操作系统对解决上层应用碰到的问题还是很有帮助的。</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1691,7 +1660,7 @@ static id gs_objc_proxy_lookup(id receiver, SEL op) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
